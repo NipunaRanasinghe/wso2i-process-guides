@@ -20,8 +20,8 @@ The PR pipeline _must_ pass before any merge is permitted.
 │  1. Compile          (Gradle / Rush build)                      │
 │  2. Unit tests       (blocking)                                 │
 │  3. Integration tests(blocking)                                 │
-│  4. Quality gate     (SonarQube / GHAS — see Quality Gates)     │
-│  5. Dependency scan  (Mend / GHAS — see Quality Gates)          │
+│  4. Quality gate     (see Quality Gates)                        │
+│  5. Dependency scan  (see Quality Gates)                        │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -36,7 +36,6 @@ The merge-to-main pipeline runs on every push to `main` and produces the nightly
 │  1. All PR steps (re-run on merge commit)                       │
 │  2. Build & package artifact (VSIX / JAR)                       │
 │  3. Publish to Nightly/Insider channel (see Release Pipelines ↓)│
-│  4. Trigger E2E tests (non-blocking on this run, reported async)│
 └─────────────────────────────────────────────────────────────────┘
 ```
 

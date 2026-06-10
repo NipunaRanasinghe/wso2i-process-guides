@@ -13,20 +13,22 @@ The WSO2 Integrator tooling is transitioning from a fragmented multi-repo layout
 
 | Layer | Repo(s) | Owns |
 |---|---|---|
-| **Product repos** | `ballerina-tooling`, `mi-tooling`, `si-tooling` | VS Code extension, welcome page, project creation, product workflows, language server |
-| **Shared foundation** | `wso2/vscode-extensions` (transitional name) | Design tokens, icons, fonts, stable helpers/contracts |
-| **Product shell** | `product-integrator` | Customised VS Code fork, global config, runtime management, bundling of all extensions |
+| **Shared foundation** | `wso2/vscode-extensions` | Design tokens, icons, fonts, stable helpers/contracts |
+| **Product repos** | `ballerina-tooling`, `mi-tooling`, `si-tooling` | VS Code extension, welcome page, project creation, product workflows, language server, grammar (`ballerina-tooling` only) |
+| **Product shell** | `product-integrator` | WSO2 Integrator Extension (orchestrating VS Code plugin) + Desktop App (customised VS Code fork, global config, runtime management) |
 
 ## Dependency Diagram
 
 ```mermaid
 graph TD
-    SF["<b>shared-foundation</b><br/>(tokens, icons, fonts, helpers)"]
+    SF["<b>vscode-extensions</b><br/>(tokens, icons, fonts, helpers)"]
 
     subgraph ballerina-tooling
         BT_LS["language server (Gradle)"]
+        BT_GR["grammar"]
         BT_EX["VS Code extension (Rush)"]
         BT_LS --> BT_EX
+        BT_GR --> BT_EX
     end
 
     subgraph mi-tooling
@@ -41,15 +43,20 @@ graph TD
         SI_LS --> SI_EX
     end
 
-    PI["<b>product-integrator</b><br/>(WSO2 Integrator IDE shell)"]
+    subgraph product-integrator
+        PI_EX["WSO2 Integrator Extension (Rush)"]
+        PI_IDE["Desktop App (VS Code fork)"]
+        PI_EX --> PI_IDE
+    end
 
     SF --> BT_EX
     SF --> MI_EX
     SF --> SI_EX
+    SF --> PI_EX
 
-    BT_EX --> PI
-    MI_EX --> PI
-    SI_EX --> PI
+    BT_EX --> PI_EX
+    MI_EX --> PI_EX
+    SI_EX --> PI_EX
 ```
 
 ## Build-Order Constraints
@@ -58,7 +65,7 @@ graph TD
 
 2. **Language server before extension (within a product repo).** Each extension bundles its own language server. The Gradle language-server build _must_ complete and produce an artifact before the Rush extension build packages it.
 
-3. **Extensions before product-integrator.** The `product-integrator` bundling job consumes a specific published version (or local build artifact) of each extension. It does not build extensions from source — it declares them as versioned dependencies. This decouples shell releases from product-repo CI and avoids transitive source coupling.
+3. **Extensions before product-integrator.** The WSO2 Integrator Extension in `product-integrator` consumes a specific published version (or local build artifact) of each product extension. It does not build them from source — it declares them as versioned dependencies. The Desktop App in turn bundles the WSO2 Integrator Extension. This decouples shell releases from product-repo CI and avoids transitive source coupling.
 
 > **Note:** Each repo's pipeline is self-contained. Cross-repo dependencies are satisfied by versioned artifact references (npm package / VSIX file / Maven artifact), not by triggering upstream pipelines.
 

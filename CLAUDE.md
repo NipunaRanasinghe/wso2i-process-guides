@@ -28,6 +28,18 @@ The proposal is split into `docs/`, one document per topic. See `docs/README.md`
 
 `docs/writing-style.md` — Style guide for all documents in this workspace, derived from the ballerina-platform/ballerina-library docs corpus. Apply it when creating or editing any doc.
 
+## Repos
+
+Use these to validate and verify any existing or future claims in the proposal docs.
+
+| Repo (proposal name) | GitHub URL | Notes |
+|---|---|---|
+| `product-integrator` | https://github.com/wso2/product-integrator/ | IDE shell + WSO2 Integrator Extension |
+| `ballerina-tooling` | https://github.com/wso2/ballerina-vscode/ | Pending rename to `ballerina-tooling` |
+| `mi-tooling` | https://github.com/wso2/mi-vscode | Pending rename to `mi-tooling` |
+| `vscode-extensions` | https://github.com/wso2/vscode-extensions | Shared foundation |
+| `si-tooling` | _(URL not yet known)_ | Pending repo creation / rename |
+
 ## Key Decisions (resolved)
 
 | Topic | Decision |
@@ -39,7 +51,7 @@ The proposal is split into `docs/`, one document per topic. See `docs/README.md`
 | Language server versioning | Bundled with parent extension; no independent release |
 | PR triggers | Compile + unit tests + integration tests + quality gates |
 | Test levels | Unit, Integration, Tooling/UI E2E |
-| Quality gates | GHAS (security) + SonarQube Cloud (code quality) |
+| Quality gates | SonarQube Cloud (code quality) |
 | Release pipeline | Nightly (automated on merge to `main`) and Stable/GA (manual `workflow_dispatch` with approval gate) |
 | Release cadence | Nightly: continuous; Stable/GA: target every 4–6 weeks, or immediately for critical fixes |
 | Release ownership | Designated release owner per stable release; triggers workflow and shepherds the approval gate |
