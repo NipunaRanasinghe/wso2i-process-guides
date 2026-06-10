@@ -3,7 +3,7 @@
 _Authors_: @NipunaRanasinghe \
 _Reviewers_: \
 _Created_: 2026/06/10 \
-_Updated_: 2026/06/10
+_Updated_: 2026/06/11
 
 This document describes the human process for deciding when and how to cut a release. For the automated pipeline mechanics, see [CI/CD Pipelines](04-cicd-pipelines.md).
 

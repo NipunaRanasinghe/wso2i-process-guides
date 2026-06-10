@@ -37,7 +37,7 @@ Use these to validate and verify any existing or future claims in the proposal d
 | `product-integrator` | https://github.com/wso2/product-integrator/ | WSO2 Integrator VS Code Extension + WSO2 Integrator IDE |
 | `ballerina-tooling` | https://github.com/wso2/ballerina-vscode/ | Pending rename to `ballerina-tooling` |
 | `mi-tooling` | https://github.com/wso2/mi-vscode | Pending rename to `mi-tooling` |
-| `vscode-extensions` | https://github.com/wso2/vscode-extensions | Shared foundation |
+| `vscode-extensions` | https://github.com/wso2/vscode-extensions | Shared UI toolkit |
 | `si-tooling` | https://github.com/siddhi-io/siddhi-plugin-vscode/ | Pending rename to `si-tooling` |
 
 ## Key Decisions (resolved)

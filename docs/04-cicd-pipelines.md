@@ -3,7 +3,7 @@
 _Authors_: @NipunaRanasinghe \
 _Reviewers_: \
 _Created_: 2026/06/09 \
-_Updated_: 2026/06/10
+_Updated_: 2026/06/11
 
 This document describes the GitHub Actions pipeline anatomy for pull requests and merges to `main` across all repos.
 
@@ -11,33 +11,31 @@ This document describes the GitHub Actions pipeline anatomy for pull requests an
 
 ## PR Pipeline
 
-The PR pipeline _must_ pass before any merge is permitted.
+The PR pipeline runs on every `pull_request` targeting `main` and _must_ pass before any merge is permitted.
 
+```mermaid
+graph LR
+    T(["pull_request → main"]) --> S1["Compile<br>(Gradle / Rush)"]
+    S1 --> S2["Unit tests"]
+    S2 --> S3["Integration tests"]
+    S3 --> S4["Quality gate"]
+    S4 --> S5["Dependency scan<br>(Trivy)"]
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│  On: pull_request → main                                        │
-├─────────────────────────────────────────────────────────────────┤
-│  1. Compile          (Gradle / Rush build)                      │
-│  2. Unit tests       (blocking)                                 │
-│  3. Integration tests(blocking)                                 │
-│  4. Quality gate     (see Quality Gates)                        │
-│  5. Dependency scan  (Trivy — see Quality Gates)                │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+The quality gate and dependency scan steps are described in [Quality & Security Gates](06-quality-and-security-gates.md).
 
 ## Merge-to-Main Pipeline
 
 The merge-to-main pipeline runs on every push to `main` and produces the nightly candidate artifact.
 
+```mermaid
+graph LR
+    T(["push → main"]) --> S1["All PR steps<br>(re-run on merge commit)"]
+    S1 --> S2["Build & package artifact<br>(VSIX / JAR)"]
+    S2 --> S3["Publish to Nightly / Insider channel"]
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│  On: push → main                                                │
-├─────────────────────────────────────────────────────────────────┤
-│  1. All PR steps (re-run on merge commit)                       │
-│  2. Build & package artifact (VSIX / JAR)                       │
-│  3. Publish to Nightly/Insider channel (see Release Pipelines ↓)│
-└─────────────────────────────────────────────────────────────────┘
-```
+
+The publish step feeds the Nightly / Insider release track (see [Release Pipelines](#release-pipelines)).
 
 ## Cross-Repo Coordination
 
@@ -47,18 +45,12 @@ Product repos publish versioned VSIX/package artifacts to a GitHub Packages regi
 
 All release pipelines run on GitHub Actions. There are two tracks.
 
-```
-main branch
-    │
-    ├──► Nightly / Insider  (automated — every merge to main)
-    │         └─► VS Code Marketplace (pre-release channel)
-    │             WSO2 Integrator IDE Insider build
-    │             GitHub Releases (pre-release tag)
-    │
-    └──► Stable / GA  (manually dispatched workflow_dispatch)
-              └─► VS Code Marketplace (stable channel)
-                  WSO2 Integrator IDE Stable build
-                  GitHub Releases (stable tag) — https://github.com/wso2/product-integrator/releases
+```mermaid
+graph LR
+    M["main branch"] --> N["Nightly / Insider<br>(automated — every merge to main)"]
+    M --> S["Stable / GA<br>(manual workflow_dispatch)"]
+    N --> NT["VS Code Marketplace (pre-release channel)<br>WSO2 Integrator IDE Insider build<br>GitHub Releases (pre-release tag)"]
+    S --> ST["VS Code Marketplace (stable channel)<br>WSO2 Integrator IDE Stable build<br>GitHub Releases (stable tag)"]
 ```
 
 ### Nightly / Insider Pipeline

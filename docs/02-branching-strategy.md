@@ -3,9 +3,9 @@
 _Authors_: @NipunaRanasinghe \
 _Reviewers_: \
 _Created_: 2026/06/09 \
-_Updated_: 2026/06/10
+_Updated_: 2026/06/11
 
-This document defines the branching model for all WSO2 Integrator product repos, shared foundation, and product shell.
+This document defines the branching model for all WSO2 Integrator repos — the shared UI toolkit, product tooling, and product distribution layers.
 
 ## Rationale
 
@@ -25,7 +25,7 @@ The WSO2 Integrator tooling spans five repos with contributors of varying experi
 
 ## Branches
 
-### 1. The `main` Branch
+### The `main` Branch
 
 The primary integration branch. `main` _must_ always be in a releasable state and serves as the base for:
 
@@ -33,14 +33,14 @@ The primary integration branch. `main` _must_ always be in a releasable state an
 - Nightly builds
 - Milestone releases (e.g. `5.1.0-m1`) ahead of the next feature release
 
-### 2. Feature Branches
+### Feature Branches
 
 All feature development _must_ happen on a dedicated feature branch. Branch names _must_ follow the `feat/<description>` convention (e.g. `feat/workflow-support`).
 
 - Feature branches _must_ be merged to `main` only when the feature is stable and release-ready.
 - Feature branches _must_ be deleted after merging.
 
-### 3. Patch Branch (`<major>.<minor>.x`)
+### Patch Branch (`<major>.<minor>.x`)
 
 Only one active patch branch exists at any given time (e.g. `5.0.x`). This branch _must_ always be release-ready and serves as the base for all patch releases (e.g. `5.0.1`, `5.0.2`).
 
@@ -48,7 +48,7 @@ Only one active patch branch exists at any given time (e.g. `5.0.x`). This branc
 - Repo maintainers _should_ merge the active patch branch into `main` in a timely manner.
 - When a new minor GA is released, the previous patch branch is retired and a new one is cut from the new GA tag.
 
-### 4. Hotfix Branches
+### Hotfix Branches
 
 Hotfix branches are used for critical issues that require an immediate patch release and cannot wait for the normal bug fix cycle.
 
