@@ -5,7 +5,7 @@ _Reviewers_: \
 _Created_: 2026/06/10 \
 _Updated_: 2026/06/10
 
-This document describes the human process for deciding when and how to cut a release. For the automated pipeline mechanics, see [CI/CD Pipeline Design](04-cicd-pipeline-design.md).
+This document describes the human process for deciding when and how to cut a release. For the automated pipeline mechanics, see [CI/CD Pipelines](04-cicd-pipelines.md).
 
 ## Release Cadence
 
@@ -23,7 +23,6 @@ Before triggering the stable release workflow:
 - [ ] All planned features for this release are merged to `main`
 - [ ] No critical open issues or regressions in the Insider channel
 - [ ] Changelog updated for the release version
-- [ ] Version bumped in all affected manifests (`package.json`, `pom.xml`) — see [Versioning Strategy](03-versioning-strategy.md)
 - [ ] QA sign-off obtained on the latest Insider build
 
 ## Triggering a Stable Release

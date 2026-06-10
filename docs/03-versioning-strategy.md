@@ -13,6 +13,6 @@ All repos _must_ follow [Semantic Versioning (SemVer)](https://semver.org/). Ver
 
 ## Language Server Versioning
 
-Language servers are versioned and released together with their parent extension — there is no independent language server release. Each product version (e.g. `ballerina-tooling@1.4.0`) includes a specific language server build; consumers always receive a tested, matched pair.
+Language servers are versioned and released together with their parent extension — there is no independent language server release. Each product version (e.g. `ballerina-tooling 1.4.0`) includes a specific language server build; consumers always receive a tested, matched pair.
 
 > **Note:** If an external consumer of a language server emerges in the future, the repo structure supports promoting it to an independent release without structural change.

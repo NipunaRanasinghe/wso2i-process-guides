@@ -1,11 +1,11 @@
-# CI/CD Pipeline Design
+# CI/CD Pipelines
 
 _Authors_: @NipunaRanasinghe \
 _Reviewers_: \
 _Created_: 2026/06/09 \
 _Updated_: 2026/06/10
 
-This document describes the GitHub Actions pipeline anatomy for pull requests and merges to `main` across all product repos.
+This document describes the GitHub Actions pipeline anatomy for pull requests and merges to `main` across all repos.
 
 **Platform:** GitHub Actions. **Build tools:** Gradle (language servers), Rush (TS extensions).
 
@@ -21,7 +21,7 @@ The PR pipeline _must_ pass before any merge is permitted.
 │  2. Unit tests       (blocking)                                 │
 │  3. Integration tests(blocking)                                 │
 │  4. Quality gate     (see Quality Gates)                        │
-│  5. Dependency scan  (see Quality Gates)                        │
+│  5. Dependency scan  (Trivy — see Quality Gates)                │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -77,5 +77,5 @@ main branch
 
 | Artifact | Nightly | Stable |
 |---|---|---|
-| VS Code extensions (×3 products) | VS Code Marketplace (pre-release) | VS Code Marketplace (stable) |
+| VS Code extensions (×4) | VS Code Marketplace (pre-release) | VS Code Marketplace (stable) |
 | WSO2 Integrator IDE | GitHub Releases (pre-release tag) | GitHub Releases (stable tag) |
