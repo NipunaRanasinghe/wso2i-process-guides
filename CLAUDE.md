@@ -20,11 +20,11 @@ The proposal is split into `docs/`, one document per topic. See `docs/README.md`
 |---|---|---|
 | 1 | `docs/01-repository-structure.md` | Repo layer layout, dependency diagram, build-order constraints |
 | 2 | `docs/02-branching-strategy.md` | `main` + `<major>.<minor>.x` maintenance branch model |
-| 3 | `docs/03-cicd-pipeline-design.md` | PR and merge-to-main pipeline anatomy |
-| 4 | `docs/04-testing-strategy.md` | Test types, pipeline stages, blocking gates |
-| 5 | `docs/05-quality-and-security-gates.md` | GHAS + SonarQube Cloud |
-| 6 | `docs/06-versioning-strategy.md` | SemVer, language server versioning |
-| 7 | `docs/07-release-pipelines.md` | Nightly/Insider and Stable/GA tracks, approval gates |
+| 3 | `docs/03-versioning-strategy.md` | SemVer, language server versioning |
+| 4 | `docs/04-cicd-pipeline-design.md` | PR and merge-to-main pipeline anatomy |
+| 5 | `docs/05-testing-strategy.md` | Test types, pipeline stages, blocking gates |
+| 6 | `docs/06-quality-and-security-gates.md` | GHAS + SonarQube Cloud |
+| 7 | `docs/07-release-process.md` | Release cadence, ownership, checklist, post-release steps |
 
 `docs/writing-style.md` — Style guide for all documents in this workspace, derived from the ballerina-platform/ballerina-library docs corpus. Apply it when creating or editing any doc.
 
@@ -40,6 +40,8 @@ The proposal is split into `docs/`, one document per topic. See `docs/README.md`
 | PR triggers | Compile + unit tests + integration tests + quality gates |
 | Test levels | Unit, Integration, Tooling/UI E2E |
 | Quality gates | GHAS (security) + SonarQube Cloud (code quality) |
-| Release channels | Nightly/Insider (automated) and Stable/GA (manual approval gate) |
+| Release pipeline | Nightly (automated on merge to `main`) and Stable/GA (manual `workflow_dispatch` with approval gate) |
+| Release cadence | Nightly: continuous; Stable/GA: target every 4–6 weeks, or immediately for critical fixes |
+| Release ownership | Designated release owner per stable release; triggers workflow and shepherds the approval gate |
 | VS Code extensions | Published to VS Code Marketplace |
 | WSO2 Integrator IDE | Published to GitHub Releases |

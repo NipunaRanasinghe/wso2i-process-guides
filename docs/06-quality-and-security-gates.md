@@ -21,6 +21,6 @@ This document defines the code quality and security scanning tools integrated in
 - **GHAS** for secret scanning, dependency review (in PR), and CodeQL static analysis — covers security posture with near-zero pipeline overhead.
 - **SonarQube Cloud** (free tier to start) for code quality gates (coverage thresholds, duplication, complexity) — gives actionable PR feedback on quality regressions.
 
-Both tools integrate as GitHub Actions steps and post results directly to the PR, fitting the PR pipeline described in [CI/CD Pipeline Design](03-cicd-pipeline-design.md).
+Both tools integrate as GitHub Actions steps and post results directly to the PR, fitting the PR pipeline described in [CI/CD Pipeline Design](04-cicd-pipeline-design.md).
 
 > **Note:** Mend or Veracode _should_ be evaluated if compliance requirements surface in the future.
