@@ -2,7 +2,7 @@
 
 | # | Document | Summary |
 |---|---|---|
-| 1 | [Repository Structure & Build Order](01-repository-structure.md) | Repo layer layout, dependency diagram, and build-order constraints |
+| 1 | [Component Architecture](01-component-architecture.md) | Repo layer layout, dependency diagram, and build-order constraints |
 | 2 | [Branching Strategy](02-branching-strategy.md) | `main` + `<major>.<minor>.x` maintenance branch model |
 | 3 | [Versioning Strategy](03-versioning-strategy.md) | SemVer and language server versioning |
 | 4 | [CI/CD Pipelines](04-cicd-pipelines.md) | PR and merge-to-main pipeline anatomy |

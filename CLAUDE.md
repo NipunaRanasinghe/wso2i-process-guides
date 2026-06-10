@@ -18,7 +18,7 @@ The proposal is split into `docs/`, one document per topic. See `docs/README.md`
 
 | # | File | Topic |
 |---|---|---|
-| 1 | `docs/01-repository-structure.md` | Repo layer layout, dependency diagram, build-order constraints |
+| 1 | `docs/01-component-architecture.md` | Component ownership, dependency diagram, and build-order constraints |
 | 2 | `docs/02-branching-strategy.md` | `main` + `<major>.<minor>.x` maintenance branch model |
 | 3 | `docs/03-versioning-strategy.md` | SemVer, language server versioning |
 | 4 | `docs/04-cicd-pipelines.md` | PR and merge-to-main pipeline anatomy |
@@ -34,11 +34,11 @@ Use these to validate and verify any existing or future claims in the proposal d
 
 | Repo (proposal name) | GitHub URL | Notes |
 |---|---|---|
-| `product-integrator` | https://github.com/wso2/product-integrator/ | IDE shell + WSO2 Integrator Extension |
+| `product-integrator` | https://github.com/wso2/product-integrator/ | WSO2 Integrator VS Code Extension + WSO2 Integrator IDE |
 | `ballerina-tooling` | https://github.com/wso2/ballerina-vscode/ | Pending rename to `ballerina-tooling` |
 | `mi-tooling` | https://github.com/wso2/mi-vscode | Pending rename to `mi-tooling` |
 | `vscode-extensions` | https://github.com/wso2/vscode-extensions | Shared foundation |
-| `si-tooling` | _(URL not yet known)_ | Pending repo creation / rename |
+| `si-tooling` | https://github.com/siddhi-io/siddhi-plugin-vscode/ | Pending rename to `si-tooling` |
 
 ## Key Decisions (resolved)
 

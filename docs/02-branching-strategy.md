@@ -7,17 +7,51 @@ _Updated_: 2026/06/10
 
 This document defines the branching model for all WSO2 Integrator product repos, shared foundation, and product shell.
 
-## Options
+## Rationale
 
-| Model | How it works | Pros | Cons |
-|---|---|---|---|
-| **GitHub Flow with maintenance branch** *(preferred)* | Feature branches off `main`; one `<major>.<minor>.x` patch branch maintained for the current stable release | Clear separation of ongoing work and patch fixes; agent-friendly | Minor additional branch management compared to pure GitHub Flow |
-| Trunk-Based Development | Commit directly (or via very short branches) to `main` | Maximum simplicity, fastest integration | Higher risk without a strict feature-flag culture; harder with less experienced contributors |
-| GitFlow | Parallel `main` / `develop` + release branches | Well-established for scheduled releases | Heavy branch management across 5 repos; context switching punishes agentic development |
+The WSO2 Integrator tooling spans five repos with contributors of varying experience levels and an increasing use of agentic development workflows. The branching model _must_ be simple enough to apply consistently across all repos while still supporting parallel patch maintenance on stable releases.
 
-## Recommendation: GitHub Flow with Maintenance Branch
+### Considered Options
 
-- **`main`** — ongoing feature development targeting the next minor (or major) release. This branch _must_ always be in a releasable state.
-- **`<major>.<minor>.x`** (e.g. `1.4.x`) — a single maintenance branch cut from `main` at each GA release. Only patch fixes are backported here; no new features.
-- Work happens on short-lived feature branches off `main` (`feat/`, `fix/`, `chore/` prefixes).
-- When a new minor GA is released, the previous `<major>.<minor>.x` branch is retired and a new one is cut from the new GA tag.
+- **Trunk-Based Development** — all commits go directly (or via very short branches) to `main`.
+- **GitFlow** — parallel `main`/`develop` branches with dedicated release branches.
+- **GitHub Flow with Maintenance Branch** — a single `main` branch for features and a dedicated `<major>.<minor>.x` branch for patches.
+
+### Selected Option: GitHub Flow with Maintenance Branch
+
+- Avoids the overhead of managing multiple long-lived branches (e.g. `develop`) and complex merge patterns.
+- Supports a clear separation of concerns between feature development and patch maintenance.
+- Aligns well with the release process defined in [Release Process](07-release-process.md) and the versioning strategy in [Versioning Strategy](03-versioning-strategy.md).
+
+## Branches
+
+### 1. The `main` Branch
+
+The primary integration branch. `main` _must_ always be in a releasable state and serves as the base for:
+
+- The next feature release (often a minor version bump)
+- Nightly builds
+- Milestone releases (e.g. `5.1.0-m1`) ahead of the next feature release
+
+### 2. Feature Branches
+
+All feature development _must_ happen on a dedicated feature branch. Branch names _must_ follow the `feat/<description>` convention (e.g. `feat/workflow-support`).
+
+- Feature branches _must_ be merged to `main` only when the feature is stable and release-ready.
+- Feature branches _must_ be deleted after merging.
+
+### 3. Patch Branch (`<major>.<minor>.x`)
+
+Only one active patch branch exists at any given time (e.g. `5.0.x`). This branch _must_ always be release-ready and serves as the base for all patch releases (e.g. `5.0.1`, `5.0.2`).
+
+- All bug fixes _must_ be submitted to the active patch branch — not to `main`.
+- Repo maintainers _should_ merge the active patch branch into `main` in a timely manner.
+- When a new minor GA is released, the previous patch branch is retired and a new one is cut from the new GA tag.
+
+### 4. Hotfix Branches
+
+Hotfix branches are used for critical issues that require an immediate patch release and cannot wait for the normal bug fix cycle.
+
+- Hotfix branches _must_ be cut from the latest stable release tag and follow the `hotfix/<description>` naming convention (e.g. `hotfix/critical-auth-bypass`).
+- Once the fix is released, hotfix branches _must_ be merged back into the active patch branch.
+- Repo maintainers _should_ ensure hotfixes are also merged into `main` if they apply to the current development version.
