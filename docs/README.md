@@ -8,4 +8,4 @@
 | 4 | [CI/CD Pipelines](04-cicd-pipelines.md) | PR and merge-to-main pipeline anatomy |
 | 5 | [Testing Strategy](05-testing-strategy.md) | Test types, pipeline stages, and blocking gates |
 | 6 | [Quality & Security Gates](06-quality-and-security-gates.md) | GHAS + SonarQube Cloud recommendation |
-| 7 | [Release Process](07-release-process.md) | Release cadence, ownership, pre-release checklist, and post-release steps |
+| 7 | [Release Process](07-release-process.md) | Release types, cadence, ownership, and step-by-step release processes |

@@ -5,7 +5,7 @@ _Reviewers_: \
 _Created_: 2026/06/09 \
 _Updated_: 2026/06/11
 
-This document defines the versioning scheme applied across all WSO2 Integrator repos and the decision on language server versioning.
+This document defines the versioning scheme applied across all WSO2 Integrator repos.
 
 ## SemVer
 
@@ -37,9 +37,7 @@ If `vscode-extensions` releases `2.3.1`, product repos do not need to react. It 
 
 ### Case 2: Shared UI Toolkit Releases a Minor Version
 
-If `vscode-extensions` releases `2.4.0`, each product repo that needs the new functionality _should_ open a dependency-bump PR updating the pin to `2.4.0` and include the bump in its next release. Product repos that do not need it may stay on `2.3.x` — unlike a shared runtime distribution, the bundled-dependency model tolerates product repos being on different shared UI toolkit minor versions.
-
-> **Open question:** Whether all product repos _should_ converge on the same shared UI toolkit minor version before each WSO2 Integrator stable release (for design consistency), or are free to drift. Needs a team decision.
+If `vscode-extensions` releases `2.4.0`, each product repo that needs the new functionality _should_ open a dependency-bump PR updating the pin to `2.4.0` and include the bump in its next release. Product repos that do not need it may stay on `2.3.x` — unlike a shared runtime distribution, the bundled-dependency model tolerates product repos being on different shared UI toolkit minor versions. Product repos are not required to converge on a single toolkit minor version before a WSO2 Integrator stable release.
 
 ### Case 3: Shared UI Toolkit Releases a Major (Breaking) Version
 
@@ -52,13 +50,15 @@ Breaking changes _must_ follow this process:
 3. Each product repo owner opens a migration PR that bumps the pinned version and applies the required code changes. All PR pipeline gates apply as usual.
 4. `product-integrator` picks up the migrated product extensions through its normal dependency bump — no special handling is needed at the product distribution layer.
 
-Product repos _should_ complete the migration before their next stable release.
-
-> **Open question:** Whether a hard deadline (e.g. migrate within one release cycle) is needed, or "before the next stable release" is sufficient. Needs a team decision.
+Product repos _should_ complete the migration before their next stable release. There is no fixed calendar deadline.
 
 ### Case 4: A Product Extension Releases
 
 If `ballerina-tooling` releases `1.5.0`, nothing happens in `product-integrator` automatically — its bundling pipeline does not follow upstream releases. The `product-integrator` release owner bumps the pinned version to `1.5.0` as part of preparing the next WSO2 Integrator release, and the bundled extension set ships as a tested, matched combination.
+
+## Product Distribution Versioning
+
+The `product-integrator` artifacts (the WSO2 Integrator VS Code Extension and the WSO2 Integrator IDE) carry the **WSO2 Integrator product version** — `5.0.0` for the first consolidated release — rather than a repo-level SemVer line. The product version is managed at the WSO2 Integrator product level and reflects the bundled set as a whole: component versions evolve independently, and users upgrade WSO2 Integrator as a single product. In the repo, the product version is pinned alongside the component versions in [`ci/build/component-versions.properties`](https://github.com/wso2/product-integrator/blob/main/ci/build/component-versions.properties).
 
 ## Language Server Versioning
 

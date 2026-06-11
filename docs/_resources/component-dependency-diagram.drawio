@@ -1,0 +1,123 @@
+<mxfile host="app.diagrams.net">
+  <diagram id="component-dependency" name="Component Dependency Diagram">
+    <mxGraphModel dx="1334" dy="720" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1000" pageHeight="780" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="L_uit" parent="0" style="" value="Shared UI Toolkit" />
+        <mxCell id="VSC" parent="L_uit" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;fontStyle=1;fillColor=#f5fbf5;strokeColor=#82b366;container=1;collapsible=0;" value="vscode-extensions" vertex="1">
+          <mxGeometry height="120" width="280" x="370" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="UIT" parent="VSC" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="Common UI Toolkit" vertex="1">
+          <mxGeometry height="40" width="200" x="40" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="L_pt" parent="0" style="" value="Product Tooling" />
+        <mxCell id="BALL" parent="L_pt" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;fontStyle=1;fillColor=#f7fafe;strokeColor=#6c8ebf;container=1;collapsible=0;" value="ballerina-tooling" vertex="1">
+          <mxGeometry height="200" width="320" x="30" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="BT_EX" parent="BALL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Ballerina VS Code Extension" vertex="1">
+          <mxGeometry height="40" width="200" x="60" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="BT_LS" parent="BALL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Ballerina Language Server" vertex="1">
+          <mxGeometry height="40" width="130" x="20" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="BT_GR" parent="BALL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Grammar" vertex="1">
+          <mxGeometry height="40" width="130" x="170" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="MI" parent="L_pt" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;fontStyle=1;fillColor=#f7fafe;strokeColor=#6c8ebf;container=1;collapsible=0;" value="mi-tooling" vertex="1">
+          <mxGeometry height="200" width="260" x="380" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="MI_EX" parent="MI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="MI VS Code Extension" vertex="1">
+          <mxGeometry height="40" width="200" x="30" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="MI_LS" parent="MI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="MI Language Server" vertex="1">
+          <mxGeometry height="40" width="200" x="30" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="SI" parent="L_pt" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;fontStyle=1;fillColor=#f7fafe;strokeColor=#6c8ebf;container=1;collapsible=0;" value="si-tooling" vertex="1">
+          <mxGeometry height="200" width="260" x="670" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="SI_EX" parent="SI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="SI VS Code Extension" vertex="1">
+          <mxGeometry height="40" width="200" x="30" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="SI_LS" parent="SI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="SI Language Server" vertex="1">
+          <mxGeometry height="40" width="200" x="30" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="e_bt_ls" edge="1" parent="L_pt" source="BT_LS" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6c8ebf;" target="BT_EX">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_bt_gr" edge="1" parent="L_pt" source="BT_GR" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6c8ebf;" target="BT_EX">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_mi_ls" edge="1" parent="L_pt" source="MI_LS" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6c8ebf;" target="MI_EX">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_si_ls" edge="1" parent="L_pt" source="SI_LS" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6c8ebf;" target="SI_EX">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="L_pd" parent="0" style="" value="Product Distribution" />
+        <mxCell id="PROD" parent="L_pd" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;fontStyle=1;fillColor=#fffaf4;strokeColor=#d79b00;container=1;collapsible=0;" value="product-integrator" vertex="1">
+          <mxGeometry height="200" width="380" x="320" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="PI_IDE" parent="PROD" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="WSO2 Integrator IDE" vertex="1">
+          <mxGeometry height="40" width="200" x="90" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="PI_EX" parent="PROD" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="WSO2 Integrator VS Code Extension" vertex="1">
+          <mxGeometry height="40" width="240" x="70" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="e_mi_pi" edge="1" parent="PROD" source="MI_EX" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;strokeColor=#6c8ebf;" target="PI_EX">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="190" y="220" />
+              <mxPoint x="190" y="220" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_pi_ex" edge="1" parent="L_pd" source="PI_EX" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#d79b00;" target="PI_IDE">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="L_dep" parent="0" style="" value="Cross-Repo Dependencies" />
+        <mxCell id="e_uit_bt" edge="1" parent="L_dep" source="UIT" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;strokeColor=#82b366;" target="BT_EX">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_uit_mi" edge="1" parent="L_dep" source="UIT" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;strokeColor=#82b366;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="MI_EX">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="400" y="670" />
+              <mxPoint x="400" y="380" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_uit_si" edge="1" parent="L_dep" source="UIT" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;strokeColor=#82b366;" target="SI_EX">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_uit_pi" edge="1" parent="L_dep" source="UIT" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;strokeColor=#82b366;" target="PI_EX">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="10" y="670" />
+              <mxPoint x="10" y="150" />
+              <mxPoint x="510" y="150" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_bt_pi" edge="1" parent="L_dep" source="BT_EX" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;strokeColor=#6c8ebf;" target="PI_EX">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="370" y="380" />
+              <mxPoint x="370" y="190" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_si_pi" edge="1" parent="L_dep" source="SI_EX" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;strokeColor=#6c8ebf;" target="PI_EX">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="650" y="380" />
+              <mxPoint x="650" y="190" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="legend" parent="L_dep" style="text;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#ffffff;strokeColor=#999999;" value="&lt;b&gt;Legend&lt;/b&gt;&lt;br&gt;A → B: B consumes A&lt;br&gt;— solid: bundled into artifact&lt;br&gt;- - dashed: versioned dependency" vertex="1">
+          <mxGeometry height="100" width="240" x="730" y="100" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

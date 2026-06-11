@@ -26,6 +26,7 @@ Trivy scans dependency manifests (`npm` and Maven) for known vulnerabilities on 
 
 - **Rationale:** Already configured in all five repos, covers both ecosystems in use, and runs as a self-contained GitHub Actions step at no cost. 
 - **Blocking:** A finding of severity `HIGH` or `CRITICAL` fails the PR pipeline. Lower severities are reported in the scan output but do not block; maintainers _should_ review them during routine dependency bumps.
+- **Suppressions:** A `HIGH`/`CRITICAL` finding with no released fix may be suppressed (e.g. via a `.trivyignore` entry) only with explicit approval from the repo maintainers, case by case. Each suppression _must_ reference a tracking issue, and the entry _must_ be removed once a fixed version is available.
 
 ## GitHub Secret Scanning
 
