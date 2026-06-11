@@ -26,7 +26,7 @@ This document describes the human process for deciding when and how to cut a rel
 
 ## Release Ownership
 
-Each stable release has a designated release owner — typically the team lead or a rotation. The release owner is responsible for triggering the workflow, shepherding the approval gate, and completing post-release steps.
+Each stable release has a designated release owner — typically a rotation. The release owner is responsible for creating and managing the release milestone, triggering the workflow, obtaining the approval-gate sign-off, and completing post-release steps.
 
 ## Release Types
 
@@ -54,10 +54,15 @@ A repo with no changes since its last release does not need to release — the e
 
 ## Feature Release Process
 
-### Step 1: Pre-Release Verification
+### Step 1: Create the Release Milestone
+
+The release cycle starts when the release owner creates a dedicated milestone in the `product-integrator` repo (e.g. [WSO2 Integrator 5.1.0](https://github.com/wso2/product-integrator/milestone/7)), if one does not already exist. All features and fixes planned for the release are tracked against this milestone.
+
+### Step 2: Pre-Release Verification
 
 Before triggering the release workflow, the release owner verifies:
 
+- [ ] All issues and PRs in the release milestone are closed, or moved to a future milestone
 - [ ] All planned features for this release are merged to `main`
 - [ ] No critical open issues or regressions in the Insider channel
 - [ ] Changelog updated for the release version
@@ -65,17 +70,17 @@ Before triggering the release workflow, the release owner verifies:
 
 During this window the release owner _should_ announce a code freeze on `main` — only stabilization fixes are merged until the release ships.
 
-### Step 2: Trigger the Release Workflow
+### Step 3: Trigger the Release Workflow
 
 1. Go to the **Actions** tab of the target repo and select the stable release workflow (`release.yml`).
 2. Click **Run workflow** and enter the target commit SHA on `main`.
 3. The workflow builds and packages artifacts, runs the backward compatibility tests against the previous GA release, then pauses at the `production` environment gate.
 
-### Step 3: Approval Gate
+### Step 4: Approval Gate
 
 A required reviewer inspects the run and approves in the GitHub UI — the publish step then proceeds. If the reviewer rejects, the reviewer _must_ state the reason on the workflow run; the release owner addresses it and re-triggers.
 
-### Step 4: Post-Release Steps
+### Step 5: Post-Release Steps
 
 After the GA artifacts are published:
 
@@ -83,30 +88,36 @@ After the GA artifacts are published:
 2. **Cut the maintenance branch** — create `<major>.<minor>.x` from the GA tag, and retire the previous maintenance branch (no further releases are cut from it; the branch is kept for history).
 3. **Bump `main`** — open a PR on `main` incrementing to the next minor dev version (e.g. `1.3.0-dev`).
 4. **Confirm the GitHub Release** — verify the `product-integrator` bundle is published to [GitHub Releases](https://github.com/wso2/product-integrator/releases) with release notes.
-5. **Communicate** — notify the team and update any public-facing changelogs or announcements.
+5. **Update the milestones** — close the release milestone and create the milestone for the next immediate patch release (e.g. `5.1.1`).
+6. **Communicate** — notify the team and update any public-facing changelogs or announcements.
 
 ## Patch Release Process
 
 A patch release targets the `<major>.<minor>.x` maintenance branch, not `main`.
 
-### Step 1: Qualify the Fixes
+### Step 1: Confirm the Release Milestone
+
+Confirm the dedicated milestone for this patch release exists in the `product-integrator` repo (e.g. [WSO2 Integrator 5.0.1](https://github.com/wso2/product-integrator/milestone/8)), and create it if it does not. All changes shipping in the release are tracked against this milestone.
+
+### Step 2: Qualify the Fixes
 
 Confirm every change qualifies — bug fixes and security patches only; no new features.
 
-### Step 2: Merge to the Maintenance Branch
+### Step 3: Merge to the Maintenance Branch
 
 Open a PR against `<major>.<minor>.x` for each fix. All PR pipeline gates _must_ pass.
 
-### Step 3: Trigger the Release Workflow
+### Step 4: Trigger the Release Workflow
 
-Trigger the stable release workflow targeting `<major>.<minor>.x`. The approval gate applies as in the feature release ([Step 3](#step-3-approval-gate)).
+Trigger the stable release workflow targeting `<major>.<minor>.x`. The approval gate applies as in the feature release ([Step 4](#step-4-approval-gate)).
 
-### Step 4: Post-Release Steps
+### Step 5: Post-Release Steps
 
 1. **Verify the tag** — confirm `v<major>.<minor>.<patch>` was created on the release commit.
 2. **Confirm the GitHub Release** — verify artifacts and release notes are published.
 3. **Merge to `main`** — merge the maintenance branch into `main` so the fixes are included in the next feature release.
-4. **Communicate** — notify the team; for security fixes, describe the fix without exposing exploit details.
+4. **Update the milestones** — close the release milestone and create the milestone for the next immediate patch release (e.g. `5.0.2`).
+5. **Communicate** — notify the team; for security fixes, describe the fix without exposing exploit details.
 
 ## Hotfix Release Process
 
@@ -122,7 +133,7 @@ Open a PR against the hotfix branch with the minimal fix. All PR pipeline gates 
 
 ### Step 3: Trigger the Release Workflow
 
-Trigger the stable release workflow targeting the hotfix branch. The release owner _should_ notify the approval-gate reviewers in advance so the gate does not stall the release.
+Trigger the stable release workflow targeting the hotfix branch. The release owner _should_ notify the approval-gate reviewers in advance so the gate does not delay the release.
 
 The hotfix takes the next patch version (e.g. `5.0.3` on top of `v5.0.2`); after the merge-back, the maintenance branch continues from that version.
 

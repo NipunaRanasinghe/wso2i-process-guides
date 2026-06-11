@@ -54,6 +54,6 @@ Use these to validate and verify any existing or future claims in the proposal d
 | Quality gates | SonarQube Cloud (code quality) + Trivy (dependency vulnerabilities) + GitHub Secret Scanning (tokens/secrets) |
 | Release pipeline | Nightly (automated on merge to `main`) and Stable/GA (manual `workflow_dispatch` with approval gate) |
 | Release cadence | Nightly: continuous; Stable/GA: target every 4–6 weeks, or immediately for critical fixes |
-| Release ownership | Designated release owner per stable release; triggers workflow and shepherds the approval gate |
+| Release ownership | Designated release owner per stable release; triggers workflow and obtains the approval-gate sign-off |
 | VS Code extensions | Published to VS Code Marketplace |
 | WSO2 Integrator IDE | Published to GitHub Releases |

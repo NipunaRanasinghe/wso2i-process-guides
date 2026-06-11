@@ -27,7 +27,7 @@ Sections use H2. Subsections use H3. Avoid nesting deeper than H3.
 
 ## Voice and person
 
-- Write in the third person: "The release manager should…", "Module owners must…".
+- Write in the third person: "The release owner should…", "Repo maintainers must…".
 - Use first-person plural ("we") only when expressing shared goals or values, not for instructions.
 - No contractions. Use "do not" not "don't", "it is" not "it's".
 
@@ -77,6 +77,7 @@ Use a blockquote with bold label for important asides:
 
 - Lead each section with a direct purpose statement: "This section explains…", "The goal is to…".
 - Keep sentences short and declarative. Avoid padding adverbs ("basically", "simply", "obviously").
+- Prefer plain verbs over idioms and metaphors: "close and create" not "roll", "obtain approval" not "shepherd". Established industry terms ("cut a branch", "cherry-pick") are fine.
 - State what something _is_ before explaining how to use or configure it.
 - Avoid restating the section heading in the opening sentence.
 
