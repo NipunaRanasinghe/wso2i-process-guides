@@ -36,12 +36,6 @@ Each repo contains one or more components. A component is a cohesive set of func
 
 The diagram below shows the build-time dependencies between components across the repos.
 
-An arrow from A to B means A depends on B. The arrow style indicates the dependency type:
-
-- `==>` — A declares B as a versioned dependency (e.g. the WSO2 Integrator VS Code Extension consuming the product extensions)
-- `-->` — A bundles B into its artifact (e.g. a VS Code extension bundles its language server)
-- `-.->` — A builds B from source via a git submodule (the shared UI toolkit packages)
-
 
 ```mermaid
 graph TB
@@ -84,6 +78,13 @@ graph TB
     PI_EX ==> MI_EX
     PI_EX ==> SI_EX
 ```
+An arrow from A to B means A depends on B. The arrow style indicates the dependency type:
+
+- **Thick arrow** — A declares B as a versioned dependency (e.g. the WSO2 Integrator VS Code Extension consuming the product extensions)
+- **Solid arrow** — A bundles B into its artifact (e.g. a VS Code extension bundles its language server)
+- **Dashed arrow** — A builds B from source via a git submodule (the shared UI toolkit packages)
+
+## Build Implications
 
 The dependency relationships above determine the build order: each product tooling repo must produce its VSIX artifact before `product-integrator` can assemble the final distribution. Within each product tooling repo, two things must happen first:
 
