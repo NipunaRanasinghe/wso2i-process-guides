@@ -21,12 +21,14 @@ The proposal is split into `docs/`, one document per topic. See `docs/README.md`
 | 1 | `docs/01-component-architecture.md` | Component ownership, dependency diagram, and build-order constraints |
 | 2 | `docs/02-branching-strategy.md` | `main` + `<major>.<minor>.x` maintenance branch model |
 | 3 | `docs/03-versioning-strategy.md` | SemVer, language server versioning |
-| 4 | `docs/04-cicd-pipelines.md` | PR and merge-to-main pipeline structure |
+| 4 | `docs/04-cicd-pipelines.md` | PR pipeline structure and release tracks |
 | 5 | `docs/05-testing-strategy.md` | Test types, pipeline stages, blocking gates |
 | 6 | `docs/06-quality-and-security-gates.md` | GHAS + SonarQube Cloud |
 | 7 | `docs/07-release-process.md` | Release cadence, ownership, checklist, post-release steps |
 
-`docs/writing-style.md` — Style guide for all documents in this workspace, derived from the ballerina-platform/ballerina-library docs corpus. Apply it when creating or editing any doc.
+`docs/supporting/writing-style.md` — Style guide for all documents in this workspace, derived from the ballerina-platform/ballerina-library docs corpus. Apply it when creating or editing any doc.
+
+`docs/supporting/repo-state-snapshot.md` — Observed state of all five repos as of 2026/06/12. Use this as the baseline when checking for drift between the proposal docs and reality.
 
 ## Repos
 
@@ -53,7 +55,7 @@ Use these to validate and verify any existing or future claims in the proposal d
 | PR triggers | Compile + unit tests + integration tests + quality gates |
 | Test levels | Unit, Integration, Tooling/UI E2E |
 | Quality gates | SonarQube Cloud (code quality) + Trivy (dependency vulnerabilities) + GitHub Secret Scanning (tokens/secrets) |
-| Release pipeline | Nightly (automated on merge to `main`) and Stable/GA (manual `workflow_dispatch` with approval gate) |
+| Release pipeline | Nightly (automated on a daily schedule) and Stable/GA (manual `workflow_dispatch` with approval gate) |
 | Release cadence | Nightly: continuous; Stable/GA: target every 4–6 weeks, or immediately for critical fixes |
 | Release ownership | Designated release owner per stable release; triggers workflow and obtains the approval-gate sign-off |
 | VS Code extensions | Published to VS Code Marketplace |

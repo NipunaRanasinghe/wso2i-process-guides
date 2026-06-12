@@ -3,9 +3,9 @@
 _Authors_: @NipunaRanasinghe \
 _Reviewers_: \
 _Created_: 2026/06/09 \
-_Updated_: 2026/06/11
+_Updated_: 2026/06/12
 
-This document describes the GitHub Actions pipeline structure for pull requests and merges to `main` across all repos.
+This document describes the GitHub Actions pipeline structure for pull requests and releases across all repos.
 
 - **CI/CD platform:** GitHub Actions
 - **Build tools:** Gradle (language servers), Rush (TypeScript extensions)
@@ -25,22 +25,9 @@ graph LR
 
 The quality gate and dependency scan steps are described in [Quality & Security Gates](06-quality-and-security-gates.md).
 
-## Merge-to-Main Pipeline
-
-The merge-to-main pipeline runs on every push to `main` and produces the nightly candidate artifact.
-
-```mermaid
-graph LR
-    T(["push → main"]) --> S1["All PR steps<br>(re-run on merge commit)"]
-    S1 --> S2["Build & package artifact<br>(VSIX / JAR)"]
-    S2 --> S3["Publish to Nightly / Insider channel"]
-```
-
-The publish step is the entry point to the Nightly / Insider release track (see [Release Pipelines](#release-pipelines)).
-
 ## Cross-Repo Coordination
 
-Product repos publish versioned VSIX/package artifacts to a GitHub Packages registry on each merge to `main`. The `product-integrator` bundling pipeline declares explicit dependency versions and is triggered separately — it is not triggered automatically by upstream `main` commits. This prevents a product-repo commit from inadvertently breaking the IDE build.
+Product repos publish versioned VSIX artifacts via their release pipelines. The `product-integrator` bundling pipeline declares explicit dependency versions and is triggered separately — it is not triggered automatically by upstream releases. This prevents an upstream release from inadvertently breaking the IDE build.
 
 ## Release Pipelines
 
@@ -48,7 +35,7 @@ All release pipelines run on GitHub Actions. There are two tracks.
 
 ```mermaid
 graph LR
-    M["main branch"] --> N["Nightly / Insider<br>(automated — every merge to main)"]
+    M["main branch"] --> N["Nightly / Insider<br>(automated — daily schedule)"]
     M --> S["Stable / GA<br>(manual workflow_dispatch)"]
     N --> NT["VS Code Marketplace (pre-release channel)<br>WSO2 Integrator IDE Insider build<br>GitHub Releases (pre-release tag)"]
     S --> ST["VS Code Marketplace (stable channel)<br>WSO2 Integrator IDE Stable build<br>GitHub Releases (stable tag)"]
@@ -56,7 +43,7 @@ graph LR
 
 ### Nightly / Insider Pipeline
 
-- Triggered automatically on every merge to `main`.
+- Triggered automatically on a daily schedule.
 - Version suffix: `1.2.0-nightly.20260609`.
 - Fully automated — no approval gate.
 
@@ -72,3 +59,12 @@ graph LR
 |---|---|---|
 | VS Code extensions (×4) | VS Code Marketplace (pre-release) | VS Code Marketplace (stable) |
 | WSO2 Integrator IDE | GitHub Releases (pre-release tag) | GitHub Releases (stable tag) |
+
+## Pending Items
+
+The following items represent gaps between this proposal and the current state of the repos.
+
+- **No automated Nightly/Insider publish.** The automated nightly publishing track does not exist. Merges to `main` do not trigger a publish in any repo.
+- **Trivy not configured in `product-integrator` and `si-tooling` PR pipelines.** The dependency scan step is missing from both repos and needs to be added.
+- **No `production` Environment approval gate.** No GitHub Actions Environment with required reviewers is configured in any repo. The approval gate for the Stable/GA pipeline needs to be set up in each repo.
+- **SonarQube Cloud not configured.** No repo has SonarQube integrated. See [Quality & Security Gates](06-quality-and-security-gates.md) for the full implementation plan.

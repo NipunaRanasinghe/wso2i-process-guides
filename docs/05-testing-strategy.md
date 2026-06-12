@@ -11,8 +11,8 @@ This document defines the test types integrated into the CI/CD pipelines, their 
 
 | Test Type | Runs In | Blocks Merge? | Notes |
 |---|---|---|---|
-| Unit tests | PR pipeline + merge-to-main | **Yes** | _Must_ pass before any artifact is published |
-| Integration tests | PR pipeline + merge-to-main | **Yes** | Tests extension ↔ language server contract |
+| Unit tests | PR pipeline + daily build | **Yes** | _Must_ pass before any artifact is published |
+| Integration tests | PR pipeline + daily build | **Yes** | Tests extension ↔ language server contract |
 | Tooling / UI E2E tests | PR (label: `Checks/Run Ballerina UI Tests`) · daily schedule · manual trigger | **No** (advisory) | `ballerina-tooling` only currently. Requires a full runtime environment; too slow to run on every PR. |
 | Backward compatibility tests | Release pipeline (Stable/GA) | **Yes** | Run against the previous GA release artifact before a new GA ships |
 
@@ -20,11 +20,11 @@ This document defines the test types integrated into the CI/CD pipelines, their 
 
 ### Unit Tests
 
-Unit tests validate individual modules in isolation — Gradle test suites for the language servers and the Rush test task for the TypeScript packages. They run on every PR and every merge to `main`, and are merge-blocking: the PR author _must_ fix failures before the PR can be merged.
+Unit tests validate individual modules in isolation — Gradle test suites for the language servers and the Rush test task for the TypeScript packages. They run on every PR and every daily build, and are merge-blocking: the PR author _must_ fix failures before the PR can be merged.
 
 ### Integration Tests
 
-Integration tests validate the contract between the extension and its bundled language server: the test harness launches the packaged language server and invokes the LSP requests the extension depends on (initialization, completions, diagnostics, code actions). This catches mismatches between the extension and the language server that are released together, which unit tests on either side cannot. Integration tests run on every PR and every merge to `main`, and are merge-blocking.
+Integration tests validate the contract between the extension and its bundled language server: the test harness launches the packaged language server and invokes the LSP requests the extension depends on (initialization, completions, diagnostics, code actions). This catches mismatches between the extension and the language server that are released together, which unit tests on either side cannot. Integration tests run on every PR and every daily build, and are merge-blocking.
 
 ### Tooling / UI E2E Tests
 
@@ -33,3 +33,12 @@ E2E tests drive the full VS Code UI against a real runtime environment, covering
 E2E results are advisory — a failure does not block a merge — but failures of the daily run _must_ be triaged by the repo maintainers before the next stable release.
 
 > **Note:** E2E coverage currently exists only in `ballerina-tooling`. 
+
+## Pending Items
+
+The following items represent gaps between this proposal and the current state of the repos.
+
+- **No integration test step exists in any repo.** The "extension ↔ language server contract" integration tests described here are not yet implemented. The test infrastructure needs to be defined and added to the PR pipelines of `ballerina-tooling`, `mi-tooling`, and `si-tooling`.
+- **Backward compatibility tests not implemented.** No repo has backward compatibility tests in its release pipeline. This gate cannot block a release until the tests are built and wired in.
+- **`mi-tooling` already has Playwright E2E tests.** The note above is outdated — `mi-tooling` has a `UITest` job with 4 parallel groups running on both Linux and Windows. The test matrix table should be updated to reflect this once E2E coverage is audited across all repos.
+- **No merge-to-main test run.** No repo has a `push` trigger on `main`. The test matrix column "Runs In: PR pipeline + merge-to-main" overstates current coverage; merge coverage is provided only by the daily cron builds.

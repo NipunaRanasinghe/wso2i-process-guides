@@ -95,3 +95,10 @@ The dependency relationships above determine the build order: each product tooli
 Once each product tooling repo has produced its VSIX:
 
 3. **`product-integrator` consumes pinned extension versions.** The `product-integrator` repo does not build the product extensions from source. All the product extensions are consumed as versioned dependencies and tracked in a version properties file. The WSO2 Integrator IDE in turn bundles the WSO2 Integrator VS Code Extension. This keeps the product distribution decoupled from product-repo CI.
+
+## Pending Items
+
+The following items represent gaps between this proposal and the current state of the repos.
+
+- **Repo renames pending.** The three product tooling repos have not yet been renamed: `ballerina-vscode` → `ballerina-tooling`, `mi-vscode` → `mi-tooling`, `siddhi-plugin-vscode` → `si-tooling`. All references in this document will need to be updated once the renames are complete.
+- **`si-tooling` not onboarded to the shared UI toolkit.** `si-tooling` does not currently include `vscode-extensions` as a git submodule and does not build the shared UI toolkit packages from source. Onboarding `si-tooling` to the shared toolkit is outstanding.

@@ -34,3 +34,10 @@ GitHub Secret Scanning detects committed credentials (API tokens, keys) at the p
 
 - **Rationale:** Native to GitHub, no maintenance overhead, and free for public repos. Push protection rejects the push itself, which is preferable to detecting a secret after it has been committed to the repository history.
 - **Blocking:** Push protection blocks any push containing a detected secret. Alerts on already-committed secrets _must_ be triaged by repo maintainers, and the affected credential _must_ be rotated — removing it from history alone is not sufficient.
+
+## Pending Items
+
+The following items represent gaps between this proposal and the current state of the repos.
+
+- **SonarQube Cloud not configured in any repo.** Adding the GitHub App, creating the SonarQube organization, and adding the pipeline step to each repo is outstanding. Until this is done, code quality is not a blocking gate on any PR.
+- **Trivy not configured in `product-integrator` and `si-tooling` PR pipelines.** Both repos currently have no dependency vulnerability scanning on PRs. Trivy needs to be added to the PR pipeline of each.

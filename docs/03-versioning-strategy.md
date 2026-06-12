@@ -53,3 +53,10 @@ The `product-integrator` artifacts (the WSO2 Integrator VS Code Extension and th
 Language servers are versioned and released together with their parent extension — there is no independent language server release. Each product version (e.g. `ballerina-tooling 1.4.0`) includes a specific language server build; consumers always receive an extension and language server combination that was tested together.
 
 > **Note:** If an external consumer of a language server emerges in the future, the repo structure supports promoting it to an independent release without structural change.
+
+## Pending Items
+
+The following items represent gaps between this proposal and the current state of the repos.
+
+- **`si-tooling` uses a non-SemVer pre-release versioning scheme.** Pre-release builds currently use a `major.odd_minor.epoch_minutes` format. This needs to be migrated to a consistent SemVer pre-release approach (e.g. `1.2.0-nightly.20260609`) aligned with the other repos.
+- **Ballerina Language Server has an independent release path.** `ballerina-tooling` contains a `ls-publish-release.yml` workflow that can publish the language server to GitHub Packages independently from the parent extension. This conflicts with the policy that language servers are versioned and released together with their parent extension. The workflow should either be removed or the policy updated to explicitly allow the independent release path.

@@ -55,3 +55,9 @@ Hotfix branches are used for critical issues that require an immediate patch rel
 - Hotfix branches _must_ be created from the latest stable release tag and follow the `hotfix/<description>` naming convention (e.g. `hotfix/critical-auth-bypass`).
 - Once the fix is released, hotfix branches _must_ be merged back into the active patch branch.
 - Repo maintainers _should_ ensure hotfixes are also merged into `main` if they apply to the current development version.
+
+## Pending Items
+
+The following items represent gaps between this proposal and the current state of the repos.
+
+- **`ballerina-tooling` and `mi-tooling` use `stable/<product>` branch naming.** These repos currently use `stable/ballerina` and `stable/mi` as their release branches, not the `<major>.<minor>.x` convention proposed here. Aligning branch naming requires coordination with the ongoing release cycles in both repos.
