@@ -24,11 +24,11 @@ Unit tests validate individual modules in isolation — Gradle test suites for t
 
 ### Integration Tests
 
-Integration tests validate the contract between the extension and its bundled language server: the test harness launches the packaged language server and exercises the LSP requests the extension depends on (initialization, completions, diagnostics, code actions). This catches mismatches between the two halves of a release pair, which unit tests on either side cannot. Integration tests run on every PR and every merge to `main`, and are merge-blocking.
+Integration tests validate the contract between the extension and its bundled language server: the test harness launches the packaged language server and invokes the LSP requests the extension depends on (initialization, completions, diagnostics, code actions). This catches mismatches between the extension and the language server that are released together, which unit tests on either side cannot. Integration tests run on every PR and every merge to `main`, and are merge-blocking.
 
 ### Tooling / UI E2E Tests
 
-E2E tests drive the full VS Code UI against a real runtime environment, covering user-facing workflows end to end. They are too slow and environment-heavy to run on every PR, so they run on a daily schedule against `main`, on demand via manual trigger, and on a PR when the `Checks/Run Ballerina UI Tests` label is applied. Authors of UI-affecting changes _should_ apply the label before requesting review.
+E2E tests drive the full VS Code UI against a real runtime environment, covering user-facing workflows end to end. They are too slow to run on every PR and require a full runtime environment, so they run on a daily schedule against `main`, on demand via manual trigger, and on a PR when the `Checks/Run Ballerina UI Tests` label is applied. Authors of UI-affecting changes _should_ apply the label before requesting review.
 
 E2E results are advisory — a failure does not block a merge — but failures of the daily run _must_ be triaged by the repo maintainers before the next stable release.
 

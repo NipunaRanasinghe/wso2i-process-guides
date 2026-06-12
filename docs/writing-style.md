@@ -50,6 +50,9 @@ Follow RFC 2119 intent and italicise the modal:
 - **Numbered lists** for sequential steps where order matters.
 - **Bullet lists** for parallel, unordered items.
 - Keep nesting shallow — two levels maximum.
+- Use a list for three or more parallel items in prose (responsibilities, criteria, steps) — do not chain them with commas in a sentence.
+- Short example enumerations (2–3 items, often parenthetical) stay inline.
+- Semicolon-separated facts are acceptable only inside table cells; if a cell needs more than ~3, move the content to prose below the table.
 
 ---
 
@@ -77,7 +80,7 @@ Use a blockquote with bold label for important asides:
 
 - Lead each section with a direct purpose statement: "This section explains…", "The goal is to…".
 - Keep sentences short and declarative. Avoid padding adverbs ("basically", "simply", "obviously").
-- Prefer plain verbs over idioms and metaphors: "close and create" not "roll", "obtain approval" not "shepherd". Established industry terms ("cut a branch", "cherry-pick") are fine.
+- Prefer plain verbs over idioms and metaphors: "close and create" not "roll", "obtain approval" not "shepherd", "create a branch" not "cut a branch". Established technical terms with no plain equivalent ("cherry-pick", "code freeze") are fine.
 - State what something _is_ before explaining how to use or configure it.
 - Avoid restating the section heading in the opening sentence.
 

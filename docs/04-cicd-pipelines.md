@@ -5,9 +5,10 @@ _Reviewers_: \
 _Created_: 2026/06/09 \
 _Updated_: 2026/06/11
 
-This document describes the GitHub Actions pipeline anatomy for pull requests and merges to `main` across all repos.
+This document describes the GitHub Actions pipeline structure for pull requests and merges to `main` across all repos.
 
-**Platform:** GitHub Actions. **Build tools:** Gradle (language servers), Rush (TS extensions).
+- **CI/CD platform:** GitHub Actions
+- **Build tools:** Gradle (language servers), Rush (TypeScript extensions)
 
 ## PR Pipeline
 
@@ -35,11 +36,11 @@ graph LR
     S2 --> S3["Publish to Nightly / Insider channel"]
 ```
 
-The publish step feeds the Nightly / Insider release track (see [Release Pipelines](#release-pipelines)).
+The publish step is the entry point to the Nightly / Insider release track (see [Release Pipelines](#release-pipelines)).
 
 ## Cross-Repo Coordination
 
-Product repos publish versioned VSIX/package artifacts to a GitHub Packages registry on each merge to `main`. The `product-integrator` bundling pipeline declares explicit dependency versions and is triggered separately — it does not auto-follow upstream `main` commits. This prevents a product-repo commit from inadvertently breaking the IDE build.
+Product repos publish versioned VSIX/package artifacts to a GitHub Packages registry on each merge to `main`. The `product-integrator` bundling pipeline declares explicit dependency versions and is triggered separately — it is not triggered automatically by upstream `main` commits. This prevents a product-repo commit from inadvertently breaking the IDE build.
 
 ## Release Pipelines
 
@@ -62,7 +63,7 @@ graph LR
 ### Stable / GA Pipeline
 
 - Triggered by a manually dispatched `workflow_dispatch` targeting a specific commit on `main` or the `<major>.<minor>.x` maintenance branch.
-- Publishes clean SemVer tags (e.g. `1.2.0`).
+- Publishes SemVer tags without pre-release suffixes (e.g. `1.2.0`).
 - The publish step targets a GitHub Actions [Environment](https://docs.github.com/en/actions/deployment/targeting-different-environments) named `production`, configured with 1–2 required reviewers. The workflow pauses here until a reviewer approves in the GitHub UI.
 
 ### Artifact Publishing Targets

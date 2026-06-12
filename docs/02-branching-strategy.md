@@ -45,13 +45,13 @@ All feature development _must_ happen on a dedicated feature branch. Branch name
 Only one active patch branch exists at any given time (e.g. `5.0.x`). This branch _must_ always be release-ready and serves as the base for all patch releases (e.g. `5.0.1`, `5.0.2`).
 
 - All bug fixes _must_ be submitted to the active patch branch — not to `main`.
-- Repo maintainers _should_ merge the active patch branch into `main` in a timely manner.
-- When a new minor GA is released, the previous patch branch is retired and a new one is cut from the new GA tag.
+- Repo maintainers _should_ merge the active patch branch into `main` promptly.
+- When a new minor GA is released, the previous patch branch is retired and a new one is created from the new GA tag.
 
 ### Hotfix Branches
 
 Hotfix branches are used for critical issues that require an immediate patch release and cannot wait for the normal bug fix cycle.
 
-- Hotfix branches _must_ be cut from the latest stable release tag and follow the `hotfix/<description>` naming convention (e.g. `hotfix/critical-auth-bypass`).
+- Hotfix branches _must_ be created from the latest stable release tag and follow the `hotfix/<description>` naming convention (e.g. `hotfix/critical-auth-bypass`).
 - Once the fix is released, hotfix branches _must_ be merged back into the active patch branch.
 - Repo maintainers _should_ ensure hotfixes are also merged into `main` if they apply to the current development version.

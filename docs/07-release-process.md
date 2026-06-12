@@ -3,9 +3,9 @@
 _Authors_: @NipunaRanasinghe \
 _Reviewers_: \
 _Created_: 2026/06/10 \
-_Updated_: 2026/06/11
+_Updated_: 2026/06/12
 
-This document describes the human process for deciding when and how to cut a release. The goal is that any release owner can complete end-to-end releases with the help of this guide. 
+This document describes the manual process for deciding when and how to create a release. The goal is that any release owner can complete end-to-end releases with the help of this guide. 
 
 > For detailed information about the automated pipelines and configuration, see [CI/CD Pipelines](04-cicd-pipelines.md).
 
@@ -22,11 +22,16 @@ This document describes the human process for deciding when and how to cut a rel
 ## Release Cadence
 
 - **Nightly / Insider**: continuous — every merge to `main` produces a new Insider build automatically.
-- **Stable / GA**: target every 4–6 weeks, or immediately for critical patch fixes. The release owner decides based on feature readiness and stability signals from the Insider channel.
+- **Stable / GA**: target every 4–6 weeks, or immediately for critical patch fixes. The release owner decides based on feature readiness and the stability of the Insider builds.
 
 ## Release Ownership
 
-Each stable release has a designated release owner — typically a rotation. The release owner is responsible for creating and managing the release milestone, triggering the workflow, obtaining the approval-gate sign-off, and completing post-release steps.
+Each stable release has a designated release owner — typically a rotation. The release owner is responsible for the overall delivery of the release, including:
+
+- Creating and managing the release milestone
+- Triggering the release workflow
+- Obtaining the approval-gate sign-off
+- Completing the post-release steps
 
 ## Release Types
 
@@ -36,7 +41,7 @@ There are three types of stable releases. All three ship through the same Stable
 |---|---|---|---|
 | **Feature** | `main` | Minor (or major) | Every 4–6 weeks, when planned features are ready |
 | **Patch** | `<major>.<minor>.x` | Patch | As bug fixes accumulate on the maintenance branch |
-| **Hotfix** | `hotfix/<description>`, cut from the latest stable tag | Patch | Immediately, for critical issues that cannot wait for the patch cycle |
+| **Hotfix** | `hotfix/<description>`, created from the latest stable tag | Patch | Immediately, for critical issues that cannot wait for the patch cycle |
 
 The branch mechanics behind each type are defined in [Branching Strategy](02-branching-strategy.md).
 
@@ -44,9 +49,9 @@ The branch mechanics behind each type are defined in [Branching Strategy](02-bra
 
 ## Release Order
 
-A WSO2 Integrator stable release spans multiple repos. Because cross-repo dependencies are pinned (see [Cross-Repo Version Bumps](03-versioning-strategy.md#cross-repo-version-bumps)), the repos _must_ release in dependency order:
+A WSO2 Integrator stable release spans multiple repos. Because cross-repo dependencies are pinned (see [Cross-Repo Version Bumps](03-versioning-strategy.md#cross-repo-version-bumps)), the repos _must_ be prepared and released in dependency order:
 
-1. **Shared UI toolkit** — release `vscode-extensions` first if toolkit changes need to ship. Product repos bump their pins before their own releases.
+1. **Shared UI toolkit** — not released separately. Before a product release, each product repo updates its toolkit submodule pointer to the commit it intends to ship; the toolkit is built from source within the product build.
 2. **Product extensions** — release `ballerina-tooling`, `mi-tooling`, and `si-tooling`, each through its own pipeline and approval gate.
 3. **Product distribution** — bump the pinned extension versions in `product-integrator`, then trigger its release.
 
@@ -66,9 +71,8 @@ Before triggering the release workflow, the release owner verifies:
 - [ ] All planned features for this release are merged to `main`
 - [ ] No critical open issues or regressions in the Insider channel
 - [ ] Changelog updated for the release version
-- [ ] QA sign-off obtained on the latest Insider build
 
-During this window the release owner _should_ announce a code freeze on `main` — only stabilization fixes are merged until the release ships.
+During this window the release owner _should_ announce a code freeze on `main` branch.
 
 ### Step 3: Trigger the Release Workflow
 
@@ -85,7 +89,7 @@ A required reviewer inspects the run and approves in the GitHub UI — the publi
 After the GA artifacts are published:
 
 1. **Verify the tag** — confirm `v<major>.<minor>.<patch>` was created on the release commit.
-2. **Cut the maintenance branch** — create `<major>.<minor>.x` from the GA tag, and retire the previous maintenance branch (no further releases are cut from it; the branch is kept for history).
+2. **Create the maintenance branch** — create `<major>.<minor>.x` from the GA tag, and retire the previous maintenance branch (no further releases are created from it; the branch is kept for history).
 3. **Bump `main`** — open a PR on `main` incrementing to the next minor dev version (e.g. `1.3.0-dev`).
 4. **Confirm the GitHub Release** — verify the `product-integrator` bundle is published to [GitHub Releases](https://github.com/wso2/product-integrator/releases) with release notes.
 5. **Update the milestones** — close the release milestone and create the milestone for the next immediate patch release (e.g. `5.1.1`).
@@ -123,7 +127,7 @@ Trigger the stable release workflow targeting `<major>.<minor>.x`. The approval 
 
 A hotfix release is for critical issues — security vulnerabilities, data loss, a broken release — that cannot wait for the normal patch cycle. Unlike a patch release, a hotfix isolates the critical fix on top of exactly what users are running — use it when the maintenance branch contains other unreleased changes that cannot be validated in time.
 
-### Step 1: Cut the Hotfix Branch
+### Step 1: Create the Hotfix Branch
 
 Create `hotfix/<description>` from the latest stable release tag (e.g. `hotfix/critical-auth-bypass` from `v5.0.2`).
 

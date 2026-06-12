@@ -21,7 +21,7 @@ The proposal is split into `docs/`, one document per topic. See `docs/README.md`
 | 1 | `docs/01-component-architecture.md` | Component ownership, dependency diagram, and build-order constraints |
 | 2 | `docs/02-branching-strategy.md` | `main` + `<major>.<minor>.x` maintenance branch model |
 | 3 | `docs/03-versioning-strategy.md` | SemVer, language server versioning |
-| 4 | `docs/04-cicd-pipelines.md` | PR and merge-to-main pipeline anatomy |
+| 4 | `docs/04-cicd-pipelines.md` | PR and merge-to-main pipeline structure |
 | 5 | `docs/05-testing-strategy.md` | Test types, pipeline stages, blocking gates |
 | 6 | `docs/06-quality-and-security-gates.md` | GHAS + SonarQube Cloud |
 | 7 | `docs/07-release-process.md` | Release cadence, ownership, checklist, post-release steps |
@@ -49,6 +49,7 @@ Use these to validate and verify any existing or future claims in the proposal d
 | Branching model | GitHub Flow — `main` + one `<major>.<minor>.x` maintenance branch |
 | Versioning | SemVer; manual bumps via release pipeline scripts |
 | Language server versioning | Bundled with parent extension; no independent release |
+| Shared UI toolkit consumption | Git submodule of `vscode-extensions`; built from source; no independent toolkit release; upstream-first (changes land on `main`; consumers move the submodule pointer forward) |
 | PR triggers | Compile + unit tests + integration tests + quality gates |
 | Test levels | Unit, Integration, Tooling/UI E2E |
 | Quality gates | SonarQube Cloud (code quality) + Trivy (dependency vulnerabilities) + GitHub Secret Scanning (tokens/secrets) |
