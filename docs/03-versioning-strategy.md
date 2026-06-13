@@ -23,13 +23,13 @@ Version bumps in manifests (`package.json`, `pom.xml`) are updated as part of th
 
 ## Cross-Repo Version Bumps
 
-Cross-repo dependencies are pinned to explicit references — the shared UI toolkit as a git submodule commit, and product extensions as version pins (see [Cross-Repo Coordination](04-cicd-pipelines.md#cross-repo-coordination)). A change in a dependency therefore never propagates automatically — dependents adopt it through a PR that updates the pinned reference. Consumers are not required to be on the same toolkit commit, and there is no convergence requirement before a WSO2 Integrator stable release.
+Cross-repo dependencies are pinned to explicit references — the shared UI libraries as a git submodule commit, and product extensions as version pins (see [Cross-Repo Coordination](04-cicd-pipelines.md#cross-repo-coordination)). A change in a dependency therefore never propagates automatically — dependents adopt it through a PR that updates the pinned reference. Consumers are not required to be on the same libraries commit, and there is no convergence requirement before a WSO2 Integrator stable release.
 
-Toolkit changes _must_ follow an **upstream-first rule**: every change lands on `vscode-extensions` `main` first, and consumers adopt it by moving their submodule pointer forward — never by maintaining product-specific toolkit commits that are not on `main`. This guarantees that a fix made for one product is available to all of them.
+Library changes _must_ follow an **upstream-first rule**: every change lands on `vscode-extensions` `main` first, and consumers adopt it by moving their submodule pointer forward — never by maintaining product-specific library commits that are not on `main`. This guarantees that a fix made for one product is available to all of them.
 
-### Toolkit Breaking Changes
+### Library Breaking Changes
 
-A breaking change on toolkit `main` affects every product repo — but only when each updates its submodule pointer, because the pinned commits keep existing builds working. The risk is an uncoordinated migration that leaves product repos pinned to old toolkit commits indefinitely.
+A breaking change on the shared libraries `main` affects every product repo — but only when each updates its submodule pointer, because the pinned commits keep existing builds working. The risk is an uncoordinated migration that leaves product repos pinned to old library commits indefinitely.
 
 Breaking changes _must_ follow this process:
 

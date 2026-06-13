@@ -217,7 +217,7 @@ This is the core build workflow, called by both `pr-ci.yml` and `build-and-relea
 ### Build (`build.yml`, reusable)
 
 - **Trigger:** `workflow_call` only
-- **Extensions covered:** `wso2-platform`, `choreo`, `apk`, `hurl-client`, plus `common-libs` (shared UI toolkit)
+- **Extensions covered:** `wso2-platform`, `choreo`, `apk`, `hurl-client`, plus `common-libs` (shared UI libraries)
 - **Jobs:**
   - `Build_Stage` — diff analysis per workspace; calls `./.github/actions/build`; runs **Trivy** filesystem scan (exit-code 1, skips `common/temp`)
   - `UITest` — Playwright E2E (matrix-driven; currently no entries produce real runs)
@@ -237,7 +237,7 @@ This is the core build workflow, called by both `pr-ci.yml` and `build-and-relea
 
 - **Trigger:** `workflow_dispatch`
 - **Inputs:** `isPreRelease`, `package` (choice: `common-libs/ui-toolkit` or `common-libs/font-wso2-vscode`), `version`
-- Publishes shared UI toolkit packages to GitHub Packages NPM registry (`npm.pkg.github.com`) via `pnpm publish`; creates version bump PR
+- Publishes shared UI libraries packages to GitHub Packages NPM registry (`npm.pkg.github.com`) via `pnpm publish`; creates version bump PR
 
 ### Publish — Extension (`publish-vsix.yml`)
 
@@ -273,7 +273,7 @@ This is the core build workflow, called by both `pr-ci.yml` and `build-and-relea
 - **Trigger:** `workflow_call` only
 - **Jobs:**
   - `Build_Stage` — `ubuntu-latest`, timeout 45 min; Node 22.x; `install-run-rush.js build`; packages VSIX via `npm run package`; uploads artifact
-- **No submodule checkout.** Does not consume `vscode-extensions` shared UI toolkit.
+- **No submodule checkout.** Does not consume `vscode-extensions` shared UI libraries.
 - **No Trivy scan.**
 
 ### No daily build workflow.
@@ -329,15 +329,15 @@ No repo uses a GitHub Actions Environment with required reviewers. The closest m
 | `product-integrator` | No | No | Not configured | Repo-level setting |
 | `siddhi-plugin-vscode` | No | No | Not configured | Repo-level setting |
 
-### Shared UI Toolkit Consumption
+### Shared UI Libraries Consumption
 
 | Repo | Consumes `vscode-extensions`? | Method |
 |---|---|---|
 | `ballerina-vscode` | Yes | Git submodule (`submodules/wso2-vscode-extensions`), built from source |
 | `mi-vscode` | Yes | Git submodule (`submodules/vscode-extensions`), built from source |
-| `vscode-extensions` | N/A — this is the toolkit repo | — |
+| `vscode-extensions` | N/A — this is the libraries repo | — |
 | `product-integrator` | Unknown — not evident from workflow files | — |
-| `siddhi-plugin-vscode` | No | No submodule; does not use shared toolkit |
+| `siddhi-plugin-vscode` | No | No submodule; does not use shared libraries |
 
 ### Daily Build Schedule Summary
 

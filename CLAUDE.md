@@ -39,7 +39,7 @@ Use these to validate and verify any existing or future claims in the proposal d
 | `product-integrator` | https://github.com/wso2/product-integrator/ | WSO2 Integrator VS Code Extension + WSO2 Integrator IDE |
 | `ballerina-tooling` | https://github.com/wso2/ballerina-vscode/ | Pending rename to `ballerina-tooling` |
 | `mi-tooling` | https://github.com/wso2/mi-vscode | Pending rename to `mi-tooling` |
-| `vscode-extensions` | https://github.com/wso2/vscode-extensions | Shared UI toolkit |
+| `vscode-extensions` | https://github.com/wso2/vscode-extensions | Shared UI libraries |
 | `si-tooling` | https://github.com/siddhi-io/siddhi-plugin-vscode/ | Pending rename to `si-tooling` |
 
 ## Key Decisions (resolved)
@@ -51,7 +51,7 @@ Use these to validate and verify any existing or future claims in the proposal d
 | Branching model | GitHub Flow — `main` + one `<major>.<minor>.x` maintenance branch |
 | Versioning | SemVer; manual bumps via release pipeline scripts |
 | Language server versioning | Bundled with parent extension; no independent release |
-| Shared UI toolkit consumption | Git submodule of `vscode-extensions`; built from source; no independent toolkit release; upstream-first (changes land on `main`; consumers move the submodule pointer forward) |
+| Shared UI libraries consumption | Git submodule of `vscode-extensions`; built from source; no independent libraries release; upstream-first (changes land on `main`; consumers move the submodule pointer forward) |
 | PR triggers | Compile + unit tests + integration tests + quality gates |
 | Test levels | Unit, Integration, Tooling/UI E2E |
 | Quality gates | SonarQube Cloud (code quality) + Trivy (dependency vulnerabilities) + GitHub Secret Scanning (tokens/secrets) |

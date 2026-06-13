@@ -13,7 +13,7 @@ The WSO2 Integrator tooling is organized into three layers, each represented by 
 
 | Layer | Repo(s) | Description |
 |---|---|---|
-| **Shared UI toolkit** | [vscode-extensions](https://github.com/wso2/vscode-extensions) | Shared UI components and utilities |
+| **Shared UI Libraries** | [vscode-extensions](https://github.com/wso2/vscode-extensions) | Shared UI components and utilities |
 | **Product tooling** | [ballerina-tooling](https://github.com/wso2/ballerina-vscode/), [mi-tooling](https://github.com/wso2/mi-vscode), [si-tooling](https://github.com/siddhi-io/siddhi-plugin-vscode/) | Product-specific tooling components |
 | **Product distribution** | [product-integrator](https://github.com/wso2/product-integrator/) | Distribution packages for the integrated tooling |
 
@@ -21,14 +21,14 @@ Each repo contains one or more components. A component is a cohesive set of func
 
 | Repo | Component | Description |
 |---|---|---|
-| [vscode-extensions](https://github.com/wso2/vscode-extensions) | **Common UI Toolkit** | Shared TypeScript libraries: UI components, fonts and icons, AI utilities, UI test utilities, and platform core. Consumed by all product extensions via a git submodule; built from source in each consumer workspace. |
+| [vscode-extensions](https://github.com/wso2/vscode-extensions) | **Common UI Libraries** | Shared TypeScript libraries: UI components, fonts and icons, AI utilities, UI test utilities, and platform core. Consumed by all product extensions via a git submodule; built from source in each consumer workspace. |
 | [ballerina-tooling](https://github.com/wso2/ballerina-vscode/) | **Ballerina Language Server** | JVM service (Gradle) that provides language intelligence — completions, diagnostics, hover, and similar — for Ballerina source files. Bundled into the Ballerina VS Code Extension at build time. |
 | | **Grammar** | TextMate grammar for Ballerina syntax highlighting. Ballerina maintains its own grammar because it is a custom language with no upstream grammar. Bundled into the Ballerina VS Code Extension. |
-| | **Ballerina VS Code Extension** | TypeScript/Rush project that packages the language server, grammar, and UI toolkit into a VSIX artifact. |
+| | **Ballerina VS Code Extension** | TypeScript/Rush project that packages the language server, grammar, and UI libraries into a VSIX artifact. |
 | [mi-tooling](https://github.com/wso2/mi-vscode) | **MI Language Server** | JVM service (Gradle) providing language intelligence for Micro Integrator XML configurations. Bundled into the MI VS Code Extension. |
-| | **MI VS Code Extension** | TypeScript/Rush project that packages the MI language server and UI toolkit into a VSIX artifact. |
+| | **MI VS Code Extension** | TypeScript/Rush project that packages the MI language server and UI libraries into a VSIX artifact. |
 | [si-tooling](https://github.com/siddhi-io/siddhi-plugin-vscode/) | **SI Language Server** | JVM service (Gradle) providing language intelligence for Siddhi streaming queries. Bundled into the SI VS Code Extension. |
-| | **SI VS Code Extension** | TypeScript/Rush project that packages the SI language server and UI toolkit into a VSIX artifact. |
+| | **SI VS Code Extension** | TypeScript/Rush project that packages the SI language server and UI libraries into a VSIX artifact. |
 | [product-integrator](https://github.com/wso2/product-integrator/) | **WSO2 Integrator VS Code Extension** | Aggregates the three product VS Code extensions as versioned dependencies. Published to VS Code Marketplace. |
 | | **WSO2 Integrator IDE** | Bundles the WSO2 Integrator VS Code Extension into a standalone IDE distribution. Published to GitHub Releases. |
 
@@ -40,7 +40,7 @@ The diagram below shows the build-time dependencies between components across th
 ```mermaid
 graph TB
     subgraph VSC["vscode-extensions"]
-        UIT["Common UI Toolkit"]
+        UIT["Common UI Libraries"]
     end
 
     subgraph BALL["ballerina-tooling"]
@@ -82,13 +82,13 @@ An arrow from A to B means A depends on B. The arrow style indicates the depende
 
 - **Thick arrow** — A declares B as a versioned dependency (e.g. the WSO2 Integrator VS Code Extension consuming the product extensions)
 - **Solid arrow** — A bundles B into its artifact (e.g. a VS Code extension bundles its language server)
-- **Dashed arrow** — A builds B from source via a git submodule (the shared UI toolkit packages)
+- **Dashed arrow** — A builds B from source via a git submodule (the shared UI libraries packages)
 
 ## Build Implications
 
 The dependency relationships above determine the build order: each product tooling repo must produce its VSIX artifact before `product-integrator` can assemble the final distribution. Within each product tooling repo, two things must happen first:
 
-1. **Shared UI toolkit built from source.** Each consumer repo includes `vscode-extensions` as a git submodule. The toolkit packages are built from source inside the consumer workspace before any extension package that depends on them. There is no independent toolkit release — to adopt toolkit changes, consumers move their submodule pointer forward and rebuild.
+1. **Shared UI libraries built from source.** Each consumer repo includes `vscode-extensions` as a git submodule. The shared libraries packages are built from source inside the consumer workspace before any extension package that depends on them. There is no independent libraries release — to adopt library changes, consumers move their submodule pointer forward and rebuild.
 
 2. **Language server built before extension packaging.** Each tooling repo builds its language server (Gradle) first, producing a JAR. The VS Code extension then packages that JAR into the VSIX artifact.
 
@@ -101,4 +101,4 @@ Once each product tooling repo has produced its VSIX:
 The following items represent gaps between this proposal and the current state of the repos.
 
 - **Repo renames pending.** The three product tooling repos have not yet been renamed: `ballerina-vscode` → `ballerina-tooling`, `mi-vscode` → `mi-tooling`, `siddhi-plugin-vscode` → `si-tooling`. All references in this document will need to be updated once the renames are complete.
-- **`si-tooling` not onboarded to the shared UI toolkit.** `si-tooling` does not currently include `vscode-extensions` as a git submodule and does not build the shared UI toolkit packages from source. Onboarding `si-tooling` to the shared toolkit is outstanding.
+- **`si-tooling` not onboarded to the shared UI libraries.** `si-tooling` does not currently include `vscode-extensions` as a git submodule and does not build the shared UI libraries packages from source. Onboarding `si-tooling` to the shared libraries is outstanding.
