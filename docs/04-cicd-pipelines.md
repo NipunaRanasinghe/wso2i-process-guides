@@ -3,7 +3,7 @@
 _Authors_: @NipunaRanasinghe \
 _Reviewers_: \
 _Created_: 2026/06/09 \
-_Updated_: 2026/06/12
+_Updated_: 2026/06/14
 
 This document describes the GitHub Actions pipeline structure for pull requests and releases across all repos.
 
@@ -35,16 +35,16 @@ All release pipelines run on GitHub Actions. There are two tracks.
 
 ```mermaid
 graph LR
-    M["main branch"] --> N["Nightly / Insider<br>(automated — daily schedule)"]
+    M["main branch"] --> N["Nightly<br>(automated — daily schedule)"]
     M --> S["Stable / GA<br>(manual workflow_dispatch)"]
-    N --> NT["VS Code Marketplace (pre-release channel)<br>WSO2 Integrator IDE Insider build<br>GitHub Releases (pre-release tag)"]
+    N --> NT["VS Code Marketplace (pre-release channel)<br>WSO2 Integrator IDE nightly build<br>GitHub Releases (pre-release tag)"]
     S --> ST["VS Code Marketplace (stable channel)<br>WSO2 Integrator IDE Stable build<br>GitHub Releases (stable tag)"]
 ```
 
-### Nightly / Insider Pipeline
+### Nightly Pipeline
 
 - Triggered automatically on a daily schedule.
-- Version suffix: `1.2.0-nightly.20260609`.
+- Version format: `<major>.<minor>.<patch>` with the build timestamp encoded in the patch segment, e.g. `1.2.2606141230` (`<major>.<minor>.<YYMMDDHHmm>`). See [VS Code Extension Versioning](03-versioning-strategy.md#vs-code-extension-versioning) for why the Marketplace forbids SemVer pre-release suffixes such as `1.2.0-nightly.20260609`.
 - Fully automated — no approval gate.
 
 ### Stable / GA Pipeline
@@ -55,8 +55,10 @@ graph LR
 
 ### Artifact Publishing Targets
 
-| Artifact | Nightly | Stable |
+| Component | Nightly | Stable |
 |---|---|---|
+| Shared UI library | not released — built from source in consumers | not released |
+| Language server | not released — bundled in its parent extension | not released |
 | VS Code extensions (×4) | VS Code Marketplace (pre-release) | VS Code Marketplace (stable) |
 | WSO2 Integrator IDE | GitHub Releases (pre-release tag) | GitHub Releases (stable tag) |
 
@@ -64,7 +66,7 @@ graph LR
 
 The following items represent gaps between this proposal and the current state of the repos.
 
-- **No automated Nightly/Insider publish.** The automated nightly publishing track does not exist. Merges to `main` do not trigger a publish in any repo.
+- **No automated Nightly publish.** The automated nightly publishing track does not exist. Merges to `main` do not trigger a publish in any repo.
 - **Trivy not configured in `product-integrator` and `si-tooling` PR pipelines.** The dependency scan step is missing from both repos and needs to be added.
 - **No `production` Environment approval gate.** No GitHub Actions Environment with required reviewers is configured in any repo. The approval gate for the Stable/GA pipeline needs to be set up in each repo.
 - **SonarQube Cloud not configured.** No repo has SonarQube integrated. See [Quality & Security Gates](06-quality-and-security-gates.md) for the full implementation plan.

@@ -75,6 +75,3 @@ Changelogs: better if we can do that
 6. 
 Environments: yes, better to have distinct workflows Nightly/Insider preview channels vs. Stable/GA channels. 
 Approvals: do you think its better to have manual approval gates? do with your suggestion
-
-
-6. 

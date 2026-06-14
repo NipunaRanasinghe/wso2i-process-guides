@@ -70,6 +70,7 @@ Use a blockquote with bold label for important asides:
 
 - Wrap code, file names, commands, repo names, and version strings in backticks: `gradle.properties`, `package.json`, `1.4.x`.
 - Bold a term the first time it is introduced as a key concept.
+- **Bold inline labels take a colon.** A named aside or a term being defined uses `**Label:** value` — e.g. `**Note:**`, `**Rationale:**`, `**Scope:**`, `**Stable:**`. Reserve the `**Lead.**` form (bold text + period) for bullets whose bold text is a complete summary statement, as in *Pending Items* (`**Repo renames pending.**`).
 - Use **Title Case** for H1 and H2 headings.
 - Date format: `YYYY/MM/DD`.
 - Reference people by their GitHub handle with an `@` prefix: `@NipunaRanasinghe`.

@@ -21,8 +21,8 @@ This document describes the manual process for deciding when and how to create a
 
 ## Release Cadence
 
-- **Nightly / Insider**: continuous — a new Insider build is produced automatically on a daily schedule.
-- **Stable / GA**: target every 4–6 weeks, or immediately for critical patch fixes. The release owner decides based on feature readiness and the stability of the Insider builds.
+- **Nightly**: continuous — a new nightly build is produced automatically on a daily schedule.
+- **Stable / GA**: target every 4–6 weeks, or immediately for critical patch fixes. The release owner decides based on feature readiness and the stability of the nightly builds.
 
 ## Release Ownership
 
@@ -69,7 +69,7 @@ Before triggering the release workflow, the release owner verifies:
 
 - [ ] All issues and PRs in the release milestone are closed, or moved to a future milestone
 - [ ] All planned features for this release are merged to `main`
-- [ ] No critical open issues or regressions in the Insider channel
+- [ ] No critical open issues or regressions in the nightly pre-release channel
 - [ ] Changelog updated for the release version
 
 During this window the release owner _should_ announce a code freeze on `main` branch.
@@ -159,7 +159,7 @@ Notify the team and affected users. For security fixes, publish an advisory with
 
 The following items represent gaps between this proposal and the current state of the repos.
 
-- **No automated Nightly/Insider publish.** The continuous nightly publish described in Release Cadence does not yet exist. Merges to `main` do not trigger a publish in any repo. The pipeline needs to be built before the cadence can be followed.
+- **No automated Nightly publish.** The continuous nightly publish described in Release Cadence does not yet exist. Merges to `main` do not trigger a publish in any repo. The pipeline needs to be built before the cadence can be followed.
 - **No `production` Environment approval gate.** The GitHub Actions Environment with required reviewers does not exist in any repo. Step 4 of the feature and patch release processes cannot be followed until this is configured. Currently, the practical gate is a two-step manual `workflow_dispatch` pattern: a release owner runs `release-vsix.yml` to build and create a draft release, then separately runs `publish-vsix.yml` to publish.
 - **Backward compatibility tests not implemented.** Step 3 of the feature release process references backward compatibility tests that do not yet exist. The gate cannot block a release until the tests are built.
 - **Release workflow names differ by repo.** The product tooling repos (`ballerina-tooling`, `mi-tooling`, `vscode-extensions`) use `release-vsix.yml` + `publish-vsix.yml` rather than a single `release.yml`. The step-by-step instructions in this document should be updated to reference actual workflow names once the pipeline structure is stabilised.
