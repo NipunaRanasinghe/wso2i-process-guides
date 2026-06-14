@@ -82,6 +82,7 @@ Use a blockquote with bold label for important asides:
 - Lead each section with a direct purpose statement: "This section explains…", "The goal is to…".
 - Keep sentences short and declarative. Avoid padding adverbs ("basically", "simply", "obviously").
 - Prefer plain verbs over idioms and metaphors: "close and create" not "roll", "obtain approval" not "shepherd", "create a branch" not "cut a branch". Established technical terms with no plain equivalent ("cherry-pick", "code freeze") are fine.
+- Avoid abstract business-register phrasing that sounds meaningful but states nothing concrete: "trades speed for realism", "the most realistic signal", "pays the cost". State the literal behavior instead — "slower", "runs the real product", "blocks the merge".
 - State what something _is_ before explaining how to use or configure it.
 - Avoid restating the section heading in the opening sentence.
 

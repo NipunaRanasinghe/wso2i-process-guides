@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Purpose
 
-This workspace contains the **CI/CD, release, versioning, and processes proposal** for the WSO2 Integrator tooling architecture revamp. There is no runnable code — the deliverable is a set of Markdown documents.
+This workspace contains the **WSO2 Integrator Architecture & Process Guidelines** proposal for the tooling architecture revamp. There is no runnable code — the deliverable is a set of Markdown documents.
 
 ## Files
 
