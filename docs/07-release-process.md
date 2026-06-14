@@ -85,7 +85,15 @@ The release manager creates a GitHub issue in `product-integrator` titled `[Rele
 - All PRs included in the release, grouped by repo (e.g. **Extension**, **Language Server**), then by engineer (`@handle`). Each PR is a GFM checkbox item with the PR URL.
 - The instruction: "Please mark the checkbox once the corresponding change has been verified."
 
-### Step 5: Team Verification
+### Step 5: Prepare Release Documentation
+
+The release manager initiates two documentation efforts alongside the team verification. Both _must_ be completed before the GA build ships.
+
+**Documentation updates:** The release manager coordinates with the engineers responsible for each change to update the [Integrator documentation website](https://github.com/wso2/docs-integrator). All documentation PRs _must_ be reviewed, approved, and merged to the docs repo before the GA release is published.
+
+**Release notes:** The release manager drafts release notes covering the changes in this release and shares them with the product manager for review. After the product manager approves, the release manager opens a PR against [wso2/docs-integrator](https://github.com/wso2/docs-integrator). The PR _must_ be merged and the release notes published by the time the GA build goes live.
+
+### Step 6: Team Verification
 
 Each engineer _should_ install the pre-release build, verify their changes, and check off their PRs in the checklist issue.
 
@@ -96,19 +104,19 @@ If a blocker-level issue is found during verification:
 3. The release manager adds a new RC section to the existing checklist issue (e.g. **RC2**) listing the additional PRs, and re-shares the link.
 4. The team _should_ verify the new build and check off the new items.
 
-Repeat until no blocker-level issues remain. Non-blocking issues may be deferred to a future release with the release manager's approval. Once all checklist items are verified and no blockers remain, the release manager proceeds to Step 6.
+Repeat until no blocker-level issues remain. Non-blocking issues may be deferred to a future release with the release manager's approval. Once all checklist items are verified and no blockers remain, the release manager proceeds to Step 7.
 
-### Step 6: Trigger the GA Release Workflow
+### Step 7: Trigger the GA Release Workflow
 
 1. Go to the **Actions** tab of the target repo and select the stable release workflow (`release.yml`).
 2. Click **Run workflow** and enter the target commit SHA on `main`.
 3. The workflow builds and packages artifacts, runs the backward compatibility tests against the previous GA release, then pauses at the `production` environment gate.
 
-### Step 7: Approval Gate
+### Step 8: Approval Gate
 
 A required reviewer inspects the run and approves in the GitHub UI. The publish step proceeds on approval. If the reviewer rejects, the reviewer _must_ state the reason on the workflow run; the release manager addresses it and re-triggers.
 
-### Step 8: Post-Release Steps
+### Step 9: Post-Release Steps
 
 After the GA artifacts are published:
 
@@ -116,8 +124,9 @@ After the GA artifacts are published:
 2. **Create the maintenance branch** — create `<major>.<minor>.x` from the GA tag, and retire the previous maintenance branch (no further releases are created from it; the branch is kept for history).
 3. **Bump `main`** — open a PR on `main` incrementing to the next minor dev version (e.g. `1.3.0-dev`).
 4. **Confirm the GitHub Release** — verify the `product-integrator` bundle is published to [GitHub Releases](https://github.com/wso2/product-integrator/releases) with release notes.
-5. **Update the milestones** — close the release milestone and create the milestone for the next immediate patch release (e.g. `5.1.1`).
-6. **Communicate** — notify the team and any affected stakeholders.
+5. **Confirm documentation is live** — verify all documentation update PRs and the release notes PR are merged to [wso2/docs-integrator](https://github.com/wso2/docs-integrator) and published on the website.
+6. **Update the milestones** — close the release milestone and create the milestone for the next immediate patch release (e.g. `5.1.1`).
+7. **Communicate** — notify the team and any affected stakeholders.
 
 ## Patch Release Process
 
@@ -139,21 +148,26 @@ The release manager triggers a pre-release build from the target commit on `<maj
 
 The release manager creates a GitHub issue in `product-integrator` titled `[Release Checklist] WSO2 Integrator <version>` with the `Type/Task` label, listing all PRs included in the release grouped by repo and engineer, and shares the issue link with the team. See [Step 4](#step-4-create-and-share-the-release-checklist) of the Feature Release Process for the full checklist format.
 
-### Step 5: Team Verification
+### Step 5: Prepare Release Notes
+
+The release manager drafts release notes for the patch and shares them with the product manager for review. After the product manager approves, the release manager opens a PR against [wso2/docs-integrator](https://github.com/wso2/docs-integrator) and ensures it is merged and published before the GA build ships. If any fixes affect documented behavior, the corresponding documentation updates _should_ be included in the same PR.
+
+### Step 6: Team Verification
 
 Each engineer _should_ install the pre-release build, verify their changes, and check off their PRs in the checklist issue. If a blocker-level issue is found, the fix author merges the fix to `<major>.<minor>.x`; the release manager triggers a new pre-release build and adds a new RC section to the checklist issue. Repeat until no blockers remain.
 
-### Step 6: Trigger the Release Workflow
+### Step 7: Trigger the Release Workflow
 
-The release manager triggers the stable release workflow targeting `<major>.<minor>.x`. The approval gate applies as in the feature release ([Step 7](#step-7-approval-gate)).
+The release manager triggers the stable release workflow targeting `<major>.<minor>.x`. The approval gate applies as in the feature release ([Step 8](#step-8-approval-gate)).
 
-### Step 7: Post-Release Steps
+### Step 8: Post-Release Steps
 
 1. **Verify the tag** — confirm `v<major>.<minor>.<patch>` was created on the release commit.
 2. **Confirm the GitHub Release** — verify artifacts and release notes are published.
-3. **Merge to `main`** — merge the maintenance branch into `main` so the fixes are included in the next feature release.
-4. **Update the milestones** — close the release milestone and create the milestone for the next immediate patch release (e.g. `5.0.2`).
-5. **Communicate** — notify the team; for security fixes, describe the fix without exposing exploit details.
+3. **Confirm documentation is live** — verify the release notes PR is merged to [wso2/docs-integrator](https://github.com/wso2/docs-integrator) and published.
+4. **Merge to `main`** — merge the maintenance branch into `main` so the fixes are included in the next feature release.
+5. **Update the milestones** — close the release milestone and create the milestone for the next immediate patch release (e.g. `5.0.2`).
+6. **Communicate** — notify the team; for security fixes, describe the fix without exposing exploit details.
 
 ## Hotfix Release Process
 
@@ -169,7 +183,7 @@ Open a PR against the hotfix branch with the minimal fix. All PR pipeline gates 
 
 ### Step 3: Create the Pre-Release Build
 
-The release manager triggers a pre-release build from the hotfix branch and shares the artifact with the fix author, asking them to verify the issue is resolved by testing locally.
+The release manager triggers a pre-release build from the hotfix branch and shares the artifact with the fix author, asking them to verify the issue is resolved by testing locally. The release manager _should_ also draft brief release notes describing the issue and the fix, and share them with the product manager for review.
 
 If the fix is ineffective or introduces a regression, the fix author applies a follow-up fix to the hotfix branch and the release manager triggers a new pre-release build (repeat Step 3). Once the fix author confirms no blockers, the release manager proceeds to Step 4.
 
@@ -191,7 +205,7 @@ Confirm the `v<major>.<minor>.<patch>` tag was created on the release commit, an
 
 ### Step 7: Communicate
 
-Notify the team and affected users. For security fixes, publish an advisory without exposing exploit details.
+Notify the team and affected users. For security fixes, publish an advisory without exposing exploit details. The release manager _should_ ensure the release notes are merged to [wso2/docs-integrator](https://github.com/wso2/docs-integrator) and published.
 
 ## Pending Items
 
