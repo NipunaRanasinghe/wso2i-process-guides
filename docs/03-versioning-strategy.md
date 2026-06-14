@@ -66,7 +66,7 @@ Product repos _should_ complete the migration before their next stable release. 
 
 ### VS Code Extension → Product Distribution
 
-If `ballerina-tooling` releases a new version (e.g. `1.2.0`), nothing happens in `product-integrator` automatically — its bundling pipeline is not triggered by upstream releases. The `product-integrator` release owner bumps the pinned version as part of preparing the next WSO2 Integrator release, and the bundled extension set ships as a tested, matched combination.
+If `ballerina-tooling` releases a new version (e.g. `1.2.0`), nothing happens in `product-integrator` automatically — its bundling pipeline is not triggered by upstream releases. The `product-integrator` release manager bumps the pinned version as part of preparing the next WSO2 Integrator release, and the bundled extension set ships as a tested, matched combination.
 
 ## Pending Items
 

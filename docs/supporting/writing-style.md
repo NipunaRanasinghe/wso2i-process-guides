@@ -27,7 +27,7 @@ Sections use H2. Subsections use H3. Avoid nesting deeper than H3.
 
 ## Voice and person
 
-- Write in the third person: "The release owner should…", "Repo maintainers must…".
+- Write in the third person: "The release manager should…", "Repo maintainers must…".
 - Use first-person plural ("we") only when expressing shared goals or values, not for instructions.
 - No contractions. Use "do not" not "don't", "it is" not "it's".
 

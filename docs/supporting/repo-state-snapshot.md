@@ -317,7 +317,7 @@ This is the core build workflow, called by both `pr-ci.yml` and `build-and-relea
 
 ### Approval Gates
 
-No repo uses a GitHub Actions Environment with required reviewers. The closest mechanism is the two-step manual `workflow_dispatch` pattern used by `ballerina-vscode`, `mi-vscode`, and `vscode-extensions`: a release owner runs `release-vsix.yml` to build and create a draft release, then separately runs `publish-vsix.yml` to publish. The person running the publish step is the implicit approver.
+No repo uses a GitHub Actions Environment with required reviewers. The closest mechanism is the two-step manual `workflow_dispatch` pattern used by `ballerina-vscode`, `mi-vscode`, and `vscode-extensions`: a release manager runs `release-vsix.yml` to build and create a draft release, then separately runs `publish-vsix.yml` to publish. The person running the publish step is the implicit approver.
 
 ### Quality Gates by Repo
 
