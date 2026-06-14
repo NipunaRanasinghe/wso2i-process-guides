@@ -45,7 +45,7 @@ graph LR
 
 - Triggered automatically on a daily schedule.
 - Version format: `<major>.<minor>.<patch>` with the build timestamp encoded in the patch segment, e.g. `1.2.2606141230` (`<major>.<minor>.<YYMMDDHHmm>`). See [VS Code Extension Versioning](03-versioning-strategy.md#vs-code-extension-versioning) for why the Marketplace forbids SemVer pre-release suffixes such as `1.2.0-nightly.20260609`.
-- Fully automated — no approval gate.
+- Fully automated. No approval gate.
 
 ### Stable / GA Pipeline
 

@@ -1,8 +1,8 @@
 # WSO2 Integrator - Architecture & Process Guidelines
  
-The WSO2 Integrator tooling spans five GitHub repositories, each containing multiple components that together form the integrated development experience. This document defines the core aspects of the architecture and development process that govern the development and maintenance of the product tooling. 
+The WSO2 Integrator tooling spans five GitHub repositories, each containing multiple components that together form the integrated development experience. This document defines the architecture and development processes that govern WSO2 Integrator tooling.
 
-This document serves as a single source of truth for the processes and practices that all contributors to the WSO2 Integrator tooling are expected to follow. Each topic is covered in its own dedicated document linked below.
+Each topic is covered in its own document linked below.
 
 
 | # | Document | Summary |

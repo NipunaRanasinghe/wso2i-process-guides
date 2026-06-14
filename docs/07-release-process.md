@@ -21,7 +21,7 @@ This document describes the manual process for deciding when and how to create a
 
 ## Release Cadence
 
-- **Nightly**: continuous — a new nightly build is produced automatically on a daily schedule.
+- **Nightly**: a new build is produced automatically on a daily schedule.
 - **Stable / GA**: target every 4–6 weeks, or immediately for critical patch fixes. The release owner decides based on feature readiness and the stability of the nightly builds.
 
 ## Release Ownership
@@ -125,7 +125,7 @@ Trigger the stable release workflow targeting `<major>.<minor>.x`. The approval 
 
 ## Hotfix Release Process
 
-A hotfix release is for critical issues — security vulnerabilities, data loss, a broken release — that cannot wait for the normal patch cycle. Unlike a patch release, a hotfix isolates the critical fix on top of exactly what users are running — use it when the maintenance branch contains other unreleased changes that cannot be validated in time.
+A hotfix release is for critical issues (security vulnerabilities, data loss, a broken release) that cannot wait for the normal patch cycle. Unlike a patch release, a hotfix isolates the critical fix on top of exactly what users are running. Use it when the maintenance branch contains other unreleased changes that cannot be validated in time.
 
 ### Step 1: Create the Hotfix Branch
 

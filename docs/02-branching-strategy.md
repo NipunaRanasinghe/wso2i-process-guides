@@ -5,7 +5,7 @@ _Reviewers_: \
 _Created_: 2026/06/09 \
 _Updated_: 2026/06/11
 
-This document defines the branching model for all WSO2 Integrator repos — the shared UI libraries, product tooling, and product distribution layers.
+This document defines the branching model for all WSO2 Integrator repos: the shared UI libraries, product tooling, and product distribution layers.
 
 ## Rationale
 

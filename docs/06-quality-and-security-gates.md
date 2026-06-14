@@ -17,7 +17,7 @@ This document defines the quality and security gates integrated into the PR pipe
 
 SonarQube Cloud analyses each PR for code coverage, duplication, complexity, and maintainability issues, and posts the result directly to the PR as a status check.
 
-- **Rationale:** Free for public repos, native GitHub PR decoration, and no self-hosted server to operate — the main alternatives (self-managed SonarQube, CodeQL-only) either add infrastructure cost or do not cover code quality metrics.
+- **Rationale:** Free for public repos, native GitHub PR decoration, and no self-hosted server to operate. The main alternatives (self-managed SonarQube, CodeQL-only) either add infrastructure cost or do not cover code quality metrics.
 - **Blocking:** The quality gate status check _must_ pass before merge. Repos start with the default `Sonar way` quality gate; stricter per-repo quality gates (e.g. coverage thresholds) can be configured once a baseline exists.
 
 ## Trivy

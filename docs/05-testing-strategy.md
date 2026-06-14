@@ -9,11 +9,11 @@ This document defines the test types integrated into the CI/CD pipelines, their 
 
 ## Approach
 
-The tooling follows a layered testing model — a test pyramid. Most coverage sits at the base in fast unit tests; a smaller layer of integration tests checks that components work together; and a thin top layer of end-to-end (E2E) tests drives the full product through its UI. A separate backward-compatibility check runs at release time against the previous GA build.
+The tooling follows a layered testing model, a test pyramid. Most coverage sits at the base in fast unit tests; a smaller layer of integration tests checks that components work together; and a thin top layer of end-to-end (E2E) tests drives the full product through its UI. A separate backward-compatibility check runs at release time against the previous GA build.
 
-The layers differ in two ways: how fast they run, and how much of the real product they exercise. Unit tests run modules in isolation and finish quickly, so they run on every pull request and catch most regressions early. Integration tests are slower — they launch the packaged language server — but they catch the one thing unit tests cannot: a mismatch between an extension and the language server it ships with. E2E tests run the real product in a full VS Code environment, which is the most thorough check and the slowest, so running them on every change is not practical.
+The layers differ in two ways: how fast they run, and how much of the real product they exercise. Unit tests run modules in isolation and finish quickly, so they run on every pull request and catch most regressions early. Integration tests are slower: they launch the packaged language server, but they catch the one thing unit tests cannot: a mismatch between an extension and the language server it ships with. E2E tests run the real product in a full VS Code environment, which is the most thorough check and the slowest, so running them on every change is not practical.
 
-This is why the tests are split this way. Catching each bug at the lowest layer that can catch it keeps the per-PR checks fast enough to block every merge, while the slow E2E runs move to a daily schedule instead of gating each PR. The team still gets coverage across the whole stack, without running the full E2E suite on every commit.
+Catching each bug at the lowest layer that can catch it keeps per-PR checks fast enough to gate every merge; the E2E suite runs daily instead, so coverage extends to the full stack without blocking individual commits.
 
 ## Test Matrix
 
@@ -28,7 +28,7 @@ This is why the tests are split this way. Catching each bug at the lowest layer 
 
 ### Unit Tests
 
-Unit tests validate individual modules in isolation — Gradle test suites for the language servers and the Rush test task for the TypeScript packages. They run on every PR and every daily build, and are merge-blocking: the PR author _must_ fix failures before the PR can be merged.
+Unit tests validate individual modules in isolation. Gradle test suites cover the language servers; the Rush test task covers TypeScript packages. They run on every PR and every daily build, and are merge-blocking: the PR author _must_ fix failures before the PR can be merged.
 
 ### Integration Tests
 
@@ -38,7 +38,7 @@ Integration tests validate the contract between the extension and its bundled la
 
 E2E tests drive the full VS Code UI against a real runtime environment, covering user-facing workflows end to end. They are too slow to run on every PR and require a full runtime environment, so they run on a daily schedule against `main`, on demand via manual trigger, and on a PR when the `Checks/Run Ballerina UI Tests` label is applied. Authors of UI-affecting changes _should_ apply the label before requesting review.
 
-E2E results are advisory — a failure does not block a merge — but failures of the daily run _must_ be triaged by the repo maintainers before the next stable release.
+E2E results are advisory: a failure does not block a merge. Failures of the daily run _must_ be triaged by the repo maintainers before the next stable release.
 
 > **Note:** E2E coverage currently exists only in `ballerina-tooling`. 
 

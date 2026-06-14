@@ -5,7 +5,7 @@ _Reviewers_: \
 _Created_: 2026/06/09 \
 _Updated_: 2026/06/14
 
-This document defines the versioning scheme applied across all WSO2 Integrator repos. The common rule (SemVer) is stated first, followed by how each versioned unit applies it — shared UI library, language server, VS Code extension, and product distribution — and finally the rules that govern version flow _between_ repos.
+This document defines the versioning scheme applied across all WSO2 Integrator repos. The common rule (SemVer) is stated first, followed by how each versioned unit applies it (shared UI library, language server, VS Code extension, and product distribution), and finally the rules that govern version flow _between_ repos.
 
 ## SemVer
 
@@ -49,7 +49,7 @@ The product version is managed at the WSO2 Integrator product level and reflects
 
 ## Cross-Repo Version Propagation
 
-Cross-repo dependencies are pinned to explicit references — the shared UI libraries as a git submodule commit, and product extensions as version pins (see [Cross-Repo Coordination](04-cicd-pipelines.md#cross-repo-coordination)). A change in a dependency therefore **never propagates automatically** — dependents adopt it through a PR that updates the pinned reference. Consumers are not required to be on the same libraries commit, and there is no convergence requirement before a WSO2 Integrator stable release.
+Cross-repo dependencies are pinned to explicit references: the shared UI libraries as a git submodule commit, and product extensions as version pins (see [Cross-Repo Coordination](04-cicd-pipelines.md#cross-repo-coordination)). A change in a dependency therefore **never propagates automatically**: dependents adopt it through a PR that updates the pinned reference. Consumers are not required to be on the same libraries commit, and there is no convergence requirement before a WSO2 Integrator stable release.
 
 ### Shared UI Library → VS Code Extension (upstream-first)
 
