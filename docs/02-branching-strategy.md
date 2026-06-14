@@ -42,11 +42,16 @@ All feature development _must_ happen on a dedicated feature branch. Branch name
 
 ### Patch Branch (`<major>.<minor>.x`)
 
-Only one active patch branch exists at any given time (e.g. `5.0.x`). This branch _must_ always be release-ready and serves as the base for all patch releases (e.g. `5.0.1`, `5.0.2`).
+A patch branch tracks all bug fixes and security patches for a specific released minor version. Each patch branch _must_ always be release-ready and serves as the base for all patch releases in that version line (e.g. `5.0.1`, `5.0.2`). The number of active patch branches differs by repo type.
 
-- All bug fixes _must_ be submitted to the active patch branch — not to `main`.
-- Repo maintainers _should_ merge the active patch branch into `main` promptly.
-- When a new minor GA is released, the previous patch branch is retired and a new one is created from the new GA tag.
+**Product tooling repos** (`ballerina-tooling`, `mi-tooling`, `si-tooling`): Only one active patch branch exists at any given time — the branch for the latest stable minor version (e.g. `1.2.x`). VS Code extensions do not backport fixes to older minor version lines. When a new minor GA is released, the previous patch branch is retired and a new one is created from the new GA tag.
+
+**Product distribution repo** (`product-integrator`): Multiple patch branches may be active simultaneously, one per supported minor version (e.g. `5.0.x` and `5.1.x`). Because the WSO2 Integrator IDE follows product EoL policies, critical fixes may need to be backported to older minor versions that are still within their support window. A patch branch is retired when its minor version reaches end of life.
+
+Across all repos:
+
+- Bug fixes and security patches _must_ be submitted to the relevant active patch branch, not to `main`.
+- Repo maintainers _should_ merge each active patch branch into `main` promptly after a patch release.
 
 ### Hotfix Branches
 

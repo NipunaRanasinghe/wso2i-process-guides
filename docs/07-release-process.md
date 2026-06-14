@@ -69,6 +69,7 @@ Before triggering the release workflow, the release manager should verify:
 
 - [ ] All planned features for this release are completed
 - [ ] All issues added in the release milestone are either closed or moved to a future milestone
+- [ ] All active patch branches are merged to the main branch (since all the bug fixes and security patches are done in the patch branches, they need to be merged to the main branch before the release. See the [Branching-strategy](02-branching-strategy.md#patch-branch-<major>.<minor>.x) documentation for more details.)
 - [ ] No critical issues or regressions are found in the latest nightly build and the build is stable enough for release
 
 During this window the release manager _should_ announce a code freeze on `main` branch.
