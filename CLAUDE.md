@@ -24,7 +24,7 @@ The proposal is split into `docs/`, one document per topic. See `docs/README.md`
 | `docs/cicd-pipelines.md` | PR pipeline structure and release tracks |
 | `docs/testing-strategy.md` | Test types, pipeline stages, blocking gates |
 | `docs/quality-and-security-gates.md` | GHAS + SonarQube Cloud |
-| `docs/release-process.md` | Release cadence, ownership, checklist, post-release steps |
+| `docs/release-process/` | Release cadence, ownership, checklist, post-release steps |
 
 `docs/supporting/writing-style.md` — Style guide for all documents in this workspace, derived from the ballerina-platform/ballerina-library docs corpus. Apply it when creating or editing any doc.
 

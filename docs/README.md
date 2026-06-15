@@ -14,4 +14,4 @@ Each topic is covered in its own document linked below.
 | [Testing Strategy](testing-strategy.md) | Test levels, pipeline placement, and blocking criteria |
 | [Quality & Security Gates](quality-and-security-gates.md) | Quality and security gate definitions |
 | [Versioning Strategy](versioning-strategy.md) | Versioning scheme and cross-repo version propagation |
-| [Release Process](release-process.md) | Release types, ownership, and procedures |
+| [Release Process](release-process/) | Release types, ownership, and procedures |
