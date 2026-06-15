@@ -100,5 +100,25 @@ Once each product tooling repo has produced its VSIX:
 
 The following items represent gaps between this proposal and the current state of the repos.
 
-- **Rename the three product tooling repos.** `ballerina-vscode` → `ballerina-tooling`, `mi-vscode` → `mi-tooling`, `siddhi-plugin-vscode` → `si-tooling`. All references in this document will need to be updated once the renames are complete.
-- **Onboard `si-tooling` to the shared UI libraries.** `si-tooling` does not currently include `vscode-extensions` as a git submodule and does not build the shared UI libraries packages from source.
+1.  **Agree on a naming convention for the product tooling repos before actioning any renames.** The current names (`ballerina-vscode`, `mi-vscode`, `siddhi-plugin-vscode`) reflect the VS Code platform context. Candidate conventions:
+
+    | Convention | Examples | Notes |
+    |---|---|---|
+    | `*-tooling` | `ballerina-tooling`, `mi-tooling`, `si-tooling` | Platform-agnostic; accommodates future non-VS Code tooling without a second rename. Current suggestion. |
+    | `*-editor-tooling` | `ballerina-editor-tooling`, `mi-editor-tooling`, `si-editor-tooling` | Signals editor/IDE context more precisely than `*-tooling` alone, while remaining platform-agnostic. Longer name. |
+    | `*-vscode` | `ballerina-vscode`, `mi-vscode`, `si-vscode` | Accurate today; no migration cost for Ballerina and MI. Becomes misleading if tooling expands beyond VS Code. |
+    | `*-extension` | `ballerina-extension`, `mi-extension`, `si-extension` | Describes the artifact type; still platform-coupled to the extension format. |
+
+2.  **Decide whether language servers should live inside their plugin repo or in a separate repo.** The current state is inconsistent: the Ballerina and MI language servers are inside their respective plugin repos, while the SI language server lives in a separate repo. This needs a deliberate decision before the repos are reorganized.
+
+    > Ratings indicate complexity/cost for each option — Low is low friction, High is high friction.
+
+    | | LS inside plugin repo | LS in a separate repo |
+    |---|---|---|
+    | **Version coupling** | **Low** (LS and extension share one version line; released together) | **High** (extension must pin a specific LS version and coordinate releases across repos) |
+    | **CI complexity** | **Low** (one pipeline builds and tests everything together) | **High** (extension pipeline must download or reference the LS from another repo) |
+    | **Developer/agent friendliness** | **Low** (everything in one place; no cross-repo navigation or multi-repo PRs needed) | **High** (developers and agents must navigate two repos and coordinate cross-repo PRs for related changes) |
+    | **LS reusability** | **High** (LS is not independently consumable by other clients) | **Low** (LS can be consumed by other IDEs or CLI tooling independently) |
+
+
+3. **Clarify `si-tooling`'s role and alignment with the WSO2 Integrator tooling architecture.** `si-tooling` sits in the `siddhi-io` org, has no daily build, and does not consume the shared UI libraries or follow the same build conventions as `ballerina-tooling` and `mi-tooling`. Its language server also lives in a separate repo. Before any onboarding work is scoped — shared UI libraries, build pipeline alignment, or language server placement — the intended level of integration between `si-tooling` and the rest of the WSO2 Integrator tooling needs to be agreed.
