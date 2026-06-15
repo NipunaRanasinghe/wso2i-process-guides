@@ -11,7 +11,7 @@ This document describes the manual process for deciding when and how to create a
 
 ## Table of Contents
 
-- [Release Cadence](#release-cadence)
+- [Release Schedule](#release-schedule)
 - [Release Ownership](#release-ownership)
 - [Release Types](#release-types)
 - [Release Order](#release-order)
@@ -19,29 +19,29 @@ This document describes the manual process for deciding when and how to create a
 - [Patch Release Process](#patch-release-process)
 - [Hotfix Release Process](#hotfix-release-process)
 
-## Release Cadence
+## Release Schedule
 
 - **Nightly**: a new build is produced automatically on a daily schedule.
-- **Stable / GA**: target every 4–6 weeks, or immediately for critical patch fixes. The release manager decides based on feature readiness and the stability of the nightly builds.
+- **Stable / GA**: feature releases target quarterly; patch releases target every 2 weeks. Hotfixes ship immediately for critical issues. The release manager decides based on feature readiness and the stability of the nightly builds.
 
 ## Release Ownership
 
 Each stable release has a designated release manager — typically a rotation. The release manager is responsible for the overall delivery of the release, including:
 
-- Creating and managing the release milestone
-- Triggering the release workflow
-- Obtaining the approval-gate sign-off
-- Completing the post-release steps
+- Creating and managing the release milestones
+- Triggering the release workflows
+- Coordinating the team verification and documentation efforts
+- Communicating release status and updates to the team
 
 ## Release Types
 
 There are three types of stable releases. All three ship through the same Stable/GA release pipeline (see [Release Pipelines](04-cicd-pipelines.md#release-pipelines)) — they differ in source branch, scope, and urgency.
 
-| Type | Source Branch | Version Bump | When |
-|---|---|---|---|
-| **Feature** | `main` | Minor (or major) | Every 4–6 weeks, when planned features are ready |
-| **Patch** | `<major>.<minor>.x` | Patch | As bug fixes accumulate on the maintenance branch |
-| **Hotfix** | `hotfix/<description>`, created from the latest stable tag | Patch | Immediately, for critical issues that cannot wait for the patch cycle |
+| Type | Version Bump | When |
+|---|---|---|
+| **Feature** | Minor | Quarterly, when planned features are ready |
+| **Patch** | Patch | Every 2 weeks, as bug fixes accumulate on the maintenance branch |
+| **Hotfix** | Patch | On-demand, for critical issues that cannot wait for the patch cycle |
 
 The branch mechanics behind each type are defined in [Branching Strategy](02-branching-strategy.md).
 
@@ -61,7 +61,7 @@ A repo with no changes since its last release does not need to release — the e
 
 ### Step 1: Create the Release Milestone
 
-The release cycle starts when the release manager creates a dedicated milestone in the `product-integrator` repo (e.g. [WSO2 Integrator 5.1.0](https://github.com/wso2/product-integrator/milestone/7)), if one does not already exist. All features and fixes planned for the release are tracked against this milestone.
+The release cycle starts when the release manager creates a public release milestone in the `product-integrator` repo (e.g. [WSO2 Integrator 5.1.0](https://github.com/wso2/product-integrator/milestone/7)), if one does not already exist. All features and fixes planned for the release must be tracked against this milestone.
 
 ### Step 2: Verify the Release Readiness
 
@@ -69,7 +69,7 @@ Before triggering the release workflow, the release manager should verify:
 
 - [ ] All planned features for this release are completed
 - [ ] All issues added in the release milestone are either closed or moved to a future milestone
-- [ ] All active patch branches are merged to the main branch (since all the bug fixes and security patches are done in the patch branches, they need to be merged to the main branch before the release. See the [Branching-strategy](02-branching-strategy.md#patch-branch-<major>.<minor>.x) documentation for more details.)
+- [ ] All active patch branches are merged to the main branch (All the bug fixes and security patches gets merged to the active patch branch. See the [Branching-strategy](02-branching-strategy.md#patch-branch-<major>.<minor>.x) documentation for more details)
 - [ ] No critical issues or regressions are found in the latest nightly build and the build is stable enough for release
 
 During this window the release manager _should_ announce a code freeze on `main` branch.
@@ -80,23 +80,23 @@ The release manager triggers the release workflow targeting the release commit o
 
 ### Step 4: Create and Share the Release Checklist
 
-The release manager creates a GitHub issue in `product-integrator` titled `[Release Checklist] WSO2 Integrator <version>` with the `Type/Task` label and shares the link with the team. The issue body _must_ include:
+The release manager creates a GitHub issue in `product-integrator` repo, by listing all PRs included in the release as checkboxes (grouped by component and product team member), and shares the link with the team. 
 
-- A brief description: "This issue tracks all the changes to be verified prior to the WSO2 Integrator X.Y.Z release."
-- All PRs included in the release, grouped by repo (e.g. **Extension**, **Language Server**), then by engineer (`@handle`). Each PR is a GFM checkbox item with the PR URL.
-- The instruction: "Please mark the checkbox once the corresponding change has been verified."
+> Refer to the [release checklist example](https://github.com/wso2/product-ballerina-integrator/issues/2534) for the expected format.
+
 
 ### Step 5: Prepare Release Documentation
 
 The release manager initiates two documentation efforts alongside the team verification. Both _must_ be completed before the GA build ships.
 
-**Documentation updates:** The release manager coordinates with the engineers responsible for each change to update the [Integrator documentation website](https://github.com/wso2/docs-integrator). All documentation PRs _must_ be reviewed, approved, and merged to the docs repo before the GA release is published.
-
 **Release notes:** The release manager drafts release notes covering the changes in this release and shares them with the product manager for review. After the product manager approves, the release manager opens a PR against [wso2/docs-integrator](https://github.com/wso2/docs-integrator). The PR _must_ be merged and the release notes published by the time the GA build goes live.
+
+**Documentation updates:** The release manager coordinates with the product team members responsible for each change to update the [Integrator documentation website](https://github.com/wso2/docs-integrator). All documentation PRs _must_ be reviewed, approved, and merged to the docs repo before the GA release is published.
+
 
 ### Step 6: Team Verification
 
-Each engineer _should_ install the pre-release build, verify their changes, and check off their PRs in the checklist issue.
+Each product team member _should_ install the pre-release build, verify their changes, and check off their PRs in the checklist issue.
 
 If a blocker-level issue is found during verification:
 
@@ -107,15 +107,17 @@ If a blocker-level issue is found during verification:
 
 Repeat until no blocker-level issues remain. Non-blocking issues may be deferred to a future release with the release manager's approval. Once all checklist items are verified and no blockers remain, the release manager proceeds to Step 7.
 
-### Step 7: Trigger the GA Release Workflow
+### Step 7: Trigger the Release Build
 
-1. Go to the **Actions** tab of the target repo and select the stable release workflow (`release.yml`).
-2. Click **Run workflow** and enter the target commit SHA on `main`.
-3. The workflow builds and packages artifacts, runs the backward compatibility tests against the previous GA release, then pauses at the `production` environment gate.
+1. Go to the **Actions** tab of the target repo and select `release-vsix.yml`.
+2. Click **Run workflow**, select `main`, and enter the version inputs.
+3. The workflow builds the VSIX and creates a draft GitHub Release.
 
-### Step 8: Approval Gate
+### Step 8: Publish the Release
 
-A required reviewer inspects the run and approves in the GitHub UI. The publish step proceeds on approval. If the reviewer rejects, the reviewer _must_ state the reason on the workflow run; the release manager addresses it and re-triggers.
+1. Go to the **Actions** tab and select `publish-vsix.yml`.
+2. Click **Run workflow** and enter the run ID from the `release-vsix.yml` run in Step 7.
+3. The workflow publishes the VSIX to the VS Code Marketplace and OpenVSX Registry and promotes the draft GitHub Release to published.
 
 ### Step 9: Post-Release Steps
 
@@ -147,7 +149,7 @@ The release manager triggers a pre-release build from the target commit on `<maj
 
 ### Step 4: Create and Share the Release Checklist
 
-The release manager creates a GitHub issue in `product-integrator` titled `[Release Checklist] WSO2 Integrator <version>` with the `Type/Task` label, listing all PRs included in the release grouped by repo and engineer, and shares the issue link with the team. See [Step 4](#step-4-create-and-share-the-release-checklist) of the Feature Release Process for the full checklist format.
+The release manager creates a GitHub issue in `product-integrator` titled `[Release Checklist] WSO2 Integrator <version>` with the `Type/Task` label, listing all PRs included in the release as GFM checkboxes grouped by repo and product team member, and shares the link with the team. Follow the same format as the [feature release checklist](#step-4-create-and-share-the-release-checklist).
 
 ### Step 5: Prepare Release Notes
 
@@ -155,11 +157,11 @@ The release manager drafts release notes for the patch and shares them with the 
 
 ### Step 6: Team Verification
 
-Each engineer _should_ install the pre-release build, verify their changes, and check off their PRs in the checklist issue. If a blocker-level issue is found, the fix author merges the fix to `<major>.<minor>.x`; the release manager triggers a new pre-release build and adds a new RC section to the checklist issue. Repeat until no blockers remain.
+Each product team member _should_ install the pre-release build, verify their changes, and check off their PRs in the checklist issue. If a blocker-level issue is found, the fix author merges the fix to `<major>.<minor>.x`; the release manager triggers a new pre-release build and adds a new RC section to the checklist issue. Repeat until no blockers remain.
 
 ### Step 7: Trigger the Release Workflow
 
-The release manager triggers the stable release workflow targeting `<major>.<minor>.x`. The approval gate applies as in the feature release ([Step 8](#step-8-approval-gate)).
+The release manager triggers `release-vsix.yml` targeting `<major>.<minor>.x`, then follows Steps 8–9 from the Feature Release Process.
 
 ### Step 8: Post-Release Steps
 
@@ -190,7 +192,7 @@ If the fix is ineffective or introduces a regression, the fix author applies a f
 
 ### Step 4: Trigger the Release Workflow
 
-The release manager triggers the stable release workflow targeting the hotfix branch and _should_ notify the approval-gate reviewers in advance so the gate does not delay the release.
+The release manager triggers `release-vsix.yml` targeting the hotfix branch, then runs `publish-vsix.yml` once the build is verified.
 
 The hotfix takes the next patch version (e.g. `5.0.3` on top of `v5.0.2`); after the merge-back, the maintenance branch continues from that version.
 
@@ -212,7 +214,4 @@ Notify the team and affected users. For security fixes, publish an advisory with
 
 The following items represent gaps between this proposal and the current state of the repos.
 
-- **No automated Nightly publish.** The continuous nightly publish described in Release Cadence does not yet exist. Merges to `main` do not trigger a publish in any repo. The pipeline needs to be built before the cadence can be followed.
-- **No `production` Environment approval gate.** The GitHub Actions Environment with required reviewers does not exist in any repo. The approval gate step in the feature and patch release processes cannot be followed until this is configured. Currently, the practical gate is a two-step manual `workflow_dispatch` pattern: a release manager runs `release-vsix.yml` to build and create a draft release, then separately runs `publish-vsix.yml` to publish.
-- **Backward compatibility tests not implemented.** Step 6 of the feature release process references backward compatibility tests that do not yet exist. The gate cannot block a release until the tests are built.
-- **Release workflow names differ by repo.** The product tooling repos (`ballerina-tooling`, `mi-tooling`, `vscode-extensions`) use `release-vsix.yml` + `publish-vsix.yml` rather than a single `release.yml`. The step-by-step instructions in this document should be updated to reference actual workflow names once the pipeline structure is stabilised.
+- **No automated Nightly publish.** The continuous nightly publish described in Release Schedule does not yet exist. Merges to `main` do not trigger a publish in any repo. The pipeline needs to be built before the schedule can be followed.
