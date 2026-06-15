@@ -20,11 +20,17 @@ Before triggering the release workflow, the release manager should verify:
 - [ ] All active patch branches are merged to the main branch (All the bug fixes and security patches gets merged to the active patch branch. See the [Branching-strategy](../branching-strategy.md#patch-branch-majorminorx) documentation for more details)
 - [ ] No critical issues or regressions are found in the latest nightly build and the build is stable enough for release
 
-During this window the release manager _should_ announce a code freeze on `main` branch.
+Once the checklist is satisfied, the release manager _must_ announce a code freeze on `main` and create the `<major>.<minor>.x` patch branch from the current `main` HEAD (e.g., for a `5.1.0` release, create `5.1.x`). From this point, only blocker-level issues and security fixes are permitted — contributors must target `5.1.x`, not `main`, for any such fixes.
 
-### Step 3: Create the Pre-Release Build
+### Step 3: Pre-Release Builds
 
-The release manager triggers the release workflow targeting the release commit on `main` in pre-release mode. This publishes to the VS Code Marketplace pre-release channel and creates a pre-release tag on GitHub Releases, producing the build that the team _should_ install and verify before the GA build is triggered.
+Feature releases progress through three pre-release stages before the GA build. All pre-release builds target the `<major>.<minor>.x` patch branch.
+
+**Alpha** — the release manager triggers the first pre-release build from the patch branch and shares it with the immediate team for early testing. The focus is catching integration problems; known issues are expected at this stage. Blockers are fixed directly on the patch branch.
+
+**Beta** — once alpha blockers are resolved, the release manager triggers a beta build from the patch branch. This is the build for broader internal testing. The release checklist (Step 4) and documentation (Step 5) _should_ be prepared in parallel during the beta phase.
+
+**RC** — once beta testing is complete and no blockers remain, the release manager triggers RC1 from the patch branch. This is the final candidate submitted for team verification (Step 6). If a blocker is found during RC verification, it is fixed on the patch branch and a new RC (RC2, RC3, …) is triggered. Only when the RC is verified clean does the release manager proceed to the GA build.
 
 ### Step 4: Create and Share the Release Checklist
 
@@ -46,8 +52,8 @@ Each product team member _should_ install the pre-release build, verify their ch
 
 If a blocker-level issue is found during verification:
 
-1. The fix author merges the fix to `main`.
-2. The release manager triggers a new pre-release build from the updated commit (repeat Step 3).
+1. The fix author merges the fix to `<major>.<minor>.x`.
+2. The release manager triggers a new RC build from the patch branch (RC2, RC3, …).
 3. The release manager adds a new RC section to the existing checklist issue (e.g. **RC2**) listing the additional PRs, and re-shares the link.
 4. The team _should_ verify the new build and check off the new items.
 
@@ -56,7 +62,7 @@ Repeat until no blocker-level issues remain. Non-blocking issues may be deferred
 ### Step 7: Trigger the Release Build
 
 1. Go to the **Actions** tab of the target repo and select `release-vsix.yml`.
-2. Click **Run workflow**, select `main`, and enter the version inputs.
+2. Click **Run workflow**, select `<major>.<minor>.x`, and enter the version inputs.
 3. The workflow builds the VSIX and creates a draft GitHub Release.
 
 ### Step 8: Publish the Release
@@ -70,7 +76,7 @@ Repeat until no blocker-level issues remain. Non-blocking issues may be deferred
 After the GA artifacts are published:
 
 1. **Verify the tag** — confirm `v<major>.<minor>.<patch>` was created on the release commit.
-2. **Create the maintenance branch** — create `<major>.<minor>.x` from the GA tag, and retire the previous maintenance branch (no further releases are created from it; the branch is kept for history).
+2. **Confirm the maintenance branch** — `<major>.<minor>.x` was created at Step 2; verify it points to the GA release commit and retire the previous maintenance branch (no further releases are created from it; the branch is kept for history).
 3. **Bump `main`** — open a PR on `main` incrementing to the next minor dev version (e.g. `1.3.0-dev`).
 4. **Confirm the GitHub Release** — verify the `product-integrator` bundle is published to [GitHub Releases](https://github.com/wso2/product-integrator/releases) with release notes.
 5. **Confirm documentation is live** — verify all documentation update PRs and the release notes PR are merged to [wso2/docs-integrator](https://github.com/wso2/docs-integrator) and published on the website.
