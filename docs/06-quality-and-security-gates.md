@@ -39,5 +39,5 @@ GitHub Secret Scanning detects committed credentials (API tokens, keys) at the p
 
 The following items represent gaps between this proposal and the current state of the repos.
 
-- **SonarQube Cloud not configured in any repo.** Adding the GitHub App, creating the SonarQube organization, and adding the pipeline step to each repo is outstanding. Until this is done, code quality is not a blocking gate on any PR.
-- **Trivy not configured in `product-integrator` and `si-tooling` PR pipelines.** Both repos currently have no dependency vulnerability scanning on PRs. Trivy needs to be added to the PR pipeline of each.
+- **Configure SonarQube Cloud in all repos.** Adding the GitHub App, creating the SonarQube organization, and adding the pipeline step to each repo is outstanding. Until this is done, code quality is not a blocking gate on any PR.
+- **Add Trivy to `product-integrator` and `si-tooling` PR pipelines.** Both repos currently have no dependency vulnerability scanning on PRs.

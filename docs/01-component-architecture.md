@@ -100,5 +100,5 @@ Once each product tooling repo has produced its VSIX:
 
 The following items represent gaps between this proposal and the current state of the repos.
 
-- **Repo renames pending.** The three product tooling repos have not yet been renamed: `ballerina-vscode` → `ballerina-tooling`, `mi-vscode` → `mi-tooling`, `siddhi-plugin-vscode` → `si-tooling`. All references in this document will need to be updated once the renames are complete.
-- **`si-tooling` not onboarded to the shared UI libraries.** `si-tooling` does not currently include `vscode-extensions` as a git submodule and does not build the shared UI libraries packages from source. Onboarding `si-tooling` to the shared libraries is outstanding.
+- **Rename the three product tooling repos.** `ballerina-vscode` → `ballerina-tooling`, `mi-vscode` → `mi-tooling`, `siddhi-plugin-vscode` → `si-tooling`. All references in this document will need to be updated once the renames are complete.
+- **Onboard `si-tooling` to the shared UI libraries.** `si-tooling` does not currently include `vscode-extensions` as a git submodule and does not build the shared UI libraries packages from source.

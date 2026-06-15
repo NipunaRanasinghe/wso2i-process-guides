@@ -81,8 +81,8 @@ The `product-integrator` release runs `build-and-release.yml`, which builds inst
 
 The following items represent gaps between this proposal and the current state of the repos.
 
-- **Nightly pipeline not yet implemented.** `ide-build.yml` and the plugin `nightly` tag uploads described here do not yet exist. A GitHub App (or scoped PAT) with `actions:write` on each plugin repo is required for `ide-build.yml` to trigger cross-repo builds. Current state: `ballerina-tooling` and `mi-tooling` have scheduled daily builds that build and test only; `si-tooling` has no scheduled build at all.
-- **Unit tests disabled in `ballerina-tooling` PR pipeline.** The `ExtTest_Ballerina` job has `if: false` pending test stability improvements. Unit tests do not currently run on PRs or daily builds in that repo.
-- **`product-integrator` PR pipeline runs compile only.** The PR CI job builds the distribution without tests, Trivy, or quality gates. Tests and scanning need to be added.
-- **Trivy not configured in `si-tooling` and `product-integrator` PR pipelines.** The dependency scan step is missing from both repos and needs to be added.
-- **SonarQube Cloud not configured.** No repo has SonarQube integrated. See [Quality & Security Gates](06-quality-and-security-gates.md) for the full implementation plan.
+- **Implement the nightly pipeline.** `ide-build.yml` and the plugin `nightly` tag uploads described here do not yet exist. A GitHub App (or scoped PAT) with `actions:write` on each plugin repo is required for `ide-build.yml` to trigger cross-repo builds. Current state: `ballerina-tooling` and `mi-tooling` have scheduled daily builds that build and test only; `si-tooling` has no scheduled build at all.
+- **Re-enable unit tests in the `ballerina-tooling` PR pipeline.** The `ExtTest_Ballerina` job has `if: false` pending test stability improvements. Unit tests do not currently run on PRs or daily builds in that repo.
+- **Add tests, Trivy, and quality gates to the `product-integrator` PR pipeline.** The PR CI job currently builds the distribution without tests, Trivy, or quality gates.
+- **Add Trivy to `si-tooling` and `product-integrator` PR pipelines.** The dependency scan step is missing from both repos.
+- **Configure SonarQube Cloud in all repos.** No repo has SonarQube integrated. See [Quality & Security Gates](06-quality-and-security-gates.md) for the full implementation plan.

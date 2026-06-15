@@ -214,4 +214,4 @@ Notify the team and affected users. For security fixes, publish an advisory with
 
 The following items represent gaps between this proposal and the current state of the repos.
 
-- **No automated Nightly publish.** The continuous nightly publish described in Release Schedule does not yet exist. Merges to `main` do not trigger a publish in any repo. The pipeline needs to be built before the schedule can be followed.
+- **Implement the automated nightly publish pipeline.** The continuous nightly publish described in Release Schedule does not yet exist. Merges to `main` do not trigger a publish in any repo. The pipeline needs to be built before the schedule can be followed.
