@@ -16,7 +16,7 @@ PR pipelines run on every non-draft pull request targeting active branches (main
 
 ```mermaid
 graph LR
-    T(["pull_request → main"]) --> S1["Compile<br>(Gradle / Rush)"]
+    T(["pull_request → main / patch branch"]) --> S1["Compile<br>(Gradle / Rush)"]
     S1 --> S2["Unit tests"]
     S2 --> S3["Integration tests"]
     S3 --> S4["Quality gate"]
@@ -31,7 +31,7 @@ All release pipelines run on GitHub Actions. Product repos publish versioned VSI
 
 ```mermaid
 graph LR
-    M["main branch"] --> IB["IDE Build workflow<br>(ide-build.yml)"]
+    M["main / patch / hotfix branch"] --> IB["IDE Build workflow<br>(ide-build.yml)"]
     IB -->|nightly trigger| PL["Plugin builds<br>(ballerina-tooling, mi-tooling, si-tooling)"]
     PL -->|nightly tags| AS["IDE assembly + smoke tests"]
     IB -->|manual trigger| AS
