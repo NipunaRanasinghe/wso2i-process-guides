@@ -3,50 +3,69 @@
 _Authors_: @NipunaRanasinghe \
 _Reviewers_: \
 _Created_: 2026/06/09 \
-_Updated_: 2026/06/14
+_Updated_: 2026/06/15
 
 This document defines the test types integrated into the CI/CD pipelines, their placement in the pipeline stages, and which gates are blocking.
 
 ## Approach
 
-The tooling follows a layered testing model, a test pyramid. Most coverage sits at the base in fast unit tests; a smaller layer of integration tests checks that components work together; and a thin top layer of end-to-end (E2E) tests drives the full product through its UI. A separate backward-compatibility check runs at release time against the previous GA build.
-
-The layers differ in two ways: how fast they run, and how much of the real product they exercise. Unit tests run modules in isolation and finish quickly, so they run on every pull request and catch most regressions early. Integration tests are slower: they launch the packaged language server, but they catch the one thing unit tests cannot: a mismatch between an extension and the language server it ships with. E2E tests run the real product in a full VS Code environment, which is the most thorough check and the slowest, so running them on every change is not practical.
-
-Catching each bug at the lowest layer that can catch it keeps per-PR checks fast enough to gate every merge; the E2E suite runs daily instead, so coverage extends to the full stack without blocking individual commits.
+The tooling follows the standard test pyramid: unit tests at the base, component tests above them, integration tests above that, and E2E tests at the top. A smoke test layer covers the full product installer.
 
 ## Test Matrix
 
-| Test Type | Applies To | Runs In | Blocks Merge? | Notes |
-|---|---|---|---|---|
-| Unit tests | All components | PR pipeline + daily build | **Yes** | _Must_ pass before any artifact is published |
-| Integration tests | VS Code extension + language server | PR pipeline + daily build | **Yes** | Tests extension ↔ language server contract |
-| Tooling / UI E2E tests | VS Code extensions | PR (label: `Checks/Run Ballerina UI Tests`) · daily schedule · manual trigger | **No** (advisory) | `ballerina-tooling` only currently. Requires a full runtime environment; too slow to run on every PR. |
-| Backward compatibility tests | Product distribution (GA artifact) | Release pipeline (Stable/GA) | **Yes** | Run against the previous GA release artifact before a new GA ships |
+| Test Type | Applies To | Runs In | Blocks Merge? |
+|---|---|---|---|
+| Unit tests | All components | PR pipeline + daily build | **Yes** |
+| Component tests | VS Code extensions | PR pipeline | **Yes** |
+| Integration tests | VS Code extension + language server | PR pipeline + daily build | **Yes** |
+| E2E tests | VS Code extensions | PR pipeline (on demand) + daily build | **No** (advisory) |
+| Smoke tests | Product distribution (IDE installer) | Release pipeline (pre-release + stable) | **Yes** (`hello-world-service`) / **No** (`icp`) |
 
 ## Test Levels
 
 ### Unit Tests
 
-Unit tests validate individual modules in isolation. Gradle test suites cover the language servers; the Rush test task covers TypeScript packages. They run on every PR and every daily build, and are merge-blocking: the PR author _must_ fix failures before the PR can be merged.
+Unit tests validate individual modules in isolation.
+
+- **Language servers** (Gradle / JUnit): `./gradlew test` covers the Ballerina language server logic. Runs on the daily build targeting both `main` and the latest stable branch.
+- **TypeScript packages** (Rush / pnpm): `rush test` covers extension utility code and shared packages.
+
+### Component Tests
+
+Component tests use Jest with React Testing Library to validate the rendering correctness of individual UI components. Each test renders a component via `react-test-renderer` and compares the output against a stored baseline snapshot; a diff fails the test. They run on PRs when relevant source files change (path-filter gated) and on the daily build.
+
+- **`ballerina-tooling`:** `bi-diagram`, `component-diagram`, `type-diagram`, `sequence-diagram`
+- **`mi-tooling`:** `mi-diagram`
 
 ### Integration Tests
 
-Integration tests validate the contract between the extension and its bundled language server: the test harness launches the packaged language server and invokes the LSP requests the extension depends on (initialization, completions, diagnostics, code actions). This catches mismatches between the extension and the language server that are released together, which unit tests on either side cannot. Integration tests run on every PR and every daily build, and are merge-blocking.
+Integration tests validate the contract between the extension and its bundled language server. The test harness launches the packaged language server and invokes the LSP requests the extension depends on: initialization, completions, diagnostics, code actions. This catches mismatches between the extension and the language server that unit tests on either side cannot catch.
 
-### Tooling / UI E2E Tests
+### E2E Tests
 
-E2E tests drive the full VS Code UI against a real runtime environment, covering user-facing workflows end to end. They are too slow to run on every PR and require a full runtime environment, so they run on a daily schedule against `main`, on demand via manual trigger, and on a PR when the `Checks/Run Ballerina UI Tests` label is applied. Authors of UI-affecting changes _should_ apply the label before requesting review.
+E2E tests use Playwright to drive the full VS Code UI against a real runtime environment, covering user-facing workflows end to end. They are too slow to run on every PR and require a full runtime environment, so they run on a daily schedule against `main`, on demand via manual trigger, and on a PR when the relevant label is applied.
+
+- **`ballerina-tooling`:** 4 parallel groups on Linux. Label: `Checks/Run Ballerina UI Tests`.
+- **`mi-tooling`:** 4 parallel groups on Linux and 4 on Windows (8 jobs total). Label: `Checks/Run MI UI Tests` or `Checks/Enable UI Tests`.
+
+Authors of UI-affecting changes _should_ apply the label before requesting review.
 
 E2E results are advisory: a failure does not block a merge. Failures of the daily run _must_ be triaged by the repo maintainers before the next stable release.
 
-> **Note:** E2E coverage currently exists only in `ballerina-tooling`. 
+### Smoke Tests
+
+Smoke tests drive the full WSO2 Integrator IDE installer end-to-end using `wso2ipw`, the Integrator automation tool. They run on both Linux and Windows against the built installer artifact during the release pipeline.
+
+- **`hello-world-service`:** Blocking — the release pipeline does not proceed if this test fails.
+- **`icp`:** Advisory — failures are reported but do not block the release.
+
+Smoke tests apply only to `product-integrator`. They can also be triggered manually against a published GitHub Release artifact for regression testing.
 
 ## Pending Items
 
 The following items represent gaps between this proposal and the current state of the repos.
 
-- **No integration test step exists in any repo.** The "extension ↔ language server contract" integration tests described here are not yet implemented. The test infrastructure needs to be defined and added to the PR pipelines of `ballerina-tooling`, `mi-tooling`, and `si-tooling`.
-- **Backward compatibility tests not implemented.** No repo has backward compatibility tests in its release pipeline. This gate cannot block a release until the tests are built and wired in.
-- **`mi-tooling` already has Playwright E2E tests.** The note above is outdated — `mi-tooling` has a `UITest` job with 4 parallel groups running on both Linux and Windows. The test matrix table should be updated to reflect this once E2E coverage is audited across all repos.
-- **No merge-to-main test run.** No repo has a `push` trigger on `main`. The test matrix column "Runs In: PR pipeline + merge-to-main" overstates current coverage; merge coverage is provided only by the daily cron builds.
+- **Integration tests not implemented.** The "extension ↔ language server contract" integration tests described here are not yet implemented. The test infrastructure needs to be defined and added to the PR pipelines of `ballerina-tooling`, `mi-tooling`, and `si-tooling`.
+- **LS unit tests not wired to the PR pipeline.** Language server unit tests run only in the daily build. LS tests need to be added as a required PR gate.
+- **`ExtTest_Ballerina` disabled in `ballerina-tooling`.** The extension unit test job has `if: false` pending test stability improvements. Extension unit tests do not currently run in CI.
+- **`si-tooling` has no test coverage.** The `build.yml` workflow contains no test step — build and package only. Unit tests, E2E tests, and Trivy scanning all need to be added.
