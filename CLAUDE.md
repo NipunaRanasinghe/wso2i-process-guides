@@ -8,9 +8,7 @@ This workspace contains the **WSO2 Integrator Architecture & Process Guidelines*
 
 ## Files
 
-- `requirements.md` — The original brief: questions and answers from the team. The primary source of constraints and decisions.
 - `WSO2 Integrator Architecture Revamp proposal.md` — Architecture context document. Describes existing issues, objectives, ownership split, and outstanding steps.
-- `proposed-repo-structure.png` — Visual diagram of the proposed repository structure.
 
 ## Proposal Documents
 
@@ -26,9 +24,9 @@ The proposal is split into `docs/`, one document per topic. See `docs/README.md`
 | `docs/quality-and-security-gates.md` | GHAS + SonarQube Cloud |
 | `docs/release-process/` | Release cadence, ownership, checklist, post-release steps |
 
-`docs/supporting/writing-style.md` — Style guide for all documents in this workspace, derived from the ballerina-platform/ballerina-library docs corpus. Apply it when creating or editing any doc.
+`.claude/writing-style.md` — Style guide for all documents in this workspace, derived from the ballerina-platform/ballerina-library docs corpus. Apply it when creating or editing any doc.
 
-`docs/supporting/repo-state-snapshot.md` — Observed state of all five repos as of 2026/06/12. Use this as the baseline when checking for drift between the proposal docs and reality.
+`.claude/repo-state-snapshot.md` — Observed state of all five repos as of 2026/06/12. Use this as the baseline when checking for drift between the proposal docs and reality.
 
 ## Repos
 
