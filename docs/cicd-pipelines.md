@@ -23,7 +23,7 @@ graph LR
     S4 --> S5["Dependency scan<br>(Trivy)"]
 ```
 
-The quality gate and dependency scan steps are described in [Quality & Security Gates](06-quality-and-security-gates.md).
+The quality gate and dependency scan steps are described in [Quality & Security Gates](quality-and-security-gates.md).
 
 ## Release Pipelines
 
@@ -85,4 +85,4 @@ The following items represent gaps between this proposal and the current state o
 - **Re-enable unit tests in the `ballerina-tooling` PR pipeline.** The `ExtTest_Ballerina` job has `if: false` pending test stability improvements. Unit tests do not currently run on PRs or daily builds in that repo.
 - **Add tests, Trivy, and quality gates to the `product-integrator` PR pipeline.** The PR CI job currently builds the distribution without tests, Trivy, or quality gates.
 - **Add Trivy to `si-tooling` and `product-integrator` PR pipelines.** The dependency scan step is missing from both repos.
-- **Configure SonarQube Cloud in all repos.** No repo has SonarQube integrated. See [Quality & Security Gates](06-quality-and-security-gates.md) for the full implementation plan.
+- **Configure SonarQube Cloud in all repos.** No repo has SonarQube integrated. See [Quality & Security Gates](quality-and-security-gates.md) for the full implementation plan.

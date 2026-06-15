@@ -6,12 +6,12 @@ These guides define the architecture and development processes that govern WSO2 
 
 Each topic is covered in its own document linked below.
 
-| # | Document | Summary |
-|---|---|---|
-| 1 | [Component Architecture](01-component-architecture.md) | Component responsibilities, dependencies, and build order |
-| 2 | [Branching Strategy](02-branching-strategy.md) | Branch model and per-branch rules |
-| 3 | [Versioning Strategy](03-versioning-strategy.md) | Versioning scheme and cross-repo version propagation |
-| 4 | [CI/CD Pipelines](04-cicd-pipelines.md) | PR and release pipeline structure |
-| 5 | [Testing Strategy](05-testing-strategy.md) | Test levels, pipeline placement, and blocking criteria |
-| 6 | [Quality & Security Gates](06-quality-and-security-gates.md) | Quality and security gate definitions |
-| 7 | [Release Process](07-release-process.md) | Release types, ownership, and procedures |
+| Document | Summary |
+|---|---|
+| [Component Architecture](component-architecture.md) | Component responsibilities, dependencies, and build order |
+| [Branching Strategy](branching-strategy.md) | Branch model and per-branch rules |
+| [CI/CD Pipelines](cicd-pipelines.md) | PR and release pipeline structure |
+| [Testing Strategy](testing-strategy.md) | Test levels, pipeline placement, and blocking criteria |
+| [Quality & Security Gates](quality-and-security-gates.md) | Quality and security gate definitions |
+| [Versioning Strategy](versioning-strategy.md) | Versioning scheme and cross-repo version propagation |
+| [Release Process](release-process.md) | Release types, ownership, and procedures |

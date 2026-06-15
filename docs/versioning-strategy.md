@@ -35,7 +35,7 @@ Language servers are versioned and released together with their parent extension
 
 Each product tooling repo carries its own SemVer line, applied at the **extension** level. The extension is the unit published to the VS Code Marketplace, and it bundles a matched [language server](#language-server-versioning) build. Extensions publish on two Marketplace channels, each with its own versioning rule.
 
-**Stable:** A plain SemVer `major.minor.patch` version (e.g. `1.2.0`), published to the Marketplace **stable** channel via `vsce publish`. Produced by the Stable/GA pipeline (see [CI/CD Pipelines](04-cicd-pipelines.md#release-pipelines)).
+**Stable:** A plain SemVer `major.minor.patch` version (e.g. `1.2.0`), published to the Marketplace **stable** channel via `vsce publish`. Produced by the Stable/GA pipeline (see [CI/CD Pipelines](cicd-pipelines.md#release-pipelines)).
 
 **Pre-release:** Nightly builds published to the Marketplace **pre-release** channel via `vsce publish --pre-release`. The Marketplace does **not** support SemVer pre-release suffixes — `1.2.0-nightly.20260609` is rejected; every published version _must_ be `major.minor.patch`. Pre-release builds therefore encode the build timestamp in the **patch** segment so each build sorts strictly above the previous one — for example `1.2.2606141230` (`major.minor.<YYMMDDHHmm>`).
 
@@ -49,7 +49,7 @@ The product version is managed at the WSO2 Integrator product level and reflects
 
 ## Cross-Repo Version Propagation
 
-Cross-repo dependencies are pinned to explicit references: the shared UI libraries as a git submodule commit, and product extensions as version pins (see [Cross-Repo Coordination](04-cicd-pipelines.md#cross-repo-coordination)). A change in a dependency therefore **never propagates automatically**: dependents adopt it through a PR that updates the pinned reference. Consumers are not required to be on the same libraries commit, and there is no convergence requirement before a WSO2 Integrator stable release.
+Cross-repo dependencies are pinned to explicit references: the shared UI libraries as a git submodule commit, and product extensions as version pins (see [Cross-Repo Coordination](cicd-pipelines.md#cross-repo-coordination)). A change in a dependency therefore **never propagates automatically**: dependents adopt it through a PR that updates the pinned reference. Consumers are not required to be on the same libraries commit, and there is no convergence requirement before a WSO2 Integrator stable release.
 
 ### Shared UI Library → VS Code Extension (upstream-first)
 

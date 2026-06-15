@@ -16,15 +16,15 @@ This workspace contains the **WSO2 Integrator Architecture & Process Guidelines*
 
 The proposal is split into `docs/`, one document per topic. See `docs/README.md` for the full index.
 
-| # | File | Topic |
-|---|---|---|
-| 1 | `docs/01-component-architecture.md` | Component ownership, dependency diagram, and build-order constraints |
-| 2 | `docs/02-branching-strategy.md` | `main` + `<major>.<minor>.x` maintenance branch model |
-| 3 | `docs/03-versioning-strategy.md` | SemVer, language server versioning |
-| 4 | `docs/04-cicd-pipelines.md` | PR pipeline structure and release tracks |
-| 5 | `docs/05-testing-strategy.md` | Test types, pipeline stages, blocking gates |
-| 6 | `docs/06-quality-and-security-gates.md` | GHAS + SonarQube Cloud |
-| 7 | `docs/07-release-process.md` | Release cadence, ownership, checklist, post-release steps |
+| File | Topic |
+|---|---|
+| `docs/component-architecture.md` | Component ownership, dependency diagram, and build-order constraints |
+| `docs/branching-strategy.md` | `main` + `<major>.<minor>.x` maintenance branch model |
+| `docs/versioning-strategy.md` | SemVer, language server versioning |
+| `docs/cicd-pipelines.md` | PR pipeline structure and release tracks |
+| `docs/testing-strategy.md` | Test types, pipeline stages, blocking gates |
+| `docs/quality-and-security-gates.md` | GHAS + SonarQube Cloud |
+| `docs/release-process.md` | Release cadence, ownership, checklist, post-release steps |
 
 `docs/supporting/writing-style.md` — Style guide for all documents in this workspace, derived from the ballerina-platform/ballerina-library docs corpus. Apply it when creating or editing any doc.
 

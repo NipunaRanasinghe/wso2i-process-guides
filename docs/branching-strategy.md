@@ -21,7 +21,7 @@ The WSO2 Integrator tooling spans five repos with contributors of varying experi
 
 - Avoids the overhead of managing multiple long-lived branches (e.g. `develop`) and complex merge patterns.
 - Supports a clear separation of concerns between feature development and patch maintenance.
-- Aligns well with the release process defined in [Release Process](07-release-process.md) and the versioning strategy in [Versioning Strategy](03-versioning-strategy.md).
+- Aligns well with the release process defined in [Release Process](release-process.md) and the versioning strategy in [Versioning Strategy](versioning-strategy.md).
 
 ## Branches
 

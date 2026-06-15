@@ -7,7 +7,7 @@ _Updated_: 2026/06/12
 
 This document describes the manual process for deciding when and how to create a release. The goal is that any release manager can complete end-to-end releases with the help of this guide. 
 
-> For detailed information about the automated pipelines and configuration, see [CI/CD Pipelines](04-cicd-pipelines.md).
+> For detailed information about the automated pipelines and configuration, see [CI/CD Pipelines](cicd-pipelines.md).
 
 ## Table of Contents
 
@@ -35,7 +35,7 @@ Each stable release has a designated release manager — typically a rotation. T
 
 ## Release Types
 
-There are three types of stable releases. All three ship through the same Stable/GA release pipeline (see [Release Pipelines](04-cicd-pipelines.md#release-pipelines)) — they differ in source branch, scope, and urgency.
+There are three types of stable releases. All three ship through the same Stable/GA release pipeline (see [Release Pipelines](cicd-pipelines.md#release-pipelines)) — they differ in source branch, scope, and urgency.
 
 | Type | Version Bump | When |
 |---|---|---|
@@ -43,13 +43,13 @@ There are three types of stable releases. All three ship through the same Stable
 | **Patch** | Patch | Every 2 weeks, as bug fixes accumulate on the maintenance branch |
 | **Hotfix** | Patch | On-demand, for critical issues that cannot wait for the patch cycle |
 
-The branch mechanics behind each type are defined in [Branching Strategy](02-branching-strategy.md).
+The branch mechanics behind each type are defined in [Branching Strategy](branching-strategy.md).
 
-> **Note:** For `product-integrator`, the released version is the WSO2 Integrator product version — managed at the product level rather than bumped mechanically (see [Product Distribution Versioning](03-versioning-strategy.md#product-distribution-versioning)).
+> **Note:** For `product-integrator`, the released version is the WSO2 Integrator product version — managed at the product level rather than bumped mechanically (see [Product Distribution Versioning](versioning-strategy.md#product-distribution-versioning)).
 
 ## Release Order
 
-A WSO2 Integrator stable release spans multiple repos. Because cross-repo dependencies are pinned (see [Cross-Repo Version Propagation](03-versioning-strategy.md#cross-repo-version-propagation)), the repos _must_ be prepared and released in dependency order:
+A WSO2 Integrator stable release spans multiple repos. Because cross-repo dependencies are pinned (see [Cross-Repo Version Propagation](versioning-strategy.md#cross-repo-version-propagation)), the repos _must_ be prepared and released in dependency order:
 
 1. **Shared UI libraries** — not released separately. Before a product release, each product repo updates its shared-libraries submodule pointer to the commit it intends to ship; the libraries are built from source within the product build.
 2. **Product extensions** — release `ballerina-tooling`, `mi-tooling`, and `si-tooling`, each through its own pipeline and approval gate.
@@ -69,7 +69,7 @@ Before triggering the release workflow, the release manager should verify:
 
 - [ ] All planned features for this release are completed
 - [ ] All issues added in the release milestone are either closed or moved to a future milestone
-- [ ] All active patch branches are merged to the main branch (All the bug fixes and security patches gets merged to the active patch branch. See the [Branching-strategy](02-branching-strategy.md#patch-branch-<major>.<minor>.x) documentation for more details)
+- [ ] All active patch branches are merged to the main branch (All the bug fixes and security patches gets merged to the active patch branch. See the [Branching-strategy](branching-strategy.md#patch-branch-<major>.<minor>.x) documentation for more details)
 - [ ] No critical issues or regressions are found in the latest nightly build and the build is stable enough for release
 
 During this window the release manager _should_ announce a code freeze on `main` branch.
