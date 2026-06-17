@@ -5,12 +5,12 @@ _Reviewers_: \
 _Created_: 2026/06/09 \
 _Updated_: 2026/06/17
 
-This document is a reference for the CI/CD pipelines used in WSO2 Integrator development and release processes. It describes the different pipeline types, their triggers, and their stages:
+This document describes the four GitHub Actions pipeline types used across all WSO2 Integrator repos:
 
-- **PR pipelines:** run on every pull request to active branches and gate merges.
-- **Nightly pipeline:** runs daily and produces a nightly IDE build from `main`.
-- **Custom IDE Build pipeline:** allows building a complete IDE pack from a specific set of plugin branches.
-- **Stable / GA pipeline:** used for pre-release and GA release, producing VSIX artifacts for the VS Code Marketplace and OpenVSX Registry, and IDE installers for Linux, macOS, and Windows.
+- **PR pipelines:** run on every pull request to active branches; all gates _must_ pass before merge.
+- **Custom IDE Build pipeline:** builds a complete IDE pack on demand from a specific set of plugin branches.
+- **Nightly pipeline:** runs daily from `main` and produces a tested IDE build.
+- **Stable / GA pipeline:** a single three-stage pipeline (plugin build → plugin publish → IDE release) for both pre-release and GA releases; the `isPreRelease` flag controls the Marketplace channel and IDE artifact destination.
 
 ## Pull Request Pipelines
 
@@ -27,9 +27,22 @@ graph LR
 
 The quality gate and dependency scan steps are described in [Quality & Security Gates](quality-and-security-gates.md).
 
-## Build Pipelines
+## Custom IDE Build Pipeline
 
-### Nightly Pipeline
+Triggered manually to build a complete IDE pack from a specific set of plugin branches for developer testing.
+
+```mermaid
+graph LR
+    B["any branch (per plugin)"] --> PL["Plugin builds (×3)"]
+    PL --> AS["IDE build + smoke tests"]
+    AS --> IA[("Workflow artifact")]
+```
+
+This workflow can be used to create a complete IDE pack from a specific set of plugin branches — for example, when testing a feature that spans multiple repos.
+
+The workflow takes a branch name as an input for each of the three plugin repos and for `product-integrator` (defaulting to `main`). It triggers a build in each plugin repo from the specified branches, compiles the WSO2 Integrator extension from the specified `product-integrator` branch, builds the IDE for Linux, macOS, and Windows, and stores the result as a workflow artifact.
+
+## Nightly Pipeline
 
 Runs automatically on a daily schedule from `main`.
 
@@ -44,22 +57,9 @@ graph LR
 
 **Stage 2 — IDE build:** Once all three plugin builds succeed, the workflow downloads the VSIX from each plugin's `nightly` tag. The `product-integrator` build then compiles the WSO2 Integrator extension from source, assembles the IDE for Linux, macOS, and Windows, runs smoke tests, and stores the nightly IDE artifact on the workflow run.
 
-### Custom IDE Build Pipeline
-
-```mermaid
-graph LR
-    B["any branch (per plugin)"] --> PL["Plugin builds (×3)"]
-    PL --> AS["IDE build + smoke tests"]
-    AS --> IA[("Workflow artifact")]
-```
-
-This workflow can be used to create a complete IDE pack from a specific set of plugin branches — for example, when testing a feature that spans multiple repos.
-
-The workflow takes a branch name as an input for each of the three plugin repos and for `product-integrator` (defaulting to `main`). It triggers a build in each plugin repo from the specified branches, compiles the WSO2 Integrator extension from the specified `product-integrator` branch, builds the IDE for Linux, macOS, and Windows, and stores the result as a workflow artifact.
-
 ## Release Pipelines
 
-This pipeline runs all three stages for both pre-releases (alpha, beta, RC) and GA releases. The `isPreRelease` flag controls the Marketplace channel and the IDE artifact destination.
+The Stable / GA pipeline runs all three stages for both pre-releases (alpha, beta, RC) and GA releases. The `isPreRelease` flag controls the Marketplace channel and the IDE artifact destination.
 
 **Pre-release:**
 
@@ -91,7 +91,7 @@ graph LR
 
 **Stage 3 — IDE release:** The release manager triggers the IDE release workflow in `product-integrator`. The workflow downloads the four published plugin VSIXs, builds installers for Linux, macOS, and Windows, and runs smoke tests. On pre-release builds, the IDE is stored as a workflow artifact; on GA builds, it is published to GitHub Releases only if smoke tests pass.
 
-### Artifact Publishing Targets
+## Artifact Publishing Targets
 
 | Component | Nightly | Custom Build | Pre-release | Stable/GA |
 |---|---|---|---|---|
