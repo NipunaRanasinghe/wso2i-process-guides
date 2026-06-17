@@ -134,7 +134,7 @@ The following items represent gaps between this proposal and the current state o
 
     **Licensing concern (MI language server):** The MI language server is derived from Eclipse LemminX and licensed under EPL 2.0, while the rest of `mi-vscode` is Apache 2.0. These licenses cannot be merged: EPL 2.0 modifications must remain EPL 2.0, creating a mixed-license repo. A standalone `wso2/mi-language-server` repo (EPL 2.0) already exists. This needs to be reviewed with the WSO2 legal team to determine the appropriate path forward.
 
-3. **Bring `si-tooling` into alignment with the WSO2 Integrator tooling architecture:** The following gaps need to be closed before `si-tooling` participates fully in the shared build and release process:
+3. **Align `si-tooling` with the WSO2 Integrator tooling architecture:** The following gaps need to be closed before `si-tooling` participates fully in the shared build and release process:
 
     - **Org placement:** the repo lives in `siddhi-io`; it needs to be transferred to the `wso2` org.
     - **Shared UI libraries:** the shared UI libraries (`vscode-extensions`) are not yet consumed; the `vscode-extensions` git submodule needs to be added and the build configured to build the libraries from source.
