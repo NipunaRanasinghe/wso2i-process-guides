@@ -27,7 +27,7 @@ The release manager triggers a pre-release build from the hotfix branch. Pre-rel
 
 If the fix is ineffective or introduces a regression, the fix author applies a follow-up fix to the hotfix branch and the release manager triggers a new pre-release build (repeat Step 4). Once the fix author confirms no blockers, the release manager proceeds to Step 5.
 
-> See the [CI/CD Pipelines](../cicd-pipelines.md#stable--ga-pipeline) guide for the detailed steps of the pre-release pipeline.
+> See the [CI/CD Pipelines](../cicd-pipelines.md#release-pipelines) guide for the detailed steps of the pre-release pipeline.
 
 ### Step 5: Trigger the Release Workflow
 
@@ -35,7 +35,7 @@ The release manager triggers the plugin build workflow for each of the four plug
 
 The hotfix takes the next patch version (e.g. `5.0.3` on top of `v5.0.2`); after the merge-back, the maintenance branch continues from that version.
 
-> See the [CI/CD Pipelines](../cicd-pipelines.md#stable--ga-pipeline) guide for the detailed steps of the release pipeline.
+> See the [CI/CD Pipelines](../cicd-pipelines.md#release-pipelines) guide for the detailed steps of the release pipeline.
 
 ### Step 6: Verify the Release
 

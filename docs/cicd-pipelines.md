@@ -37,7 +37,7 @@ Runs automatically on a daily schedule from `main`.
 graph LR
     M["main branch"] --> PL["Plugin builds (×3)"]
     PL -->|nightly tags| AS["IDE build + smoke tests"]
-    AS --> IA["Workflow artifact"]
+    AS --> IA[("Workflow artifact")]
 ```
 
 **Stage 1 — Plugin builds (parallel):** The nightly build workflow triggers the build workflow in each of the three plugin repos (`ballerina-tooling`, `mi-tooling`, `si-tooling`) via the GitHub API and waits for all three to complete. Each plugin runs its full build and test suite, and on success uploads its VSIX to a `nightly` pre-release tag on its own GitHub Releases. If any plugin build fails, Stage 2 does not run.
@@ -50,7 +50,7 @@ graph LR
 graph LR
     B["any branch (per plugin)"] --> PL["Plugin builds (×3)"]
     PL --> AS["IDE build + smoke tests"]
-    AS --> IA["Workflow artifact"]
+    AS --> IA[("Workflow artifact")]
 ```
 
 This workflow can be used to create a complete IDE pack from a specific set of plugin branches — for example, when testing a feature that spans multiple repos.
@@ -59,9 +59,7 @@ The workflow takes a branch name as an input for each of the three plugin repos 
 
 ## Release Pipelines
 
-### Stable / GA Pipeline
-
-This pipeline runs all three stages for both pre-releases (alpha, beta, RC) and GA builds. The `isPreRelease` flag controls the Marketplace channel and the IDE artifact destination.
+This pipeline runs all three stages for both pre-releases (alpha, beta, RC) and GA releases. The `isPreRelease` flag controls the Marketplace channel and the IDE artifact destination.
 
 **Pre-release:**
 
@@ -69,24 +67,27 @@ This pipeline runs all three stages for both pre-releases (alpha, beta, RC) and 
 graph LR
     M["patch / hotfix branch"] --> PB["Plugin build (×4)"]
     PB -->|review gate| PP["Plugin publish (×4, isPreRelease=true)"]
-    PP --> MKP["VS Code Marketplace<br>(pre-release channel)"]
-    MKP --> AS["IDE release + smoke tests"]
-    AS --> IA["Workflow artifact"]
+    PP --> MKP[("VS Code Marketplace<br>(pre-release channel)")]
+    PP --> AS["IDE release + smoke tests"]
+    AS --> IA[("Workflow artifact")]
 ```
 
-**GA:**
+**GA Release:**
 
 ```mermaid
 graph LR
     M["patch / hotfix branch"] --> PB["Plugin build (×4)"]
     PB -->|review gate| PP["Plugin publish (×4, isPreRelease=false)"]
-    PP --> MK["VS Code Marketplace<br>OpenVSX Registry"]
-    MK --> BA["IDE release"] --> GR["GitHub Releases (stable tag)"]
+    PP --> MK[("VS Code Marketplace<br>OpenVSX Registry")]
+    PP --> BA["IDE release + smoke tests"] --> GR[("GitHub Releases<br>(stable tag)")]
 ```
 
 **Stage 1 — Plugin build:** The release manager triggers the plugin build workflow in each of the four plugin repos (`ballerina-tooling`, `mi-tooling`, `si-tooling`, and the WSO2 Integrator extension in `product-integrator`), specifying the source branch as an input — the `<major>.<minor>.x` patch branch for feature and patch releases, or the hotfix branch for hotfixes. The workflow builds the VSIX and creates a draft GitHub Release. The draft artifact can be downloaded for internal verification (e.g. the fix author testing a hotfix locally) before Stage 2 publishes it.
 
-**Stage 2 — Plugin publish:** After reviewing the draft release, the release manager triggers the plugin publish workflow, referencing the run ID from Stage 1. The workflow publishes the VSIX to the VS Code Marketplace — pre-release channel when `isPreRelease=true`, stable channel when `isPreRelease=false` — and to OpenVSX Registry.
+**Stage 2 — Plugin publish:** After reviewing the draft release, the release manager triggers the plugin publish workflow, referencing the run ID from Stage 1. The `isPreRelease` flag controls where the VSIX is published:
+
+- **Pre-release:** VS Code Marketplace pre-release channel
+- **GA:** VS Code Marketplace stable channel + OpenVSX Registry
 
 **Stage 3 — IDE release:** The release manager triggers the IDE release workflow in `product-integrator`. The workflow downloads the four published plugin VSIXs, builds installers for Linux, macOS, and Windows, and runs smoke tests. On pre-release builds, the IDE is stored as a workflow artifact; on GA builds, it is published to GitHub Releases only if smoke tests pass.
 

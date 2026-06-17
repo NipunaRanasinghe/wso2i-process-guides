@@ -36,7 +36,7 @@ Feature releases progress through three pre-release stages before the GA build. 
 
 **RC** — once beta testing is complete and no blockers remain, the release manager triggers RC1 from the patch branch. This is the final candidate submitted for team verification (Step 7). If a blocker is found during RC verification, it is fixed on the patch branch and a new RC (RC2, RC3, …) is triggered. Only when the RC is verified clean does the release manager proceed to the GA build.
 
-> See the [CI/CD Pipelines](../cicd-pipelines.md#stable--ga-pipeline) guide for the detailed steps of the pre-release pipeline.
+> See the [CI/CD Pipelines](../cicd-pipelines.md#release-pipelines) guide for the detailed steps of the pre-release pipeline.
 
 ### Step 5: Create and Share the Release Checklist
 
@@ -69,7 +69,7 @@ Repeat until no blocker-level issues remain. Non-blocking issues may be deferred
 
 The release manager triggers the plugin build workflow for each of the four plugin repos (`ballerina-tooling`, `mi-tooling`, `si-tooling`, and the WSO2 Integrator extension in `product-integrator`), reviews the draft GitHub Releases, then publishes all four to the VS Code Marketplace and OpenVSX Registry. Once all plugins are published, the release manager triggers the IDE release workflow in `product-integrator` to produce and publish the final IDE installers.
 
-> See the [CI/CD Pipelines](../cicd-pipelines.md#stable--ga-pipeline) guide for the detailed steps of the release pipeline.
+> See the [CI/CD Pipelines](../cicd-pipelines.md#release-pipelines) guide for the detailed steps of the release pipeline.
 
 ### Step 9: Post-Release Steps
 

@@ -25,7 +25,7 @@ Release manager should Confirm every change qualifies — bug fixes and security
 
 The release manager triggers a pre-release build from the target commit on `<major>.<minor>.x`. This publishes to the VS Code Marketplace pre-release channel and creates a pre-release tag on GitHub Releases, producing the build that the team _should_ install and verify.
 
-> See the [CI/CD Pipelines](../cicd-pipelines.md#stable--ga-pipeline) guide for the detailed steps of the pre-release pipeline.
+> See the [CI/CD Pipelines](../cicd-pipelines.md#release-pipelines) guide for the detailed steps of the pre-release pipeline.
 
 ### Step 5: Create and Share the Release Checklist
 
@@ -43,7 +43,7 @@ Each product team member _should_ install the pre-release build, verify their ch
 
 The release manager triggers the plugin build workflow for each of the four plugin repos targeting `<major>.<minor>.x`, reviews the draft GitHub Releases, publishes all four to the VS Code Marketplace and OpenVSX Registry, then triggers the IDE release workflow in `product-integrator` to produce and publish the final IDE installers.
 
-> See the [CI/CD Pipelines](../cicd-pipelines.md#stable--ga-pipeline) guide for the detailed steps of the release pipeline.
+> See the [CI/CD Pipelines](../cicd-pipelines.md#release-pipelines) guide for the detailed steps of the release pipeline.
 
 ### Step 9: Post-Release Steps
 
