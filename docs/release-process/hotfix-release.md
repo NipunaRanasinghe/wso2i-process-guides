@@ -23,15 +23,19 @@ Open a PR against the hotfix branch with the minimal fix. All PR pipeline gates 
 
 ### Step 4: Create the Pre-Release Build
 
-The release manager triggers a pre-release build from the hotfix branch and shares the artifact with the fix author, asking them to verify the issue is resolved by testing locally. The release manager _should_ also draft brief release notes describing the issue and the fix, and share them with the product manager for review.
+The release manager triggers a pre-release build from the hotfix branch. Pre-release build creates a draft GitHub Release — the fix author can download this artifact for local verification without publishing to the Marketplace. The release manager _should_ also draft brief release notes describing the issue and the fix, and share them with the product manager for review.
 
 If the fix is ineffective or introduces a regression, the fix author applies a follow-up fix to the hotfix branch and the release manager triggers a new pre-release build (repeat Step 4). Once the fix author confirms no blockers, the release manager proceeds to Step 5.
 
+> See the [CI/CD Pipelines](../cicd-pipelines.md#stable--ga-pipeline) guide for the detailed steps of the pre-release pipeline.
+
 ### Step 5: Trigger the Release Workflow
 
-The release manager triggers `release-vsix.yml` targeting the hotfix branch, then runs `publish-vsix.yml` once the build is verified.
+The release manager triggers the plugin build workflow for each of the four plugin repos targeting the hotfix branch, reviews the draft GitHub Releases, publishes to the VS Code Marketplace and OpenVSX Registry, then triggers the IDE release workflow in `product-integrator` to produce and publish the final IDE installers.
 
 The hotfix takes the next patch version (e.g. `5.0.3` on top of `v5.0.2`); after the merge-back, the maintenance branch continues from that version.
+
+> See the [CI/CD Pipelines](../cicd-pipelines.md#stable--ga-pipeline) guide for the detailed steps of the release pipeline.
 
 ### Step 6: Verify the Release
 

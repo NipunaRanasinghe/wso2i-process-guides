@@ -36,6 +36,8 @@ Feature releases progress through three pre-release stages before the GA build. 
 
 **RC** — once beta testing is complete and no blockers remain, the release manager triggers RC1 from the patch branch. This is the final candidate submitted for team verification (Step 7). If a blocker is found during RC verification, it is fixed on the patch branch and a new RC (RC2, RC3, …) is triggered. Only when the RC is verified clean does the release manager proceed to the GA build.
 
+> See the [CI/CD Pipelines](../cicd-pipelines.md#stable--ga-pipeline) guide for the detailed steps of the pre-release pipeline.
+
 ### Step 5: Create and Share the Release Checklist
 
 The release manager creates a GitHub issue in `product-integrator` repo, by listing all PRs included in the release as checkboxes (grouped by component and product team member), and shares the link with the team.
@@ -63,19 +65,13 @@ If a blocker-level issue is found during verification:
 
 Repeat until no blocker-level issues remain. Non-blocking issues may be deferred to a future release with the release manager's approval. Once all checklist items are verified and no blockers remain, the release manager proceeds to Step 8.
 
-### Step 8: Trigger the Release Build
+### Step 8: Trigger the Release
 
-1. Go to the **Actions** tab of the target repo and select `release-vsix.yml`.
-2. Click **Run workflow**, select `<major>.<minor>.x`, and enter the version inputs.
-3. The workflow builds the VSIX and creates a draft GitHub Release.
+The release manager triggers the plugin build workflow for each of the four plugin repos (`ballerina-tooling`, `mi-tooling`, `si-tooling`, and the WSO2 Integrator extension in `product-integrator`), reviews the draft GitHub Releases, then publishes all four to the VS Code Marketplace and OpenVSX Registry. Once all plugins are published, the release manager triggers the IDE release workflow in `product-integrator` to produce and publish the final IDE installers.
 
-### Step 9: Publish the Release
+> See the [CI/CD Pipelines](../cicd-pipelines.md#stable--ga-pipeline) guide for the detailed steps of the release pipeline.
 
-1. Go to the **Actions** tab and select `publish-vsix.yml`.
-2. Click **Run workflow** and enter the run ID from the `release-vsix.yml` run in Step 8.
-3. The workflow publishes the VSIX to the VS Code Marketplace and OpenVSX Registry and promotes the draft GitHub Release to published.
-
-### Step 10: Post-Release Steps
+### Step 9: Post-Release Steps
 
 After the GA artifacts are published:
 

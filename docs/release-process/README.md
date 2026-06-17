@@ -42,8 +42,8 @@ The branch mechanics behind each type are defined in [Branching Strategy](../bra
 A WSO2 Integrator stable release spans multiple repos. Because cross-repo dependencies are pinned (see [Cross-Repo Version Propagation](../versioning-strategy.md#cross-repo-version-propagation)), the repos _must_ be prepared and released in dependency order:
 
 1. **Shared UI libraries** — not released separately. Before a product release, each product repo updates its shared-libraries submodule pointer to the commit it intends to ship; the libraries are built from source within the product build.
-2. **Product extensions** — release `ballerina-tooling`, `mi-tooling`, and `si-tooling`, each through its own pipeline and approval gate.
-3. **Product distribution** — bump the pinned extension versions in `product-integrator`, then trigger its release.
+2. **Plugin extensions** — release `ballerina-tooling`, `mi-tooling`, `si-tooling`, and the WSO2 Integrator extension in `product-integrator`, each through its own pipeline and approval gate.
+3. **Product distribution** — once all plugin extensions are published, trigger the IDE release workflow in `product-integrator` to produce and publish the IDE installer.
 
 A repo with no changes since its last release does not need to release — the existing pins continue to resolve.
 

@@ -25,6 +25,8 @@ Release manager should Confirm every change qualifies — bug fixes and security
 
 The release manager triggers a pre-release build from the target commit on `<major>.<minor>.x`. This publishes to the VS Code Marketplace pre-release channel and creates a pre-release tag on GitHub Releases, producing the build that the team _should_ install and verify.
 
+> See the [CI/CD Pipelines](../cicd-pipelines.md#stable--ga-pipeline) guide for the detailed steps of the pre-release pipeline.
+
 ### Step 5: Create and Share the Release Checklist
 
 The release manager creates a GitHub issue in `product-integrator` titled `[Release Checklist] WSO2 Integrator <version>` with the `Type/Task` label, listing all PRs included in the release as GFM checkboxes grouped by repo and product team member, and shares the link with the team. Follow the same format as the [feature release checklist](feature-release.md#step-5-create-and-share-the-release-checklist).
@@ -39,7 +41,9 @@ Each product team member _should_ install the pre-release build, verify their ch
 
 ### Step 8: Trigger the Release Workflow
 
-The release manager triggers `release-vsix.yml` targeting `<major>.<minor>.x`, then follows [Step 9](feature-release.md#step-9-publish-the-release) and [Step 10](feature-release.md#step-10-post-release-steps) from the Feature Release Process.
+The release manager triggers the plugin build workflow for each of the four plugin repos targeting `<major>.<minor>.x`, reviews the draft GitHub Releases, publishes all four to the VS Code Marketplace and OpenVSX Registry, then triggers the IDE release workflow in `product-integrator` to produce and publish the final IDE installers.
+
+> See the [CI/CD Pipelines](../cicd-pipelines.md#stable--ga-pipeline) guide for the detailed steps of the release pipeline.
 
 ### Step 9: Post-Release Steps
 
