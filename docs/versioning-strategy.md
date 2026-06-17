@@ -9,7 +9,7 @@ This document defines the versioning scheme applied across all WSO2 Integrator r
 
 ## SemVer
 
-All repos _must_ follow [Semantic Versioning (SemVer)](https://semver.org/).
+All repos must follow [Semantic Versioning (SemVer)](https://semver.org/).
 
 > Given a version number MAJOR.MINOR.PATCH, increment the:
 >
@@ -37,7 +37,7 @@ Each product tooling repo carries its own SemVer line, applied at the **extensio
 
 **Stable:** A plain SemVer `major.minor.patch` version (e.g. `1.2.0`), published to the Marketplace **stable** channel via `vsce publish`. Produced by the Stable/GA pipeline (see [CI/CD Pipelines](cicd-pipelines.md#release-pipelines)).
 
-**Pre-release:** Nightly builds published to the Marketplace **pre-release** channel via `vsce publish --pre-release`. The Marketplace does **not** support SemVer pre-release suffixes — `1.2.0-nightly.20260609` is rejected; every published version _must_ be `major.minor.patch`. Pre-release builds therefore encode the build timestamp in the **patch** segment so each build sorts strictly above the previous one — for example `1.2.2606141230` (`major.minor.<YYMMDDHHmm>`).
+**Pre-release:** Nightly builds published to the Marketplace **pre-release** channel via `vsce publish --pre-release`. The Marketplace does **not** support SemVer pre-release suffixes — `1.2.0-nightly.20260609` is rejected; every published version must be `major.minor.patch`. Pre-release builds therefore encode the build timestamp in the **patch** segment so each build sorts strictly above the previous one — for example `1.2.2606141230` (`major.minor.<YYMMDDHHmm>`).
 
 > **Note:** VS Code also offers an [even-minor/odd-minor convention](https://code.visualstudio.com/api/working-with-extensions/publishing-extension#prerelease-extensions) — stable on even minors, pre-release on odd — to keep the two channels from sharing a version number. It is optional: the `--pre-release` flag already separates the channels, so repos may adopt it or not.
 
@@ -53,16 +53,16 @@ Cross-repo dependencies are pinned to explicit references: the shared UI librari
 
 ### Shared UI Library → VS Code Extension (upstream-first)
 
-Library changes _must_ follow an **upstream-first rule**: every change lands on `vscode-extensions` `main` first, and consumers adopt it by moving their submodule pointer forward — never by maintaining product-specific library commits that are not on `main`. This guarantees that a fix made for one product is available to all of them.
+Library changes must follow an **upstream-first rule**: every change lands on `vscode-extensions` `main` first, and consumers adopt it by moving their submodule pointer forward — never by maintaining product-specific library commits that are not on `main`. This guarantees that a fix made for one product is available to all of them.
 
-A breaking change on the shared libraries `main` affects every product repo — but only when each updates its submodule pointer, because the pinned commits keep existing builds working. The risk is an uncoordinated migration that leaves product repos pinned to old library commits indefinitely. Breaking changes _must_ follow this process:
+A breaking change on the shared libraries `main` affects every product repo — but only when each updates its submodule pointer, because the pinned commits keep existing builds working. The risk is an uncoordinated migration that leaves product repos pinned to old library commits indefinitely. Breaking changes must follow this process:
 
 1. The author opens an issue in `vscode-extensions` describing the change, the migration path, and the impacted repos, and tags the owners of each product repo.
 2. The change is merged to `main`.
 3. Each product repo owner opens a migration PR that updates the submodule pointer and applies the required code changes. All PR pipeline gates apply as usual.
 4. `product-integrator` adopts the migrated product extensions through its normal dependency bump — no special handling is needed at the product distribution layer.
 
-Product repos _should_ complete the migration before their next stable release. There is no fixed calendar deadline.
+Product repos should complete the migration before their next stable release. There is no fixed calendar deadline.
 
 ### VS Code Extension → Product Distribution
 
@@ -72,5 +72,5 @@ If `ballerina-tooling` releases a new version (e.g. `1.2.0`), nothing happens in
 
 The following items represent gaps between this proposal and the current state of the repos.
 
-- **Standardize pre-release timestamp granularity across repos:** All three product repos encode a build timestamp in the patch segment, but the granularity differs — `si-tooling` uses minute granularity, while `ballerina-tooling` and `mi-tooling` use `YYMMDDHH` hour granularity, which can collide when more than one build runs in the same hour. Minute granularity avoids collisions. Note: the VS Code Marketplace does not accept SemVer pre-release suffixes (e.g. `-nightly.x`), so the timestamp-in-patch approach _must_ be retained — a `-nightly` suffix is not a valid target.
+- **Standardize pre-release timestamp granularity across repos:** All three product repos encode a build timestamp in the patch segment, but the granularity differs — `si-tooling` uses minute granularity, while `ballerina-tooling` and `mi-tooling` use `YYMMDDHH` hour granularity, which can collide when more than one build runs in the same hour. Minute granularity avoids collisions. Note: the VS Code Marketplace does not accept SemVer pre-release suffixes (e.g. `-nightly.x`), so the timestamp-in-patch approach must be retained — a `-nightly` suffix is not a valid target.
 - **Resolve the Ballerina Language Server independent release path:** `ballerina-tooling` contains a `ls-publish-release.yml` workflow that can publish the language server to GitHub Packages independently from the parent extension. This conflicts with the policy that language servers are versioned and released together with their parent extension. The workflow should either be removed or the policy updated to explicitly allow the independent release path.

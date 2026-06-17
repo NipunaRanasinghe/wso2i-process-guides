@@ -48,9 +48,9 @@ E2E tests use Playwright to drive the full VS Code UI against a real runtime env
 - **`ballerina-tooling`:** 4 parallel groups on Linux. Label: `Checks/Run Ballerina UI Tests`.
 - **`mi-tooling`:** 4 parallel groups on Linux and 4 on Windows (8 jobs total). Label: `Checks/Run MI UI Tests` or `Checks/Enable UI Tests`.
 
-Authors of UI-affecting changes _should_ apply the label before requesting review.
+Authors of UI-affecting changes should apply the label before requesting review.
 
-E2E results are advisory: a failure does not block a merge. Failures of the daily run _must_ be triaged by the repo maintainers before the next stable release.
+E2E results are advisory: a failure does not block a merge. Failures of the daily run must be triaged by the repo maintainers before the next stable release.
 
 ### Smoke Tests
 

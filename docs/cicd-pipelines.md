@@ -7,14 +7,14 @@ _Updated_: 2026/06/17
 
 This document describes the four GitHub Actions pipeline types used across all WSO2 Integrator repos:
 
-- **PR pipelines:** run on every pull request to active branches; all gates _must_ pass before merge.
+- **PR pipelines:** run on every pull request to active branches; all gates must pass before merge.
 - **Custom IDE Build pipeline:** builds a complete IDE pack on demand from a specific set of plugin branches.
 - **Nightly pipeline:** runs daily from `main` and produces a tested IDE build.
 - **Stable / GA pipeline:** a single three-stage pipeline (plugin build → plugin publish → IDE release) for both pre-release and GA releases; the `isPreRelease` flag controls the Marketplace channel and IDE artifact destination.
 
 ## Pull Request Pipelines
 
-PR pipelines run on every non-draft pull request targeting active branches (main + patch branches) and _must_ pass before any merge is permitted.
+PR pipelines run on every non-draft pull request targeting active branches (main + patch branches) and must pass before any merge is permitted.
 
 ```mermaid
 graph LR

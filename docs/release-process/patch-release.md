@@ -15,7 +15,7 @@ Confirm the dedicated milestone for this patch release exists in the `product-in
 
 ### Step 2: Initiate the Release Thread
 
-The release manager initiates a dedicated thread in the integration team chat with the release version as the topic. The thread _must_ include the planned scope of the release and the target release date. This thread is the primary communication channel between all release stakeholders — product team members _should_ use it to raise release blockers and flag concerns throughout the release process. 
+The release manager initiates a dedicated thread in the integration team chat with the release version as the topic. The thread must include the planned scope of the release and the target release date. This thread is the primary communication channel between all release stakeholders — product team members should use it to raise release blockers and flag concerns throughout the release process. 
 
 ### Step 3: Qualify the Fixes
 
@@ -23,7 +23,7 @@ Release manager should Confirm every change qualifies — bug fixes and security
 
 ### Step 4: Create the Pre-Release Build
 
-The release manager triggers a pre-release build from the target commit on `<major>.<minor>.x`. This publishes to the VS Code Marketplace pre-release channel and creates a pre-release tag on GitHub Releases, producing the build that the team _should_ install and verify.
+The release manager triggers a pre-release build from the target commit on `<major>.<minor>.x`. This publishes to the VS Code Marketplace pre-release channel and creates a pre-release tag on GitHub Releases, producing the build that the team should install and verify.
 
 > See the [CI/CD Pipelines](../cicd-pipelines.md#release-pipelines) guide for the detailed steps of the pre-release pipeline.
 
@@ -33,11 +33,11 @@ The release manager creates a GitHub issue in `product-integrator` titled `[Rele
 
 ### Step 6: Prepare Release Notes
 
-The release manager drafts release notes for the patch and shares them with the product manager for review. After the product manager approves, the release manager opens a PR against [wso2/docs-integrator](https://github.com/wso2/docs-integrator) and ensures it is merged and published before the GA build ships. If any fixes affect documented behavior, the corresponding documentation updates _should_ be included in the same PR.
+The release manager drafts release notes for the patch and shares them with the product manager for review. After the product manager approves, the release manager opens a PR against [wso2/docs-integrator](https://github.com/wso2/docs-integrator) and ensures it is merged and published before the GA build ships. If any fixes affect documented behavior, the corresponding documentation updates should be included in the same PR.
 
 ### Step 7: Team Verification
 
-Each product team member _should_ install the pre-release build, verify their changes, and check off their PRs in the checklist issue. If a blocker-level issue is found, the fix author merges the fix to `<major>.<minor>.x`; the release manager triggers a new pre-release build and adds a new RC section to the checklist issue. Repeat until no blockers remain.
+Each product team member should install the pre-release build, verify their changes, and check off their PRs in the checklist issue. If a blocker-level issue is found, the fix author merges the fix to `<major>.<minor>.x`; the release manager triggers a new pre-release build and adds a new RC section to the checklist issue. Repeat until no blockers remain.
 
 ### Step 8: Trigger the Release Workflow
 

@@ -18,22 +18,22 @@ This document defines the quality and security gates integrated into the PR pipe
 SonarQube Cloud analyses each PR for code coverage, duplication, complexity, and maintainability issues, and posts the result directly to the PR as a status check.
 
 - **Rationale:** Free for public repos, native GitHub PR decoration, and no self-hosted server to operate. The main alternatives (self-managed SonarQube, CodeQL-only) either add infrastructure cost or do not cover code quality metrics.
-- **Blocking:** The quality gate status check _must_ pass before merge. Repos start with the default `Sonar way` quality gate; stricter per-repo quality gates (e.g. coverage thresholds) can be configured once a baseline exists.
+- **Blocking:** The quality gate status check must pass before merge. Repos start with the default `Sonar way` quality gate; stricter per-repo quality gates (e.g. coverage thresholds) can be configured once a baseline exists.
 
 ## Trivy
 
 Trivy scans dependency manifests (`npm` and Maven) for known vulnerabilities on every PR.
 
 - **Rationale:** Already configured in all five repos, covers both ecosystems in use, and runs as a self-contained GitHub Actions step at no cost. 
-- **Blocking:** A finding of severity `HIGH` or `CRITICAL` fails the PR pipeline. Lower severities are reported in the scan output but do not block; maintainers _should_ review them during routine dependency bumps.
-- **Suppressions:** A `HIGH`/`CRITICAL` finding with no released fix may be suppressed (e.g. via a `.trivyignore` entry) only with explicit approval from the repo maintainers, case by case. Each suppression _must_ reference a tracking issue, and the entry _must_ be removed once a fixed version is available.
+- **Blocking:** A finding of severity `HIGH` or `CRITICAL` fails the PR pipeline. Lower severities are reported in the scan output but do not block; maintainers should review them during routine dependency bumps.
+- **Suppressions:** A `HIGH`/`CRITICAL` finding with no released fix may be suppressed (e.g. via a `.trivyignore` entry) only with explicit approval from the repo maintainers, case by case. Each suppression must reference a tracking issue, and the entry must be removed once a fixed version is available.
 
 ## GitHub Secret Scanning
 
 GitHub Secret Scanning detects committed credentials (API tokens, keys) at the platform level. It is enabled per repo under **Settings → Security**, with **push protection** turned on, and requires no pipeline step.
 
 - **Rationale:** Native to GitHub, no maintenance overhead, and free for public repos. Push protection rejects the push itself, which is preferable to detecting a secret after it has been committed to the repository history.
-- **Blocking:** Push protection blocks any push containing a detected secret. Alerts on already-committed secrets _must_ be triaged by repo maintainers, and the affected credential _must_ be rotated — removing it from history alone is not sufficient.
+- **Blocking:** Push protection blocks any push containing a detected secret. Alerts on already-committed secrets must be triaged by repo maintainers, and the affected credential must be rotated — removing it from history alone is not sufficient.
 
 ## Pending Items
 
