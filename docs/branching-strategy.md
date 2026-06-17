@@ -9,21 +9,23 @@ This document defines the branching model for all WSO2 Integrator repos: the sha
 
 ## Rationale
 
-The WSO2 Integrator tooling spans five repos with contributors of varying experience levels and an increasing use of agentic development workflows. The branching model must be simple enough to apply consistently across all repos while still supporting parallel patch maintenance on stable releases.
+The WSO2 Integrator tooling spans multiple repos with contributors of varying experience levels and an increasing use of agentic development workflows. The branching model must be simple enough to apply consistently across all repos while still supporting parallel patch maintenance on stable releases.
 
 ### Considered Options
 
-- **Trunk-Based Development** — all commits go directly (or via very short branches) to `main`.
-- **GitFlow** — parallel `main`/`develop` branches with dedicated release branches.
-- **GitHub Flow with Maintenance Branch** — a single `main` branch for features and a dedicated `<major>.<minor>.x` branch for patches.
+- **Trunk-Based Development** — All commits go directly (or via very short branches) to `main`.
+- **GitFlow** — Parallel `main`/`develop` branches with dedicated release branches.
+- **GitHub Flow with Maintenance Branches** — A single `main` branch for features and a dedicated `<major>.<minor>.x` branches for patches.
 
-### Selected Option: GitHub Flow with Maintenance Branch
+### Selected Option: GitHub Flow with Maintenance Branches
 
 - Avoids the overhead of managing multiple long-lived branches (e.g. `develop`) and complex merge patterns.
 - Keeps feature development separate from patch maintenance.
 - Matches the release tracks defined in [Release Process](release-process/) and the version lines defined in [Versioning Strategy](versioning-strategy.md).
 
 ## Branches
+
+The selected branching model consists of the following branch types:
 
 ### The `main` Branch
 
@@ -51,7 +53,7 @@ A patch branch tracks all bug fixes and security patches for a specific released
 Across all repos:
 
 - Bug fixes and security patches must be submitted to the relevant active patch branch, not to `main`.
-- Repo maintainers should merge each active patch branch into `main` promptly after a patch release.
+- Repo maintainers should merge each active patch branch into `main` promptly after releases.
 
 ### Hotfix Branches
 
