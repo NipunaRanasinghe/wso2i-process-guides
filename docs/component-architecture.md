@@ -88,14 +88,14 @@ graph TB
     PI_EX ==> HC
     PI_EX ==> MCP
 
-    PI_IDE -->|"packed installer"| BALL_RT
-    PI_IDE -->|"packed installer"| ICP_EXT
-    PI_IDE -->|"packed installer"| JRE_EXT
+    PI_IDE ==> BALL_RT
+    PI_IDE ==> ICP_EXT
+    PI_IDE ==> JRE_EXT
 ```
 An arrow from A to B means A depends on B. The arrow style indicates the dependency type:
 
-- **Thick arrow** — A declares B as a versioned dependency (e.g. the WSO2 Integrator VS Code Extension consuming the product extensions)
-- **Solid arrow** — A bundles B into its artifact (e.g. a VS Code extension bundles its language server; labeled arrows indicate the artifact is only produced for packed installer builds)
+- **Thick arrow** — A declares B as a versioned dependency (a published artifact pinned by version)
+- **Solid arrow** — A bundles B into its artifact (built within the same build pipeline, e.g. a language server JAR packaged into its extension's VSIX)
 - **Dashed arrow** — A builds B from source via a git submodule (the shared UI libraries packages)
 
 ## Build Implications
