@@ -100,7 +100,7 @@ Once each product tooling repo has produced its VSIX:
 
 The following items represent gaps between this proposal and the current state of the repos.
 
-1.  **Agree on a naming convention for the product tooling repos before actioning any renames:** The current names (`ballerina-vscode`, `mi-vscode`, `siddhi-plugin-vscode`) reflect the VS Code platform context. Candidate conventions:
+1.  **Finalize a naming convention for the product tooling repos:** The current names (`ballerina-vscode`, `mi-vscode`, `siddhi-plugin-vscode`) reflect the VS Code platform context. Candidate conventions:
 
     | Convention | Examples | Notes |
     |---|---|---|
@@ -111,14 +111,18 @@ The following items represent gaps between this proposal and the current state o
 
 2.  **Decide whether language servers should live inside their plugin repo or in a separate repo:** The current state is inconsistent: the Ballerina and MI language servers are inside their respective plugin repos, while the SI language server lives in a separate repo. This needs a deliberate decision before the repos are reorganized.
 
-    > Ratings indicate complexity/cost for each option — Low is low friction, High is high friction.
-
     | | LS inside plugin repo | LS in a separate repo |
     |---|---|---|
-    | **Version coupling** | **Low** (LS and extension share one version line; released together) | **High** (extension must pin a specific LS version and coordinate releases across repos) |
-    | **CI complexity** | **Low** (one pipeline builds and tests everything together) | **High** (extension pipeline must download or reference the LS from another repo) |
-    | **Developer/agent friendliness** | **Low** (everything in one place; no cross-repo navigation or multi-repo PRs needed) | **High** (developers and agents must navigate two repos and coordinate cross-repo PRs for related changes) |
-    | **LS reusability** | **High** (LS is not independently consumable by other clients) | **Low** (LS can be consumed by other IDEs or CLI tooling independently) |
+    | **Version coupling** | 🟢 LS and extension share one version line; released together | 🔴 Extension must pin a specific LS version and coordinate releases across repos |
+    | **CI complexity** | 🟢 One pipeline builds and tests everything together | 🔴 Extension pipeline must download or reference the LS from another repo |
+    | **Developer/agent friendliness** | 🟢 Everything in one place; no cross-repo navigation or multi-repo PRs needed | 🔴 Developers and agents must navigate two repos and coordinate cross-repo PRs for related changes |
+    | **LS reusability** | 🔴 LS is not independently consumable by other clients | 🟢 LS can be consumed by other IDEs or CLI tooling independently |
 
+    **Licensing concern (MI language server):** The MI language server is derived from Eclipse LemminX and is licensed under EPL 2.0. The rest of `mi-vscode` is Apache 2.0. EPL 2.0 is weakly copyleft: any modifications to EPL-licensed files must be distributed under EPL 2.0, and the two licenses cannot be merged into a single license for the combined repo. Keeping the MI LS in a separate repo removes the mixed-license codebase and aligns with the boundary the build pipeline already enforces; the extension would consume it as a pre-built binary, the same pattern `si-tooling` already uses.
 
-3. **Clarify `si-tooling`'s role and alignment with the WSO2 Integrator tooling architecture:** `si-tooling` sits in the `siddhi-io` org, has no daily build, and does not consume the shared UI libraries or follow the same build conventions as `ballerina-tooling` and `mi-tooling`. Its language server also lives in a separate repo. Before any onboarding work is scoped — shared UI libraries, build pipeline alignment, or language server placement — the intended level of integration between `si-tooling` and the rest of the WSO2 Integrator tooling needs to be agreed.
+3. **Bring `si-tooling` into alignment with the WSO2 Integrator tooling architecture:** The following gaps need to be closed before `si-tooling` participates fully in the shared build and release process:
+
+    - **Org placement:** the repo lives in `siddhi-io`; it needs to be transferred to the `wso2` org.
+    - **Shared UI libraries:** the shared UI libraries (`vscode-extensions`) are not yet consumed; the `vscode-extensions` git submodule needs to be added and the build configured to build the libraries from source.
+    - **Daily build:** no daily build pipeline exists. 
+    - **Language server placement:** the SI language server lives in a separate repo (`wso2/si-language-server`); its placement relative to the plugin repo follows from the decision in pending item 2.
