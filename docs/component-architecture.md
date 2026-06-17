@@ -13,7 +13,7 @@ The WSO2 Integrator tooling is organized into three layers, each represented by 
 
 | Layer | Repo(s) | Description |
 |---|---|---|
-| **Shared UI Libraries** | [vscode-extensions](https://github.com/wso2/vscode-extensions) | Shared UI components and utilities |
+| **Shared Libraries and Extensions** | [vscode-extensions](https://github.com/wso2/vscode-extensions) | Shared UI libraries consumed by all product tooling repos, and helper VS Code extensions consumed by the product distribution layer |
 | **Product tooling** | [ballerina-tooling](https://github.com/wso2/ballerina-vscode/), [mi-tooling](https://github.com/wso2/mi-vscode), [si-tooling](https://github.com/siddhi-io/siddhi-plugin-vscode/) | Product-specific tooling components |
 | **Product distribution** | [product-integrator](https://github.com/wso2/product-integrator/) | Distribution packages for the integrated tooling |
 
@@ -22,6 +22,8 @@ Each repo contains one or more components. A component is a cohesive set of func
 | Repo | Component | Description |
 |---|---|---|
 | [vscode-extensions](https://github.com/wso2/vscode-extensions) | **Common UI Libraries** | Shared TypeScript libraries: UI components, fonts and icons, AI utilities, UI test utilities, and platform core. Consumed by all product extensions via a git submodule; built from source in each consumer workspace. |
+| | **Hurl Client Extension** | VS Code extension for Hurl client based try-it capability. Published independently and consumed by `product-integrator` as a versioned built-in extension. |
+| | **MCP Server Inspector Extension** | VS Code extension for inspecting MCP servers. Published independently and consumed by `product-integrator` as a versioned built-in extension. |
 | [ballerina-tooling](https://github.com/wso2/ballerina-vscode/) | **Ballerina Language Server** | JVM service (Gradle) that provides language intelligence (completions, diagnostics, hover, and similar) for Ballerina source files. Bundled into the Ballerina VS Code Extension at build time. |
 | | **Grammar** | TextMate grammar for Ballerina syntax highlighting. Ballerina maintains its own grammar because it is a custom language with no upstream grammar. Bundled into the Ballerina VS Code Extension. |
 | | **Ballerina VS Code Extension** | TypeScript/Rush project that packages the language server, grammar, and UI libraries into a VSIX artifact. |
@@ -41,6 +43,8 @@ The diagram below shows the build-time dependencies between components across th
 graph TB
     subgraph VSC["vscode-extensions"]
         UIT["Common UI Libraries"]
+        HC["Hurl Client Extension"]
+        MCP["MCP Server Inspector Extension"]
     end
 
     subgraph BALL["ballerina-tooling"]
@@ -69,6 +73,10 @@ graph TB
         PI_IDE --> PI_EX
     end
 
+    BALL_RT[/"Ballerina Runtime (Distribution)"/]
+    ICP_EXT[/"Integration Control Plane"/]
+    JRE_EXT[/"Custom JRE (Ballerina)"/]
+
     BT_EX -.-> UIT
     MI_EX -.-> UIT
     SI_EX -.-> UIT
@@ -77,11 +85,17 @@ graph TB
     PI_EX ==> BT_EX
     PI_EX ==> MI_EX
     PI_EX ==> SI_EX
+    PI_EX ==> HC
+    PI_EX ==> MCP
+
+    PI_IDE -->|"packed installer"| BALL_RT
+    PI_IDE -->|"packed installer"| ICP_EXT
+    PI_IDE -->|"packed installer"| JRE_EXT
 ```
 An arrow from A to B means A depends on B. The arrow style indicates the dependency type:
 
 - **Thick arrow** — A declares B as a versioned dependency (e.g. the WSO2 Integrator VS Code Extension consuming the product extensions)
-- **Solid arrow** — A bundles B into its artifact (e.g. a VS Code extension bundles its language server)
+- **Solid arrow** — A bundles B into its artifact (e.g. a VS Code extension bundles its language server; labeled arrows indicate the artifact is only produced for packed installer builds)
 - **Dashed arrow** — A builds B from source via a git submodule (the shared UI libraries packages)
 
 ## Build Implications
@@ -94,7 +108,7 @@ The dependency relationships above determine the build order: each product tooli
 
 Once each product tooling repo has produced its VSIX:
 
-3. **`product-integrator` consumes pinned extension versions:** The `product-integrator` repo does not build the product extensions from source. All the product extensions are consumed as versioned dependencies and tracked in a version properties file. The WSO2 Integrator IDE in turn bundles the WSO2 Integrator VS Code Extension. This keeps the product distribution decoupled from product-repo CI.
+3. **`product-integrator` consumes pinned extension versions:** The `product-integrator` repo does not build the product extensions from source. The product extensions from `ballerina-tooling`, `mi-tooling`, and `si-tooling`, and the standalone extensions from `vscode-extensions` (`hurl-client`, `mcp-server-inspector`), are all consumed as versioned dependencies tracked in a version properties file. The WSO2 Integrator IDE bundles all of them. This keeps the product distribution decoupled from product-repo CI.
 
 ## Pending Items
 
@@ -118,7 +132,7 @@ The following items represent gaps between this proposal and the current state o
     | **Developer/agent friendliness** | 🟢 Everything in one place; no cross-repo navigation or multi-repo PRs needed | 🔴 Developers and agents must navigate two repos and coordinate cross-repo PRs for related changes |
     | **LS reusability** | 🔴 LS is not independently consumable by other clients | 🟢 LS can be consumed by other IDEs or CLI tooling independently |
 
-    **Licensing concern (MI language server):** The MI language server is derived from Eclipse LemminX and is licensed under EPL 2.0. The rest of `mi-vscode` is Apache 2.0. EPL 2.0 is weakly copyleft: any modifications to EPL-licensed files must be distributed under EPL 2.0, and the two licenses cannot be merged into a single license for the combined repo. Keeping the MI LS in a separate repo removes the mixed-license codebase and aligns with the boundary the build pipeline already enforces; the extension would consume it as a pre-built binary, the same pattern `si-tooling` already uses.
+    **Licensing concern (MI language server):** The MI language server is derived from Eclipse LemminX and licensed under EPL 2.0, while the rest of `mi-vscode` is Apache 2.0. These licenses cannot be merged: EPL 2.0 modifications must remain EPL 2.0, creating a mixed-license repo. A standalone `wso2/mi-language-server` repo (EPL 2.0) already exists. This needs to be reviewed with the WSO2 legal team to determine the appropriate path forward.
 
 3. **Bring `si-tooling` into alignment with the WSO2 Integrator tooling architecture:** The following gaps need to be closed before `si-tooling` participates fully in the shared build and release process:
 
