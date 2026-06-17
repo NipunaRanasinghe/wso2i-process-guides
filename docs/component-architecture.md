@@ -40,14 +40,17 @@ The diagram below shows the build-time dependencies between components across th
 
 
 ```mermaid
+%%{init: {"layout": "elk"}}%%
 graph TB
     subgraph VSC["vscode-extensions"]
+        class VSC vsc;
         UIT["Common UI Libraries"]
         HC["Hurl Client Extension"]
         MCP["MCP Server Inspector Extension"]
     end
 
     subgraph BALL["ballerina-tooling"]
+        class BALL ball;
         BT_LS["Ballerina Language Server"]
         BT_GR["Grammar"]
         BT_EX["Ballerina VS Code Extension"]
@@ -56,18 +59,21 @@ graph TB
     end
 
     subgraph MI["mi-tooling"]
+        class MI mi;
         MI_LS["MI Language Server"]
         MI_EX["MI VS Code Extension"]
         MI_EX --> MI_LS
     end
 
     subgraph SI["si-tooling"]
+        class SI si;
         SI_LS["SI Language Server"]
         SI_EX["SI VS Code Extension"]
         SI_EX --> SI_LS
     end
 
     subgraph PROD["product-integrator"]
+        class PROD prod;
         PI_EX["WSO2 Integrator VS Code Extension"]
         PI_IDE["WSO2 Integrator IDE"]
         PI_IDE --> PI_EX
@@ -91,6 +97,12 @@ graph TB
     PI_IDE ==> BALL_RT
     PI_IDE ==> ICP_EXT
     PI_IDE ==> JRE_EXT
+
+    classDef vsc stroke:#818cf8,fill:#eef2ff;
+    classDef ball stroke:#4ade80,fill:#f0fdf4;
+    classDef mi stroke:#38bdf8,fill:#f0f9ff;
+    classDef si stroke:#facc15,fill:#fefce8;
+    classDef prod stroke:#fb923c,fill:#fff7ed;
 ```
 An arrow from A to B means A depends on B. The arrow style indicates the dependency type:
 
