@@ -15,15 +15,15 @@ Confirm the dedicated milestone for this patch release exists in the `product-in
 
 ### Step 2: Initiate the Release Thread
 
-The release manager initiates a dedicated thread in the integration team chat with the release version as the topic. The thread must include the planned scope of the release and the target release date. This thread is the primary communication channel between all release stakeholders — product team members should use it to raise release blockers and flag concerns throughout the release process. 
+The release manager initiates a dedicated thread in the integration team chat with the release version as the topic. The thread must include the planned scope of the release and the target release date. This thread is the primary communication channel between all release stakeholders. Product team members should use it to raise release blockers and flag concerns throughout the release process.
 
 ### Step 3: Qualify the Fixes
 
-Release manager should Confirm every change qualifies — bug fixes and security patches only; no new features.
+The release manager confirms every change qualifies. The release includes bug fixes and security patches only; no new features.
 
 ### Step 4: Create the Pre-Release Build
 
-The release manager triggers a pre-release build from the target commit on `<major>.<minor>.x`. This publishes to the VS Code Marketplace pre-release channel and creates a pre-release tag on GitHub Releases, producing the build that the team should install and verify.
+The release manager triggers a pre-release build from the target commit on `<major>.<minor>.x`. This publishes to the VS Code Marketplace pre-release channel and creates a pre-release tag on GitHub Releases. The team installs and verifies this build.
 
 > See the [CI/CD Pipelines](../cicd-pipelines.md#release-pipelines) guide for the detailed steps of the pre-release pipeline.
 

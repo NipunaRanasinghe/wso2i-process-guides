@@ -32,12 +32,12 @@ Trivy scans dependency manifests (`npm` and Maven) for known vulnerabilities on 
 
 GitHub Secret Scanning detects committed credentials (API tokens, keys) at the platform level. It is enabled per repo under **Settings → Security**, with **push protection** turned on, and requires no pipeline step.
 
-- **Rationale:** Native to GitHub, no maintenance overhead, and free for public repos. Push protection rejects the push itself, which is preferable to detecting a secret after it has been committed to the repository history.
-- **Blocking:** Push protection blocks any push containing a detected secret. Alerts on already-committed secrets must be triaged by repo maintainers, and the affected credential must be rotated — removing it from history alone is not sufficient.
+- **Rationale:** Native to GitHub, no maintenance overhead, and free for public repos. Push protection rejects the push before the secret reaches the repository history, rather than detecting it after the commit lands.
+- **Blocking:** Push protection blocks any push containing a detected secret. Alerts on already-committed secrets must be triaged by repo maintainers, and the affected credential must be rotated. Removing it from history alone is not sufficient.
 
 ## Pending Items
 
-The following items represent gaps between this proposal and the current state of the repos.
+The following items are gaps between this proposal and the current state of the repos.
 
 - **Configure SonarQube Cloud in all repos:** Adding the GitHub App, creating the SonarQube organization, and adding the pipeline step to each repo is outstanding. Until this is done, code quality is not a blocking gate on any PR.
 - **Add Trivy to `product-integrator` and `si-tooling` PR pipelines:** Both repos currently have no dependency vulnerability scanning on PRs.

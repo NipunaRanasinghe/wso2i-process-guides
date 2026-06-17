@@ -19,11 +19,11 @@ Create `hotfix/<description>` from the latest stable release tag (e.g. `hotfix/c
 
 ### Step 3: Apply and Verify the Fix
 
-Open a PR against the hotfix branch with the minimal fix. All PR pipeline gates must pass — the urgency does not waive any gate.
+Open a PR against the hotfix branch with the minimal fix. All PR pipeline gates must pass. The urgency does not waive any gate.
 
 ### Step 4: Create the Pre-Release Build
 
-The release manager triggers a pre-release build from the hotfix branch. Pre-release build creates a draft GitHub Release — the fix author can download this artifact for local verification without publishing to the Marketplace. The release manager should also draft brief release notes describing the issue and the fix, and share them with the product manager for review.
+The release manager triggers a pre-release build from the hotfix branch. The pre-release build creates a draft GitHub Release. The fix author can download this artifact for local verification without publishing to the Marketplace. The release manager should also draft brief release notes describing the issue and the fix, and share them with the product manager for review.
 
 If the fix is ineffective or introduces a regression, the fix author applies a follow-up fix to the hotfix branch and the release manager triggers a new pre-release build (repeat Step 4). Once the fix author confirms no blockers, the release manager proceeds to Step 5.
 

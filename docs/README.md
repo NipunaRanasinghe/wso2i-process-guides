@@ -1,10 +1,10 @@
 # WSO2 Integrator - Architecture & Process Guides
  
-The WSO2 Integrator product spans across multiple components, which together form the integrated development experience. 
+The WSO2 Integrator product consists of multiple components that together provide the integrated development experience.
 
-These guides define the architecture and development processes that govern WSO2 Integrator. They are published in the [`product-integrator`](https://github.com/wso2/product-integrator) repository so that these core guidelines are visible and accessible to all contributors, and so that they can be updated in sync with the evolution of the product and its development practices. Each guide is maintained as a living document that evolves with the product; the "Pending Items" section at the end of each document tracks the implementation status of the defined processes and practices across the repos.
+These guides define the architecture and development processes for WSO2 Integrator. They are published in the [`product-integrator`](https://github.com/wso2/product-integrator) repository so that all contributors can find them and so that they stay in sync with changes to the product and its development practices. Each guide is updated as the product and its processes change; the "Pending Items" section at the end of each document tracks the implementation status of the defined processes across the repos.
 
-Each topic is covered in its own document linked below.
+Each topic has its own document, linked below.
 
 | Document | Summary |
 |---|---|

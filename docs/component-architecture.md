@@ -9,7 +9,7 @@ This document defines the component architecture of the WSO2 Integrator tooling:
 
 ## Component Overview
 
-The WSO2 Integrator tooling is organized into three layers, each represented by one or more GitHub repositories. The layers are designed to separate concerns, promote reuse, and manage dependencies effectively.
+The WSO2 Integrator tooling is organized into three layers, each represented by one or more GitHub repositories. The layers separate shared code, product-specific tooling, and the final distribution.
 
 | Layer | Repo(s) | Description |
 |---|---|---|
@@ -17,7 +17,7 @@ The WSO2 Integrator tooling is organized into three layers, each represented by 
 | **Product tooling** | [ballerina-tooling](https://github.com/wso2/ballerina-vscode/), [mi-tooling](https://github.com/wso2/mi-vscode), [si-tooling](https://github.com/siddhi-io/siddhi-plugin-vscode/) | Product-specific tooling components |
 | **Product distribution** | [product-integrator](https://github.com/wso2/product-integrator/) | Distribution packages for the integrated tooling |
 
-Each repo contains one or more components. A component is a cohesive set of functionality with a well-defined responsibility and clear boundaries. The table below lists the main components in each repo, along with a brief description of their responsibilities.
+Each repo contains one or more components. A component is a unit of functionality with a single responsibility, built and versioned as one piece. The table below lists the main components in each repo, along with a brief description of their responsibilities.
 
 | Repo | Component | Description |
 |---|---|---|
@@ -108,11 +108,11 @@ The dependency relationships above determine the build order: each product tooli
 
 Once each product tooling repo has produced its VSIX:
 
-3. **`product-integrator` consumes pinned extension versions:** The `product-integrator` repo does not build the product extensions from source. The product extensions from `ballerina-tooling`, `mi-tooling`, and `si-tooling`, and the standalone extensions from `vscode-extensions` (`hurl-client`, `mcp-server-inspector`), are all consumed as versioned dependencies tracked in a version properties file. The WSO2 Integrator IDE bundles all of them. This keeps the product distribution decoupled from product-repo CI.
+3. **`product-integrator` consumes pinned extension versions:** The `product-integrator` repo does not build the product extensions from source. The product extensions from `ballerina-tooling`, `mi-tooling`, and `si-tooling`, and the standalone extensions from `vscode-extensions` (`hurl-client`, `mcp-server-inspector`), are all consumed as versioned dependencies tracked in a version properties file. The WSO2 Integrator IDE bundles all of them. The product distribution build does not depend on the product repos' CI pipelines.
 
 ## Pending Items
 
-The following items represent gaps between this proposal and the current state of the repos.
+The following items are gaps between this proposal and the current state of the repos.
 
 1.  **Finalize a naming convention for the product tooling repos:** The current names (`ballerina-vscode`, `mi-vscode`, `siddhi-plugin-vscode`) reflect the VS Code platform context. Candidate conventions:
 

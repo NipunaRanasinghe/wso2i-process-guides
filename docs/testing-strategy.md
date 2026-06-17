@@ -9,7 +9,7 @@ This document defines the test types integrated into the CI/CD pipelines, their 
 
 ## Approach
 
-The tooling follows the standard test pyramid: unit tests at the base, component tests above them, integration tests above that, and E2E tests at the top. A smoke test layer covers the full product installer.
+The tooling follows the test pyramid: unit tests at the base, component tests above them, integration tests above that, and E2E tests at the top. A smoke test layer covers the full product installer.
 
 ## Test Matrix
 
@@ -39,11 +39,11 @@ Component tests use Jest with React Testing Library to validate the rendering co
 
 ### Integration Tests
 
-Integration tests validate the contract between the extension and its bundled language server. The test harness launches the packaged language server and invokes the LSP requests the extension depends on: initialization, completions, diagnostics, code actions. This catches mismatches between the extension and the language server that unit tests on either side cannot catch.
+Integration tests validate the contract between the extension and its bundled language server. The test harness launches the packaged language server and invokes the LSP requests the extension depends on: initialization, completions, diagnostics, code actions. Unit tests on either side cannot detect these mismatches.
 
 ### E2E Tests
 
-E2E tests use Playwright to drive the full VS Code UI against a real runtime environment, covering user-facing workflows end to end. They are too slow to run on every PR and require a full runtime environment, so they run on a daily schedule against `main`, on demand via manual trigger, and on a PR when the relevant label is applied.
+E2E tests use Playwright to drive the full VS Code UI and exercise user-facing workflows. They are too slow to run on every PR and require a full runtime environment, so they run on a daily schedule against `main`, on demand via manual trigger, and on a PR when the relevant label is applied.
 
 - **`ballerina-tooling`:** 4 parallel groups on Linux. Label: `Checks/Run Ballerina UI Tests`.
 - **`mi-tooling`:** 4 parallel groups on Linux and 4 on Windows (8 jobs total). Label: `Checks/Run MI UI Tests` or `Checks/Enable UI Tests`.
@@ -63,7 +63,7 @@ Smoke tests apply only to `product-integrator`. They can also be triggered manua
 
 ## Pending Items
 
-The following items represent gaps between this proposal and the current state of the repos.
+The following items are gaps between this proposal and the current state of the repos.
 
 - **Implement integration tests in `ballerina-tooling`, `mi-tooling`, and `si-tooling`:** The "extension ↔ language server contract" integration tests described here are not yet implemented. The test infrastructure needs to be defined and added to the PR pipelines of each repo.
 - **Add language server unit tests as a required PR gate:** Language server unit tests currently run only in the daily build and need to be added as a blocking PR gate.

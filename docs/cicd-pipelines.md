@@ -29,7 +29,7 @@ The quality gate and dependency scan steps are described in [Quality & Security 
 
 ## Custom IDE Build Pipeline
 
-Triggered manually to build a complete IDE pack from a specific set of plugin branches for developer testing.
+Triggered manually to build a complete IDE pack from a specific set of plugin branches. This can be used for testing a custom set of plugin changes together before they are merged, or for producing an IDE build when testing a feature that spans multiple repos. 
 
 ```mermaid
 graph LR
@@ -37,8 +37,6 @@ graph LR
     PL --> AS["IDE build + smoke tests"]
     AS --> IA[("Workflow artifact")]
 ```
-
-This workflow can be used to create a complete IDE pack from a specific set of plugin branches — for example, when testing a feature that spans multiple repos.
 
 The workflow takes a branch name as an input for each of the three plugin repos and for `product-integrator` (defaulting to `main`). It triggers a build in each plugin repo from the specified branches, compiles the WSO2 Integrator extension from the specified `product-integrator` branch, builds the IDE for Linux, macOS, and Windows, and stores the result as a workflow artifact.
 
@@ -103,7 +101,7 @@ graph LR
 
 ## Pending Items
 
-The following items represent gaps between this proposal and the current state of the repos.
+The following items are gaps between this proposal and the current state of the repos.
 
 - **Implement VS Code Marketplace publishing for the WSO2 Integrator extension:** The WSO2 Integrator extension in `product-integrator` does not yet have the Stage 1 / Stage 2 pipeline workflows (plugin build → draft GitHub Release → publish to Marketplace) that the other three plugin repos have. These workflows need to be added to `product-integrator` before the extension can be independently published to the VS Code Marketplace.
 - **Implement the nightly pipeline:** The nightly build workflow and the plugin `nightly` tag uploads described here do not yet exist. A GitHub App (or scoped PAT) with `actions:write` on each plugin repo is required to trigger cross-repo builds. Current state: `ballerina-tooling` and `mi-tooling` have scheduled daily builds that build and test only; `si-tooling` has no scheduled build at all.

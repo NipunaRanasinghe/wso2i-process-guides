@@ -20,8 +20,8 @@ The WSO2 Integrator tooling spans five repos with contributors of varying experi
 ### Selected Option: GitHub Flow with Maintenance Branch
 
 - Avoids the overhead of managing multiple long-lived branches (e.g. `develop`) and complex merge patterns.
-- Supports a clear separation of concerns between feature development and patch maintenance.
-- Aligns well with the release process defined in [Release Process](release-process/) and the versioning strategy in [Versioning Strategy](versioning-strategy.md).
+- Keeps feature development separate from patch maintenance.
+- Matches the release tracks defined in [Release Process](release-process/) and the version lines defined in [Versioning Strategy](versioning-strategy.md).
 
 ## Branches
 
@@ -55,7 +55,7 @@ Across all repos:
 
 ### Hotfix Branches
 
-Hotfix branches are used for critical issues that require an immediate patch release and cannot wait for the normal bug fix cycle.
+A hotfix branch carries a fix for a critical issue that requires an immediate patch release and cannot wait for the normal bug fix cycle.
 
 - Hotfix branches must be created from the latest stable release tag and follow the `hotfix/<description>` naming convention (e.g. `hotfix/critical-auth-bypass`).
 - Once the fix is released, hotfix branches must be merged back into the active patch branch.
@@ -63,6 +63,6 @@ Hotfix branches are used for critical issues that require an immediate patch rel
 
 ## Pending Items
 
-The following items represent gaps between this proposal and the current state of the repos.
+The following items are gaps between this proposal and the current state of the repos.
 
 - **Align release branch naming in `ballerina-tooling` and `mi-tooling`:** These repos currently use `stable/ballerina` and `stable/mi` as their release branches, not the `<major>.<minor>.x` convention defined here. Aligning branch naming requires coordination with the ongoing release cycles in both repos.
