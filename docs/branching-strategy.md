@@ -65,4 +65,4 @@ Hotfix branches are used for critical issues that require an immediate patch rel
 
 The following items represent gaps between this proposal and the current state of the repos.
 
-- **Align release branch naming in `ballerina-tooling` and `mi-tooling`.** These repos currently use `stable/ballerina` and `stable/mi` as their release branches, not the `<major>.<minor>.x` convention defined here. Aligning branch naming requires coordination with the ongoing release cycles in both repos.
+- **Align release branch naming in `ballerina-tooling` and `mi-tooling`:** These repos currently use `stable/ballerina` and `stable/mi` as their release branches, not the `<major>.<minor>.x` convention defined here. Aligning branch naming requires coordination with the ongoing release cycles in both repos.

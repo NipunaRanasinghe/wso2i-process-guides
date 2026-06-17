@@ -65,7 +65,7 @@ Smoke tests apply only to `product-integrator`. They can also be triggered manua
 
 The following items represent gaps between this proposal and the current state of the repos.
 
-- **Implement integration tests in `ballerina-tooling`, `mi-tooling`, and `si-tooling`.** The "extension ↔ language server contract" integration tests described here are not yet implemented. The test infrastructure needs to be defined and added to the PR pipelines of each repo.
-- **Add language server unit tests as a required PR gate.** Language server unit tests currently run only in the daily build and need to be added as a blocking PR gate.
-- **Re-enable `ExtTest_Ballerina` in `ballerina-tooling`.** The extension unit test job has `if: false` pending test stability improvements. Extension unit tests do not currently run in CI.
-- **Add test coverage to `si-tooling`.** The `build.yml` workflow contains no test step — build and package only. Unit tests, E2E tests, and Trivy scanning all need to be added.
+- **Implement integration tests in `ballerina-tooling`, `mi-tooling`, and `si-tooling`:** The "extension ↔ language server contract" integration tests described here are not yet implemented. The test infrastructure needs to be defined and added to the PR pipelines of each repo.
+- **Add language server unit tests as a required PR gate:** Language server unit tests currently run only in the daily build and need to be added as a blocking PR gate.
+- **Re-enable `ExtTest_Ballerina` in `ballerina-tooling`:** The extension unit test job has `if: false` pending test stability improvements. Extension unit tests do not currently run in CI.
+- **Add test coverage to `si-tooling`:** The `build.yml` workflow contains no test step — build and package only. Unit tests, E2E tests, and Trivy scanning all need to be added.

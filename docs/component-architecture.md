@@ -88,19 +88,19 @@ An arrow from A to B means A depends on B. The arrow style indicates the depende
 
 The dependency relationships above determine the build order: each product tooling repo must produce its VSIX artifact before `product-integrator` can assemble the final distribution. Within each product tooling repo, two things must happen first:
 
-1. **Shared UI libraries built from source.** Each consumer repo includes `vscode-extensions` as a git submodule. The shared libraries packages are built from source inside the consumer workspace before any extension package that depends on them. There is no independent libraries release. To adopt library changes, consumers move their submodule pointer forward and rebuild.
+1. **Shared UI libraries built from source:** Each consumer repo includes `vscode-extensions` as a git submodule. The shared libraries packages are built from source inside the consumer workspace before any extension package that depends on them. There is no independent libraries release. To adopt library changes, consumers move their submodule pointer forward and rebuild.
 
-2. **Language server built before extension packaging.** Each tooling repo builds its language server (Gradle) first, producing a JAR. The VS Code extension then packages that JAR into the VSIX artifact.
+2. **Language server built before extension packaging:** Each tooling repo builds its language server (Gradle) first, producing a JAR. The VS Code extension then packages that JAR into the VSIX artifact.
 
 Once each product tooling repo has produced its VSIX:
 
-3. **`product-integrator` consumes pinned extension versions.** The `product-integrator` repo does not build the product extensions from source. All the product extensions are consumed as versioned dependencies and tracked in a version properties file. The WSO2 Integrator IDE in turn bundles the WSO2 Integrator VS Code Extension. This keeps the product distribution decoupled from product-repo CI.
+3. **`product-integrator` consumes pinned extension versions:** The `product-integrator` repo does not build the product extensions from source. All the product extensions are consumed as versioned dependencies and tracked in a version properties file. The WSO2 Integrator IDE in turn bundles the WSO2 Integrator VS Code Extension. This keeps the product distribution decoupled from product-repo CI.
 
 ## Pending Items
 
 The following items represent gaps between this proposal and the current state of the repos.
 
-1.  **Agree on a naming convention for the product tooling repos before actioning any renames.** The current names (`ballerina-vscode`, `mi-vscode`, `siddhi-plugin-vscode`) reflect the VS Code platform context. Candidate conventions:
+1.  **Agree on a naming convention for the product tooling repos before actioning any renames:** The current names (`ballerina-vscode`, `mi-vscode`, `siddhi-plugin-vscode`) reflect the VS Code platform context. Candidate conventions:
 
     | Convention | Examples | Notes |
     |---|---|---|
@@ -109,7 +109,7 @@ The following items represent gaps between this proposal and the current state o
     | `*-vscode` | `ballerina-vscode`, `mi-vscode`, `si-vscode` | Accurate today; no migration cost for Ballerina and MI. Becomes misleading if tooling expands beyond VS Code. |
     | `*-extension` | `ballerina-extension`, `mi-extension`, `si-extension` | Describes the artifact type; still platform-coupled to the extension format. |
 
-2.  **Decide whether language servers should live inside their plugin repo or in a separate repo.** The current state is inconsistent: the Ballerina and MI language servers are inside their respective plugin repos, while the SI language server lives in a separate repo. This needs a deliberate decision before the repos are reorganized.
+2.  **Decide whether language servers should live inside their plugin repo or in a separate repo:** The current state is inconsistent: the Ballerina and MI language servers are inside their respective plugin repos, while the SI language server lives in a separate repo. This needs a deliberate decision before the repos are reorganized.
 
     > Ratings indicate complexity/cost for each option — Low is low friction, High is high friction.
 
@@ -121,4 +121,4 @@ The following items represent gaps between this proposal and the current state o
     | **LS reusability** | **High** (LS is not independently consumable by other clients) | **Low** (LS can be consumed by other IDEs or CLI tooling independently) |
 
 
-3. **Clarify `si-tooling`'s role and alignment with the WSO2 Integrator tooling architecture.** `si-tooling` sits in the `siddhi-io` org, has no daily build, and does not consume the shared UI libraries or follow the same build conventions as `ballerina-tooling` and `mi-tooling`. Its language server also lives in a separate repo. Before any onboarding work is scoped — shared UI libraries, build pipeline alignment, or language server placement — the intended level of integration between `si-tooling` and the rest of the WSO2 Integrator tooling needs to be agreed.
+3. **Clarify `si-tooling`'s role and alignment with the WSO2 Integrator tooling architecture:** `si-tooling` sits in the `siddhi-io` org, has no daily build, and does not consume the shared UI libraries or follow the same build conventions as `ballerina-tooling` and `mi-tooling`. Its language server also lives in a separate repo. Before any onboarding work is scoped — shared UI libraries, build pipeline alignment, or language server placement — the intended level of integration between `si-tooling` and the rest of the WSO2 Integrator tooling needs to be agreed.
