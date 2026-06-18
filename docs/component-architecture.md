@@ -27,7 +27,7 @@ Each repo contains one or more components. A component is a unit of functionalit
 | [ballerina-tooling](https://github.com/wso2/ballerina-vscode/) | **Ballerina Language Server** | JVM service (Gradle) that provides language intelligence (completions, diagnostics, hover, and similar) for Ballerina source files. Bundled into the Ballerina VS Code Extension at build time. |
 | | **Grammar** | TextMate grammar for Ballerina syntax highlighting. Ballerina maintains its own grammar because it is a custom language with no upstream grammar. Bundled into the Ballerina VS Code Extension. |
 | | **Ballerina VS Code Extension** | TypeScript/Rush project that packages the language server, grammar, and UI libraries into a VSIX artifact. |
-| [mi-tooling](https://github.com/wso2/mi-vscode) | **MI Language Server** | JVM service (Gradle) providing language intelligence for Micro Integrator XML configurations. Bundled into the MI VS Code Extension. |
+| [mi-tooling](https://github.com/wso2/mi-vscode) | **MI Language Server** | JVM service (Maven) providing language intelligence for Micro Integrator XML configurations. Bundled into the MI VS Code Extension. |
 | | **MI VS Code Extension** | TypeScript/Rush project that packages the MI language server and UI libraries into a VSIX artifact. |
 | [si-tooling](https://github.com/siddhi-io/siddhi-plugin-vscode/) | **SI Language Server** | JVM service (Gradle) providing language intelligence for Siddhi streaming queries. Bundled into the SI VS Code Extension. |
 | | **SI VS Code Extension** | TypeScript/Rush project that packages the SI language server and UI libraries into a VSIX artifact. |
