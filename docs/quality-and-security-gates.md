@@ -9,22 +9,30 @@ This document defines the quality and security gates integrated into the PR pipe
 
 | Requirement | Tool | Blocks Merge? | Notes |
 |---|---|---|---|
-| Code quality (coverage, duplication, complexity) | SonarQube Cloud | **Yes** | GitHub Actions step; posts results to the PR; free tier initially |
+| Code quality (duplication, complexity, maintainability) | SonarQube Cloud | **Yes** | GitHub Actions step; posts results to the PR; free tier initially |
+| Code coverage | Codecov | **Yes** (configurable threshold) | GitHub Actions step; posts a coverage diff comment to the PR; free for public repos |
 | Dependency vulnerability scanning | Trivy | **Yes** (`HIGH`/`CRITICAL`) | GitHub Actions step; already configured in all repos |
 | Secret / token detection | GitHub Secret Scanning | **Yes** (push protection) | Enabled at repo level (Settings → Security); no pipeline step needed; free for public repos |
 
 ## SonarQube Cloud
 
-SonarQube Cloud analyses each PR for code coverage, duplication, complexity, and maintainability issues, and posts the result directly to the PR as a status check.
+SonarQube Cloud analyses each PR for duplication, complexity, and maintainability issues, and posts the result directly to the PR as a status check.
 
 - **Rationale:** Free for public repos, native GitHub PR decoration, and no self-hosted server to operate. The main alternatives (self-managed SonarQube, CodeQL-only) either add infrastructure cost or do not cover code quality metrics.
 - **Blocking:** The quality gate status check must pass before merge. Repos start with the default `Sonar way` quality gate; stricter per-repo quality gates (e.g. coverage thresholds) can be configured once a baseline exists.
+
+## Codecov
+
+Codecov collects coverage reports uploaded from the test run in each PR and posts a coverage diff comment showing the coverage change introduced by the PR. Each repo configures a minimum coverage threshold in a `codecov.yml` file; PRs that drop coverage below the threshold fail the status check.
+
+- **Rationale:** Free for public repos, native GitHub integration, and tracks coverage trends per PR. SonarQube Cloud also reports coverage, but Codecov provides per-PR coverage diff visibility and configurable per-repo thresholds independently of the broader quality gate.
+- **Blocking:** A PR that drops coverage below the configured threshold fails the Codecov status check and cannot merge. The threshold is set per repo in `codecov.yml` and should be tightened incrementally as coverage improves.
 
 ## Trivy
 
 Trivy scans dependency manifests (`npm` and Maven) for known vulnerabilities on every PR.
 
-- **Rationale:** Already configured in all five repos, covers both ecosystems in use, and runs as a self-contained GitHub Actions step at no cost. 
+- **Rationale:** Already configured in all repos, covers both ecosystems in use, and runs as a single GitHub Actions step at no cost.
 - **Blocking:** A finding of severity `HIGH` or `CRITICAL` fails the PR pipeline. Lower severities are reported in the scan output but do not block; maintainers should review them during routine dependency bumps.
 - **Suppressions:** A `HIGH`/`CRITICAL` finding with no released fix may be suppressed (e.g. via a `.trivyignore` entry) only with explicit approval from the repo maintainers, case by case. Each suppression must reference a tracking issue, and the entry must be removed once a fixed version is available.
 
@@ -40,4 +48,5 @@ GitHub Secret Scanning detects committed credentials (API tokens, keys) at the p
 The following items are gaps between this proposal and the current state of the repos.
 
 - **Configure SonarQube Cloud in all repos:** Adding the GitHub App, creating the SonarQube organization, and adding the pipeline step to each repo is outstanding. Until this is done, code quality is not a blocking gate on any PR.
+- **Configure Codecov in all repos:** Adding the Codecov GitHub App, adding the coverage upload step to each repo's PR pipeline, and setting initial thresholds in `codecov.yml` is pending.
 - **Add Trivy to `product-integrator` and `si-tooling` PR pipelines:** Both repos currently have no dependency vulnerability scanning on PRs.
