@@ -130,3 +130,4 @@ The following items are gaps between this proposal and the current state of the 
 - **Add tests, Trivy, and quality gates to the `product-integrator` PR pipeline:** The PR CI job currently builds the distribution without tests, Trivy, or quality gates.
 - **Add Trivy to `si-tooling` and `product-integrator` PR pipelines:** The dependency scan step is missing from both repos.
 - **Configure SonarQube Cloud in all repos:** No repo has SonarQube integrated. See [Quality & Security Gates](quality-and-security-gates.md) for the full implementation plan.
+- **Implement standalone language server publish in tooling repos:** `ballerina-tooling` already has a `ls-publish-release.yml` workflow that publishes the language server to GitHub Packages. The equivalent pipeline needs to be added to `mi-tooling` and `si-tooling`. All three pipelines should publish to the same artifact repository and follow the same versioning convention.
