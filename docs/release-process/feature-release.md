@@ -9,7 +9,7 @@ _Updated_: 2026/06/17
 
 ### Step 1: Create the Release Milestone
 
-The release cycle starts when the release manager creates a public release milestone in the `product-integrator` repo (e.g. [WSO2 Integrator 5.1.0](https://github.com/wso2/product-integrator/milestone/7)), if one does not already exist. All features and fixes planned for the release must be tracked against this milestone.
+The release cycle starts when the release manager creates a public release milestone in the `product-integrator` repo (e.g. [5.0.0 milestone](https://github.com/wso2/product-integrator/milestone/7)), if one does not already exist. All features and fixes planned for the release must be tracked against this milestone.
 
 ### Step 2: Initiate the Release Thread
 

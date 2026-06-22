@@ -27,7 +27,7 @@ The tooling follows the test pyramid: unit tests at the base, component tests ab
 
 Unit tests validate individual modules in isolation.
 
-- **Language servers** (Gradle / JUnit): `./gradlew test` covers the Ballerina language server logic. Runs on the daily build targeting both `main` and the latest stable branch.
+- **Language servers** (Gradle / TestNG): `./gradlew test` covers the Ballerina language server logic. Runs on the daily build targeting both `main` and the latest stable branch.
 - **TypeScript packages** (Rush / pnpm): `rush test` covers extension utility code and shared packages.
 
 ### Component Tests
